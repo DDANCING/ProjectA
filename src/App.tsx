@@ -1,5 +1,6 @@
 
-import Logo from "./components/img/Logo";
+
+import ThreeJSComponent from "./components/3d/cube";
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
@@ -16,6 +17,7 @@ export function App() {
         <div className="flex items-center gap-3">
           
           <a href="/login" className="text-muted-foreground">
+            a
           </a>
           
           <a href="/createacc" className="...">
@@ -28,7 +30,7 @@ export function App() {
         </div>
       </div>
       <main className="flex-1 p-6 flex gap-6 bg-muted">
-        <div className="bg-background rounded-sm flex-1"></div>
+        <div className="bg-background rounded-sm flex-1">  <ThreeJSComponent /> </div>
         <div className="bg-background rounded-sm flex w-96 bg-black">
         </div>
       </main>
