@@ -4,6 +4,10 @@ import ThreeJSComponent from "./components/3d/cube";
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
+import GuitarTuner from "./components/utils/captator";
+import MicrophoneApp from "./components/utils/captator";
+
+
 import Createacc from "./pages/createacc";
 import Login from "./pages/login";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -30,7 +34,8 @@ export function App() {
         </div>
       </div>
       <main className="flex-1 p-6 flex gap-6 bg-muted">
-        <div className="bg-background rounded-sm flex-1">  <ThreeJSComponent /> </div>
+        <div className="bg-background rounded-sm flex-1">  <ThreeJSComponent /> 
+        <GuitarTuner /> </div>
         <div className="bg-background rounded-sm flex w-96 bg-black">
         </div>
       </main>
