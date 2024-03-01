@@ -84,7 +84,7 @@ export function LoginForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel></FormLabel>
               <FormControl>
                 <Input className="bg-muted" placeholder="Username" {...field} />
               </FormControl>
@@ -97,7 +97,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel></FormLabel>
               <FormControl>
                 <Input
                   className="bg-muted"
@@ -110,7 +110,7 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button variant="outline" type="submit">
+        <Button type="submit">
           Fazer login
         </Button>
         {serverResponse && (

@@ -70,8 +70,8 @@ class GuitarTuner extends React.Component<{}, State> {
 
   render() {
     return (
-      <div>
-        <h1>Afinador de Guitarra</h1>
+      <div className='text-muted-foreground' >
+        
         <p>Nota atual: {this.state.note}</p>
         <p>Frequência: {this.state.frequency.toFixed(2)} Hz</p>
       </div>
