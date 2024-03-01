@@ -1,10 +1,11 @@
 
-
-import ThreeJSComponent from "./components/3d/cube";
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
+
+
 import GuitarTuner from "./components/utils/captator";
+
 
 
 import Createacc from "./pages/createacc";
@@ -12,6 +13,7 @@ import Login from "./pages/login";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 export function App() {
+  
   return (
     <Router>
     <div className="min-h-screen flex flex-col bg-background text-muted-foreground">
@@ -32,16 +34,21 @@ export function App() {
           </ThemeProvider>
         </div>
       </div>
-      <main className="flex-1 p-6 flex gap-6 bg-muted rounded-sm">
-        <div> 
-          <div className="h-96 w-60 bg-background">
-            scoreboard
+      <main className="flex-1 p-6 flex gap-6 bg-muted rounded-sm ">
+        <div className="max-h-screen grid grid-rows-2 gap-4 " > 
+        
+          <div className=" w-60 bg-background flex">
+            
+           
+           
           </div>
-          <div className=" bg-background"> <GuitarTuner /></div>
+          <div className="bg-background  h-32"> <GuitarTuner/> </div>
         </div>
-        <div className="bg-background rounded-sm flex-1">  <ThreeJSComponent /> 
+        <div className="bg-background rounded-sm flex-1"> 
+        
         </div>
-        <div className="bg-background rounded-sm flex w-96 bg-black">
+        <div className="bg-background rounded-sm flex w-96">
+         
         </div>
       </main>
     </div>
