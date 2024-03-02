@@ -86,7 +86,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel></FormLabel>
               <FormControl>
-                <Input className="bg-muted" placeholder="Username" {...field} />
+                <Input className="bg-muted border border-muted-foreground" placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +100,7 @@ export function LoginForm() {
               <FormLabel></FormLabel>
               <FormControl>
                 <Input
-                  className="bg-muted"
+                  className="bg-muted border border-muted-foreground"
                   type="password"
                   placeholder="Password"
                   {...field}
