@@ -7,6 +7,7 @@ import MusicSelector from "./components/utils/Musicselect";
 
 
 import GuitarTuner from "./components/utils/captator";
+import SkeletonList from "./components/utils/skelletonlist";
 
 
 
@@ -51,10 +52,10 @@ export function App() {
         </div>
         <div className="bg-background rounded-sm w-96 justify-self-end flex flex-col items-center">
          <MusicSelector/>
+         <SkeletonList/>
          <Button type="submit">
           Tocar
          </Button>
-         <button type="submit"></button>
         </div>
       </main>
     </div>
