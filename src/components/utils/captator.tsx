@@ -52,7 +52,7 @@ class GuitarTuner extends React.Component<{}, State> {
     const buffer = new Float32Array(this.analyser.fftSize);
     this.analyser.getFloatTimeDomainData(buffer);
     const [pitch, clarity] = this.detector.findPitch(buffer, this.audioContext.sampleRate);
-    if (clarity > 0.9) {
+    if (clarity > 0.8) {
       const note = this.frequencyToNote(pitch);
       this.setState({ note, frequency: pitch });
     }

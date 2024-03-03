@@ -1,10 +1,9 @@
-
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
-
-
+import MusicSelector from "./components/utils/Musicselect";
 import GuitarTuner from "./components/utils/captator";
+import SkeletonList from "./components/utils/skelletonlist";
 
 
 
@@ -47,7 +46,9 @@ export function App() {
         <div className="bg-background rounded-sm flex-1"> 
         
         </div>
-        <div className="bg-background rounded-sm flex w-96">
+        <div className="bg-background rounded-sm w-80 justify-self-end flex flex-col items-center p-2">
+         <MusicSelector/>
+         <SkeletonList/>
          
         </div>
       </main>
