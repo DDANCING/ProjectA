@@ -6,6 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./src/generated/client" // Certifique-se de ajustar o caminho conforme necessário
+  target   = "browser"
 }
 
 datasource db {
@@ -28,6 +30,7 @@ model Musica {
   artista     String
   linkYoutube String
   tablatura   String
+  capaAlbum   String
   desempenhos Desempenho[]
   scoreboards Scoreboard[]
 }
