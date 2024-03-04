@@ -4,14 +4,41 @@ import { Button } from "./components/ui/button";
 import MusicSelector from "./components/utils/Musicselect";
 import GuitarTuner from "./components/utils/captator";
 import SkeletonList from "./components/utils/skelletonlist";
-
-
-
 import Createacc from "./pages/createacc";
 import Login from "./pages/login";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Canvas, useFrame } from  "@react-three/fiber"
+import { useRef } from "react";
+import { Mesh } from "three";
 
-export function App() {
+
+function Box () {
+  const boxRef = useRef<Mesh>(null!);
+  useFrame(() => {
+    
+    
+    boxRef.current.rotation.y += 0.001;
+  })
+
+  return ( 
+    <mesh ref= {boxRef} > 
+    < boxGeometry args={[5, 1, 5]} />
+    < meshStandardMaterial />
+    
+
+      </mesh>
+  );
+}
+
+function ThreeScene() {
+  return (
+    <Canvas>
+      <ambientLight />
+      <Box />
+    </Canvas>
+  );
+}
+function App() {
   
   return (
     <Router>
@@ -44,7 +71,7 @@ export function App() {
           <div className="bg-background  h-32"> <GuitarTuner/> </div>
         </div>
         <div className="bg-background rounded-sm flex-1"> 
-        
+        <ThreeScene/>
         </div>
         <div className="bg-background rounded-sm w-80 justify-self-end flex flex-col items-center p-2">
          <MusicSelector/>
@@ -62,3 +89,4 @@ export function App() {
   </Router>
   )
 }
+export default App;
