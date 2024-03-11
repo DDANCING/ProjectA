@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.2.16 public\models\room\untitled.gltf -t -r public
 */
 
 import * as THREE from 'three'
-import React, { useRef } from 'react'
+import  { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 

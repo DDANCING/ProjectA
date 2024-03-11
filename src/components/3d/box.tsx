@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Mesh, PerspectiveCamera } from "three";
 import { OrbitControls } from "@react-three/drei";
+
 import { Guitar } from "@/Guitar";
 
 function Box() {
@@ -14,7 +15,7 @@ function Box() {
 
   return (
     <mesh ref={boxRef}>
-      <Guitar/>
+      <Guitar />
     </mesh>
   );
 }

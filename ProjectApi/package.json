@@ -1,7 +1,6 @@
 {
   "name": "projectapi",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts"
@@ -10,17 +9,22 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.11.24",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.11.25",
     "prisma": "^5.10.2",
     "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@prisma/client": "^5.10.2",
     "@prisma/migrate": "^5.10.2",
     "fastify": "^4.26.1",
+    "fastify-cookie": "^5.7.0",
     "fastify-cors": "^6.1.0",
-    "pg-promise": "^11.5.4"
-  }
+    "jsonwebtoken": "^9.0.2",
+    "pg-promise": "^11.5.4",
+    "zod": "^3.22.4"
+  },
+  "description": ""
 }
