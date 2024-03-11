@@ -1,26 +1,26 @@
 import fastify, { FastifyInstance } from 'fastify';
-import { PrismaClient, Musica } from '@prisma/client';
 import fastifyCors from '@fastify/cors';
+
+import { GetMusic } from './http/routes/get-musics';
+import { GetUsers } from './http/routes/get-users';
+import { GetScoreboard } from './http/routes/get-Scoreboard';
+import { PostUsers } from './http/routes/post-user';
+
+
 
 const app: FastifyInstance = fastify({ logger: true });
 const port = 3333;
-const prisma = new PrismaClient();
-
 // Habilitando o CORS
 app.register(fastifyCors, { origin: '*' });
+//lista de musicas
+app.register(GetMusic);
+//lista de usuarios
+app.register(GetUsers);
+//scoreboard
+app.register(GetScoreboard);
+//adicionar um novo user
+app.register(PostUsers);
 
-// Rota para obter todas as músicas
-app.get('/musicas', async (request, reply) => {
-  try {
-    const musicas: Musica[] = await prisma.musica.findMany();
-    reply.send(musicas);
-  } catch (error) {
-    console.error('Erro ao buscar músicas:', error);
-    reply.status(500).send({ error: 'Erro ao buscar músicas.' });
-  }
-});
-
-// Restante do código mantido igual
 
 app.listen(port, '0.0.0.0', (err, address) => {
   if (err) {
@@ -29,4 +29,3 @@ app.listen(port, '0.0.0.0', (err, address) => {
   }
   console.log(`API está rodando em http://localhost:${port}/`);
 });
-

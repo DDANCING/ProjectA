@@ -74,9 +74,9 @@ export function InputForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel></FormLabel>
               <FormControl>
-                <Input className="bg-muted" placeholder="Username" {...field} />
+                <Input className="bg-muted border border-muted-foreground" placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,9 +87,9 @@ export function InputForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel></FormLabel>
               <FormControl>
-                <Input className="bg-muted" placeholder="Email" {...field} />
+                <Input className="bg-muted border border-muted-foreground" placeholder="Email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,10 +100,10 @@ export function InputForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel></FormLabel>
               <FormControl>
                 <Input
-                  className="bg-muted"
+                  className="bg-muted border border-muted-foreground"
                   type="password"
                   placeholder="Password"
                   {...field}
@@ -113,7 +113,7 @@ export function InputForm() {
             </FormItem>
           )}
         />
-        <Button variant="outline" type="submit">
+        <Button  type="submit">
           Criar conta
         </Button>
       </form>

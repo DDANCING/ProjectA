@@ -6,13 +6,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./src/generated/client" // Certifique-se de ajustar o caminho conforme necessário
-  target   = "browser"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -32,7 +31,6 @@ model Musica {
   tablatura   String
   capaAlbum   String
   desempenhos Desempenho[]
-  scoreboards Scoreboard[]
 }
 
 model Desempenho {
@@ -45,10 +43,8 @@ model Desempenho {
 }
 
 model Scoreboard {
-  id             Int    @id @default(autoincrement())
-  musica         Musica @relation(fields: [musicaId], references: [id])
-  musicaId       Int
+  id             Int   @id @default(autoincrement())
   mediaPontuacao Int
-  User           User?  @relation(fields: [userId], references: [id])
+  User           User? @relation(fields: [userId], references: [id])
   userId         Int?
 }

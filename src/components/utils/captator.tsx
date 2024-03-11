@@ -8,7 +8,7 @@ interface State {
 }
 
 class GuitarTuner extends React.Component<{}, State> {
-  audioContext: AudioContext | undefined;
+  audioContext: AudioContext | null | undefined;
   analyser: AnalyserNode | undefined;
   detector: PitchDetector<Float32Array> | undefined;
 
@@ -34,7 +34,7 @@ class GuitarTuner extends React.Component<{}, State> {
   }
 
   initializeAudioContext = async () => {
-    // Check if the AudioContext is in suspended state
+    // Check if the AudioContext is in a suspended state
     if (this.audioContext && this.audioContext.state === 'suspended') {
       // Try to resume the AudioContext in response to a user gesture
       await this.audioContext.resume();
@@ -71,9 +71,8 @@ class GuitarTuner extends React.Component<{}, State> {
   render() {
     return (
       <div className='items-center text-center'>
-        
         <p className='text-primary text-opacity-50 text-4xl'>{this.state.note}</p>
-        <p className='text-muted' >{this.state.frequency.toFixed(2)} Hz</p>
+        <p className='text-muted'>{this.state.frequency.toFixed(2)} Hz</p>
       </div>
     );
   }
