@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../utils/prisma";
 
 export async function GetScoreboard(app:FastifyInstance) {
 app.get('/api/scoreboards', async (req, res) => {

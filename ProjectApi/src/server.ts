@@ -1,28 +1,29 @@
 import fastify, { FastifyInstance } from 'fastify';
 import fastifyCors from '@fastify/cors';
+import { GetMusic } from './routes/get-musics';
+import { GetUsers } from './routes/get-users';
+import { GetScoreboard } from './routes/get-Scoreboard';
+import { postUserRouteHandler } from "./routes/post-user";
 
-import { GetMusic } from './http/routes/get-musics';
-import { GetUsers } from './http/routes/get-users';
-import { GetScoreboard } from './http/routes/get-Scoreboard';
-import { PostUsers } from './http/routes/post-user';
+const app = fastify({ logger: true });
+const port: number = 3333;
 
-
-
-const app: FastifyInstance = fastify({ logger: true });
-const port = 3333;
-// Habilitando o CORS
+// Enable CORS
 app.register(fastifyCors, { origin: '*' });
-//lista de musicas
+
+// Music list
 app.register(GetMusic);
-//lista de usuarios
+
+// User list
 app.register(GetUsers);
-//scoreboard
+
+// Scoreboard
 app.register(GetScoreboard);
-//adicionar um novo user
-app.register(PostUsers);
 
+// Add a new user route
+app.register(postUserRouteHandler);
 
-app.listen(port, '0.0.0.0', (err, address) => {
+app.listen(port, '0.0.0.0', (err: Error | null, address: string) => {
   if (err) {
     app.log.error(err);
     process.exit(1);

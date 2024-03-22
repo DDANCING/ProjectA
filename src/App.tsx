@@ -2,7 +2,6 @@
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
-import MusicSelector from "./components/utils/Musicselect";
 import GuitarTuner from "./components/utils/captator";
 import { SampleGuitarWithSound } from "./components/utils/guitar-react";
 import ScoreboardList from "./components/utils/scoreBoard";
@@ -52,9 +51,7 @@ function App() {
 </div>
 
         <div className="bg-background rounded-sm w-96 justify-self-start flex flex-col items-center p-2">
-         <MusicSelector/>
-         <script src="https://www.youtube.com/iframe_api"></script>
-         <script src="./components/utils/YouTubePlayer.tsx"></script>
+        
          
         </div>
       </main>

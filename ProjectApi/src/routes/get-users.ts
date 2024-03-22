@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../utils/prisma";
 
 export async function GetUsers(app:FastifyInstance) {
 app.get('/api/users', async (req, res) => {
