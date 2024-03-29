@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 
 
 export function SampleGuitarWithSound() {
-  const strings = useMemo(() => [0, 1, 2, 2, 0, 0], [1]);
+  const strings = useMemo(() => [0, 1, 2, 2, 0, 20], [1]);
   const { play } = useSound({ fretting: strings, tuning: standard });
 
   return(<div className='w-[900px]'> 

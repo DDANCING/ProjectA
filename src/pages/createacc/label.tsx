@@ -29,13 +29,13 @@ function validatePassword(password: string): boolean {
 }
 
 const FormSchema = z.object({
-  name: z.string().min(3, {
+  nome: z.string().min(3, {
     message: 'Informe pelo menos 3 letras.',
   }),
   email: z.string().email({
     message: 'Formato inválido de e-mail.',
   }),
-  password: z.string().refine((value) => validatePassword(value), {
+  senha: z.string().refine((value) => validatePassword(value), {
     message: 'Por favor, insira pelo menos uma letra maiúscula e um número.',
   }),
 })
@@ -48,7 +48,7 @@ export function InputForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     // Enviar os dados do formulário para a API
     axios
-      .post('http://localhost:3002/adicionar-usuario', data)
+      .post('http://localhost:3333/register', data)
       .then(() => {
         toast({
           title: 'Cadastro realizado com sucesso',
@@ -71,7 +71,7 @@ export function InputForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
-          name="name"
+          name="nome"
           render={({ field }) => (
             <FormItem>
               <FormLabel></FormLabel>
@@ -97,7 +97,7 @@ export function InputForm() {
         />
         <FormField
           control={form.control}
-          name="password"
+          name="senha"
           render={({ field }) => (
             <FormItem>
               <FormLabel></FormLabel>

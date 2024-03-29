@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
 
 interface User {
   nome: string;
@@ -7,32 +8,32 @@ interface User {
 
 const ScoreboardList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [playingUser, setPlayingUser] = useState<string | null>(null);
 
   useEffect(() => {
-    // Substitua a URL abaixo pela URL correta da sua API
     fetch('http://localhost:3333/api/scoreboards')
       .then((response) => response.json())
       .then((data) => {
-        console.log('Data from API:', data);
         setUsers(data);
       })
       .catch((error) => console.error('Erro ao obter a lista de scoreboards:', error));
   }, []);
 
   return (
-    <div >
-      <strong className=''>scoreBoard</strong>
-      <ul>
-        {users && users.map((user, index) => (
-          <li key={index}>
-            <div className='justify-between flex m-2'>
-            <button>{user.nome}  </button>
-            <p className='text-primary'>{`${user.score}`}</p> 
-            </div>
-            
-          </li>
+    <div>
+      <div className="flex flex-wrap gap-2 m-2">
+        {users.map((user, index) => (
+          <div key={index} className="w-60">
+            <Card>
+              <CardContent className="flex p-3 justify-between">
+                
+                    <p>{user.nome}</p>
+                    <p className="text-primary">{`${user.score}`}</p>
+              </CardContent>
+            </Card>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { Musica } from "@prisma/client";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../utils/prisma";
 import { FastifyInstance } from "fastify";
 
 
