@@ -83,7 +83,7 @@ export function CarouselMusic() {
               playing={isPlaying}
               controls={false}
               width='100%'
-              height='50%'
+              height='100%'
               onProgress={(state) => {
                 setVideoProgress({ playedSeconds: state.playedSeconds, duration: state.loadedSeconds });
               }}
@@ -106,10 +106,4 @@ function padZero(num: number): string {
   return num < 10 ? `0${num}` : num.toString();
 }
   
-export function CarouselMusicTime(playedSeconds: number): string {
-  const minutes = Math.floor(playedSeconds / 60);
-  const remainingSeconds = Math.floor(playedSeconds % 60);
-  const formattedMinutes = padZero(minutes);
-  const formattedSeconds = padZero(remainingSeconds);
-  return `${formattedMinutes}:${formattedSeconds}`;
-}
+

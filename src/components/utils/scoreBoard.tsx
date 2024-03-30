@@ -8,8 +8,7 @@ interface User {
 
 const ScoreboardList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [playingUser, setPlayingUser] = useState<string | null>(null);
-
+  
   useEffect(() => {
     fetch('http://localhost:3333/api/scoreboards')
       .then((response) => response.json())
