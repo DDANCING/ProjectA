@@ -44,7 +44,7 @@ export async function registerRoutes(fastify: FastifyInstance): Promise<void> {
 
       // valida
       if (!email || !senha) {
-        reply.code(400).send({ error: 'Email and password are required.' });
+        reply.code(400).send({ error: 'Email e senha são requeridos.' });
         return;
       }
 
@@ -54,7 +54,7 @@ export async function registerRoutes(fastify: FastifyInstance): Promise<void> {
       });
 
       if (!user) {
-        reply.code(404).send({ error: 'User not found.' });
+        reply.code(404).send({ error: 'usuario não existe.' });
         return;
       }
 
@@ -62,14 +62,14 @@ export async function registerRoutes(fastify: FastifyInstance): Promise<void> {
       const isMatch = await bcrypt.compare(senha, user.senha);
 
       if (!isMatch) {
-        reply.code(401).send({ error: 'Invalid password.' });
+        reply.code(401).send({ error: 'Senha invalida.' });
         return;
       }
 
       // setar o cookie de sessao 
       reply.header('Set-Cookie', `session=${user.id}; Path=/; Max-Age=${1000 * 60 * 60 * 24 * 7}; HttpOnly`);
 
-      reply.send({ message: 'Login successful.', user });
+      reply.send({ message: 'Login bem sucedido.', user });
     }
   );
 }
