@@ -1,32 +1,54 @@
 import fastify from 'fastify';
-import fastifyCors from '@fastify/cors';
-import fastifyFormbody from '@fastify/formbody';
-import { GetMusic } from './routes/get-musics';
-import { registerRoutes } from './routes/get-post-users';
+import { serializerCompiler, validatorCompiler, jsonSchemaTransform, ZodTypeProvider } from "fastify-type-provider-zod";
+import { GetMusic } from './routes/get-music-score';
+import { getUserRouteHandler } from './routes/get-users';
 import { GetScoreboard } from './routes/get-Scoreboard';
+import { postUserRouteHandler } from "./routes/post-users";
+import { errorHandler } from "./utils/error-handler";
+import { fastifyCors } from "@fastify/cors";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
 
-const app = fastify({ logger: true });
 
-const config = { port: 3333 };
+export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
-// Enable CORS
-app.register(fastifyCors, { origin: '*' });
+app.register(fastifyCors, {
+  origin: "*",
+})
+app.register(fastifySwagger, {
+  swagger: {
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    info: {
+      title: 'ProjectA',
+      description: 'API for ProjectA application',
+      version: '1.0.0'
+    }, 
+     
+  },
+  transform: jsonSchemaTransform
+})
+app.register(fastifySwaggerUI, {
+  routePrefix: "/docs",
+});
 
-// Register body parser plugin
-app.register(fastifyFormbody);
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
 
 // Music list
 app.register(GetMusic);
 
 // User list
-app.register(registerRoutes);
+app.register(getUserRouteHandler);
 
 // Scoreboard
 app.register(GetScoreboard);
 
 // Add a new user route
+app.register(postUserRouteHandler);
 
-app.listen(config, (err) => {
-  if (err) throw err;
-  console.log(`API está rodando em http://localhost:${config.port}/`);
+app.setErrorHandler(errorHandler) 
+
+app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
+  console.log("HTTP server running in localhost:3333");
 });
