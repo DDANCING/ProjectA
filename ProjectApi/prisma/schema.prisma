@@ -9,36 +9,48 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  nome        String
-  email       String       @unique
-  senha       String
+  id    Int    @id @default(autoincrement())
+  nome  String
+  email String @unique
+  senha String
+
   desempenhos Desempenho[]
   scoreboards Scoreboard[]
 }
 
 model Musica {
-  id          Int          @id @default(autoincrement())
-  titulo      String
-  artista     String
-  linkYoutube String
-  tablatura   String
-  capaAlbum   String
+  id            Int      @id @default(autoincrement())
+  titulo        String
+  artista       String
+  linkYoutube   String
+  tablatura     String
+  capaAlbum     String
+  tempoMinutos  Int
+  tempoSegundos Int
+  afinacao      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
   desempenhos Desempenho[]
 }
 
 model Desempenho {
-  id             Int    @id @default(autoincrement())
-  usuarioId      Int
-  musicaId       Int
-  pontuacaoIndiv Int
-  musica         Musica @relation(fields: [musicaId], references: [id])
-  usuario        User   @relation(fields: [usuarioId], references: [id])
+  id        Int      @id @default(autoincrement())
+  usuarioId Int
+  musicaId  Int
+  pontuacao Int
+  updatedAt DateTime @updatedAt
+
+  usuario User   @relation(fields: [usuarioId], references: [id])
+  musica  Musica @relation(fields: [musicaId], references: [id])
+
+  @@unique([usuarioId, musicaId])
 }
 
 model Scoreboard {
-  id             Int   @id @default(autoincrement())
+  id             Int  @id @default(autoincrement())
   mediaPontuacao Int
-  userId         Int?
-  User           User? @relation(fields: [userId], references: [id])
+  userId         Int? @unique
+
+  User User? @relation(fields: [userId], references: [id])
 }

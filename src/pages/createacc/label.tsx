@@ -50,6 +50,7 @@ export function InputForm() {
     axios
       .post('http://localhost:3333/register', data)
       .then(() => {
+        window.location.href = '/';
         toast({
           title: 'Cadastro realizado com sucesso',
           description: 'Seu cadastro foi realizado com sucesso.',
