@@ -1,52 +1,25 @@
-import React, { useEffect, useState } from "react";
-import cookie from "cookie";
 
-interface Props {
-  userId: string;
-  serverUrl: string;
+export function deleteSessionCookie() {
+  document.cookie = `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+export function cookieExists(name: string): boolean {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, value] = cookie.trim().split('=');
+    if (cookieName === name) {
+      return true;
+    }
+  }
+  return false;
 }
 
-const CookieSession: React.FC<Props> = ({ userId, serverUrl }) => {
-  const [cookieSet, setCookieSet] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${serverUrl}/api/cookie-session`, {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId }),
-        });
-
-        if (res.ok) {
-          setCookieSet(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (userId) {
-      fetchData();
+export function getCookie(name: string): string | null {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [key, value] = cookie.trim().split('=');
+    if (key === name) {
+      return value;
     }
-  }, [serverUrl, userId]);
-
-  useEffect(() => {
-    if (cookieSet) {
-      const sessionCookie = cookie.serialize("session", userId, {
-        path: "/",
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-      });
-
-      document.cookie = sessionCookie;
-    }
-  }, [cookieSet, userId]);
-
+  }
   return null;
-};
-
-export default CookieSession;
+}
