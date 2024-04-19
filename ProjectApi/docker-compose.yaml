@@ -16,21 +16,21 @@ services:
    # networks:
     #  - evecheck
 
-  projectapi:
+  api-evecheck:
     build:
       context: .
-    container_name: projectapi
+    container_name: api-evecheck
     ports:
       - 3001:3333
     environment:
-      - DATABASE_URL=postgres://eluacwqt:YClzuoFGlfg6v5mHwMI93BPJpg8SwoCu@kesavan.db.elephantsql.com/eluacwqt
+      - DATABASE_URL=postgresql://doadmin:AVNS_yhkGScyUSLuZQPCTCR2@eve-check-do-user-16377210-0.c.db.ondigitalocean.com:25060/eveCheck?sslmode=require
       - API_BASE_URL=http://localhost:3333
   #  depends_on:
    #   - postgres
     networks:
-      - projecta
+      - evecheck
 networks:
- projecta:
+  evecheck:
     driver: bridge
 volumes:
   db:
