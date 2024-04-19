@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -9,29 +10,28 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  nome  String
-  email String @unique
-  senha String
-
+  id          Int          @id @default(autoincrement())
+  nome        String
+  email       String       @unique
+  senha       String
+  ban         Boolean      @default(false)
   desempenhos Desempenho[]
-  scoreboards Scoreboard[]
+  Scoreboard  Scoreboard?
 }
 
 model Musica {
-  id            Int      @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   titulo        String
   artista       String
   linkYoutube   String
   tablatura     String
   capaAlbum     String
+  afinacao      String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   tempoMinutos  Int
   tempoSegundos Int
-  afinacao      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  desempenhos Desempenho[]
+  desempenhos   Desempenho[]
 }
 
 model Desempenho {
@@ -40,17 +40,15 @@ model Desempenho {
   musicaId  Int
   pontuacao Int
   updatedAt DateTime @updatedAt
-
-  usuario User   @relation(fields: [usuarioId], references: [id])
-  musica  Musica @relation(fields: [musicaId], references: [id])
+  musica    Musica   @relation(fields: [musicaId], references: [id])
+  usuario   User     @relation(fields: [usuarioId], references: [id])
 
   @@unique([usuarioId, musicaId])
 }
 
 model Scoreboard {
-  id             Int  @id @default(autoincrement())
+  id             Int   @id @default(autoincrement())
   mediaPontuacao Int
-  userId         Int? @unique
-
-  User User? @relation(fields: [userId], references: [id])
+  usuarioId      Int?  @unique
+  User           User? @relation(fields: [usuarioId], references: [id])
 }

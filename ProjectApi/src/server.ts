@@ -1,6 +1,6 @@
 import fastify from 'fastify';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform, ZodTypeProvider } from "fastify-type-provider-zod";
-import { GetMusic } from './routes/get-music-score';
+import { GetUserPerformance } from './routes/get-music-score';
 import { getUserRouteHandler } from './routes/get-users';
 import { GetScoreboard } from './routes/get-Scoreboard';
 import { postUserRouteHandler } from "./routes/post-users";
@@ -8,6 +8,11 @@ import { errorHandler } from "./utils/error-handler";
 import { fastifyCors } from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
+import { CreateOrUpdatePerformance } from './routes/post-performance';
+import { GetMusicList } from './routes/get-music-list';
+import { PostMusic } from './routes/post-music';
+import { UpdateMusic } from './routes/put-music';
+import { updateUserRouteHandler } from './routes/put-user';
 
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -32,21 +37,38 @@ app.register(fastifySwaggerUI, {
   routePrefix: "/docs",
 });
 
+// validator and serializer
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 // Music list
-app.register(GetMusic);
+app.register(GetMusicList);
 
-// User list
-app.register(getUserRouteHandler);
+// create music
+app.register(PostMusic);
+
+// update music
+app.register(UpdateMusic);
+
+// individual user performance
+app.register(GetUserPerformance);
+
+// post or update user performance
+app.register(CreateOrUpdatePerformance);
 
 // Scoreboard
 app.register(GetScoreboard);
 
-// Add a new user route
+// login
+app.register(getUserRouteHandler);
+
+// update user 
+app.register(updateUserRouteHandler);
+
+// Add a new user 
 app.register(postUserRouteHandler);
 
+// Error handler
 app.setErrorHandler(errorHandler) 
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
