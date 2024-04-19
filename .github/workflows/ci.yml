@@ -3,7 +3,8 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -33,6 +34,3 @@ jobs:
         docker push ddancing/projecta/projectapi:${{ steps.generate_sha.outputs.sha }}
         docker tag ddancing/projecta/projectapi:${{ steps.generate_sha.outputs.sha }} ddancing/projecta/projectapi:latest
         docker push ddancing/projecta/projectapi:latest
-        
-
-           
