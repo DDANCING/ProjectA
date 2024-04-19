@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicativo de Microfone</title>
+</head>
+<body>
+    <h1>Aplicativo de Microfone</h1>
+    <audio id="microphone" autoplay controls></audio>
+
+    <script>
+        async function startAudio() {
+            try {
+                // Solicitar permissão para o microfone
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                // Criar um contexto de áudio
+                const audioContext = new AudioContext();
+
+                // Criar um nó para o microfone
+                const microphoneNode = audioContext.createMediaStreamSource(stream);
+
+                // Conectar o nó do microfone ao destino de saída (alto-falantes)
+                microphoneNode.connect(audioContext.destination);
+
+                // Iniciar a reprodução
+                audioContext.resume();
+
+                // Associar o elemento de áudio ao nó do microfone
+                const audioElement = document.getElementById('microphone');
+                audioElement.srcObject = stream;
+            } catch (error) {
+                console.error('Erro ao acessar o microfone:', error);
+            }
+        }
+
+        startAudio();
+    </script>
+</body>
+</html>
