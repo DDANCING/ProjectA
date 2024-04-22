@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projecta-deployment
+  labels:
+    app: projecta
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: projecta
+  template:
+    metadata:
+      labels:
+        app: projecta
+    spec:
+      containers:
+        - name: projecta
+          image: ddancing/projectapi:b235db9
+          env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: db-connection
+                key: url
+          - name: API_BASE_URL   
+            valueFrom:
+              configMapKeyRef:
+                name: projecta-env
+                key: url
+          ports:
+            - containerPort: 3333
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi

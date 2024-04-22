@@ -26,7 +26,7 @@ export function CarouselMusic() {
   useEffect(() => {
     async function fetchMusicas() {
       try {
-        const response = await fetch('http://localhost:3333/musicas');
+        const response = await fetch('http://localhost:3333/api/musicas');
         if (!response.ok) {
           throw new Error('Erro ao buscar músicas');
         }

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Secret
+
+metadata: 
+  name: private-repo
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+
+stringData:
+  type: git
+  url: git@github.com:DDANCING/api.projecta.database.git
+  sshPrivateKey: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+    QyNTUxOQAAACCu8BIsuvzJLZA2QRjxvlEXm8320MhMh4dVn2AjInteWgAAALCTgIO1k4CD
+    tQAAAAtzc2gtZWQyNTUxOQAAACCu8BIsuvzJLZA2QRjxvlEXm8320MhMh4dVn2AjInteWg
+    AAAEC79r+ynZgYw5XmJbwQ2a5tpylPjs0Pj1FWPPdN61CrXq7wEiy6/MktkDZBGPG+UReb
+    zfbQyEyHh1WfYCMie15aAAAAK21hcmNlbG9tYXp6b25ldHRvQGlNYWMtUHJvLWRlLU1hcm
+    NlbG8ubG9jYWwBAg==
+    -----END OPENSSH PRIVATE KEY-----
+
+   
+  
+    

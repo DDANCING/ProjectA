@@ -4,7 +4,7 @@ import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
 import Captador from './components/utils/captator';
 import { CarouselMusic } from "./components/utils/carouselmusic";
-import { SampleGuitarWithSound } from "./components/utils/guitar-react";
+
 import ScoreboardList from "./components/utils/scoreBoard";
 import Createacc from "./pages/createacc";
 import Login from "./pages/login";
@@ -12,10 +12,17 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { Toaster } from './components/ui/toaster';
 import { useSession } from "@/hooks/useSession"
 import { deleteSessionCookie } from "./lib/CookieSession";
+import  TabComponent  from "./components/tablatura/tabsheet";
 
 function App() {
+  const musicNotation = `
+.
+:4 0.6 1.6 3.6 0.5 2.5 3.5 0.4 2.4 |
+   3.4 0.3 2.3 0.2 1.2 3.2 0.1 1.1 |
+   3.1.1
+`;
   const { userId } = useSession();
-  console.log(userId);
+  
   const handleLogout = () => {
     deleteSessionCookie();
   };
@@ -53,7 +60,7 @@ function App() {
             <div className="bg-background  h-32"> <Captador/> </div>
           </div>
           <div className="p-3 bg-background rounded-sm flex-1 flex-col ">
-            <SampleGuitarWithSound  />
+          <TabComponent/>
           </div>
           <div className="bg-background rounded-sm w-96 justify-self-start flex flex-col items-center p-2">
             <CarouselMusic/>

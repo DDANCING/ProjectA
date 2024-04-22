@@ -5,7 +5,7 @@ import { z } from "zod";
 import { BadRequest } from "./_errors/bad-request";
 import { CreateOrUpdateScore } from "../utils/score-update";
 
-export async function CreateOrUpdatePerformance (app: FastifyInstance) {
+export async function createOrUpdatePerformance(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .post('/desempenho', {
@@ -40,37 +40,44 @@ export async function CreateOrUpdatePerformance (app: FastifyInstance) {
         });
 
         if (desempenho) {
-          // Se já existe um desempenho, atualiza-o apenas se a pontuação for maior que a anterior
           if (pontuacao > desempenho.pontuacao) {
-            CreateOrUpdateScore(userId)
-            desempenho = await prisma.desempenho.update({
+            await prisma.desempenho.update({
               where: { id: desempenho.id },
               data: { pontuacao },
             });
-          } else {
-            throw new BadRequest('A pontuação deve ser maior que a anterior.');
-          }
+          } 
         } else {
-          CreateOrUpdateScore(userId)
-          desempenho = await prisma.desempenho.create({
+          await prisma.desempenho.create({
             data: {
               usuarioId: userId,
               musicaId: musicId,
               pontuacao,
             },
           });
-
         }
+
+        await CreateOrUpdateScore(userId);
+
+        // Buscar o desempenho atualizado após a criação ou atualização
+        desempenho = await prisma.desempenho.findFirst({
+          where: {
+            usuarioId: userId,
+            musicaId: musicId,
+          },
+        });
+
+        if (!desempenho) {
+          throw new Error('Erro ao encontrar o desempenho após a criação ou atualização.');
+        }
+
         await reply.send({
-          message: desempenho ? 'Desempenho criado ou atualizado com sucesso.' : 'Erro ao criar ou atualizar desempenho.',
+          message: 'Desempenho atual',
           desempenho: {
             pontuacaoNaMusica: desempenho.pontuacao,
             Datadodesempenho: desempenho.updatedAt,
           },
         });
-          
       } catch (error) {
-      
         throw new BadRequest('Ocorreu um erro ao criar ou atualizar desempenho.');
       }
     });

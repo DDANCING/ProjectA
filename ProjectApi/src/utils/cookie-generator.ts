@@ -1,4 +1,3 @@
-
 interface CookieOptions {
   expires?: Date;
   maxAge?: number;
@@ -12,10 +11,17 @@ interface CookieOptions {
 const generateCookie = (name: string, value: string, options: CookieOptions = {}): string => {
   const { expires, maxAge = 30 * 24 * 60 * 60, path = '/', domain = '', secure = false, httpOnly = true, sameSite = 'Lax' } = options;
 
+  // Converter maxAge em uma data
+  let expirationDate: Date | undefined;
+  if (maxAge) {
+    const currentDate = new Date();
+    expirationDate = new Date(currentDate.getTime() + maxAge * 1000); // Converte segundos para milissegundos
+  }
+
   // Construir a string do cookie
   let cookieString = `${name}=${value}`;
   if (expires) cookieString += `; Expires=${expires.toUTCString()}`;
-  if (maxAge) cookieString += `; Max-Age=${maxAge}`;
+  if (expirationDate) cookieString += `; Expires=${expirationDate.toUTCString()}`;
   if (path) cookieString += `; Path=${path}`;
   if (domain) cookieString += `; Domain=${domain}`;
   if (secure) cookieString += '; Secure';

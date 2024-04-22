@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -34,3 +34,14 @@ jobs:
         docker push ddancing/projectapi:${{ steps.generate_sha.outputs.sha }}
         docker tag ddancing/projectapi:${{ steps.generate_sha.outputs.sha }} ddancing/projectapi:latest
         docker push ddancing/projectapi:latest
+
+    - name: Update image tag    
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        branch: main
+        valueFile: 'deploy/values.yaml'
+        propertyPath: 'image.tag'
+        value: "${{ steps.generate_sha.outputs.sha }}"
+        commitChange: true
+        message: "new: Update tag in values helm"
+   

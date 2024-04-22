@@ -27,7 +27,7 @@ const ScoreboardList: React.FC = () => {
               <CardContent className="flex p-3 justify-between">
                 
                     <p>{user.nome}</p>
-                    <p className="text-primary">{`${user.score}`}</p>
+                    <p className="text-primary">{`${user.score}%`}</p>
               </CardContent>
             </Card>
           </div>

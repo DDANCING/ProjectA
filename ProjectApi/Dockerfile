@@ -31,7 +31,6 @@ COPY --from=build /usr/src/app/prisma ./prisma
 
 RUN npx prisma generate
 
-
 EXPOSE 3333
 
 CMD [ "npm", "start" ]

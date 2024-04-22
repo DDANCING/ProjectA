@@ -4,7 +4,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { BadRequest } from "./_errors/bad-request";
 import { prisma } from "../utils/prisma";
 
-export async function UpdateMusic(app: FastifyInstance) {
+export async function updateMusic(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .put('/update/music/:id', {

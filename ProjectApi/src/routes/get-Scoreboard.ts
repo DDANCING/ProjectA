@@ -3,7 +3,7 @@ import { z } from "zod";
 import { BadRequest } from "./_errors/bad-request";
 import { prisma } from "../utils/prisma";
 
-export async function GetScoreboard(app: FastifyInstance) {
+export async function getScoreboard(app: FastifyInstance) {
   app
     .get('/api/scoreboards', {
       schema: {

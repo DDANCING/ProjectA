@@ -1,19 +1,21 @@
 import fastify from 'fastify';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform, ZodTypeProvider } from "fastify-type-provider-zod";
-import { GetMusic } from './routes/get-music-score';
+import { getMusicPerformance } from './routes/get-music-score';
 import { getUserRouteHandler } from './routes/get-users';
-import { GetScoreboard } from './routes/get-Scoreboard';
+import { getScoreboard } from './routes/get-Scoreboard';
 import { postUserRouteHandler } from "./routes/post-users";
 import { errorHandler } from "./utils/error-handler";
 import { fastifyCors } from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
-import { GetMusicList } from './routes/get-music-list';
-import { PostMusic } from './routes/post-music';
-import { CreateOrUpdatePerformance } from './routes/post-performance';
-import { UpdateMusic } from './routes/put-music';
+import { getMusicList } from './routes/get-music-list';
+import { postMusic } from './routes/post-music';
+import { createOrUpdatePerformance } from './routes/post-performance';
+import { updateMusic } from './routes/put-music';
 import { updateUserRouteHandler } from './routes/put-user';
 import { logoutUserRouteHandler } from './routes/user-logout';
+import { ready } from './routes/ready';
+
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -40,19 +42,19 @@ app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 // Music score id
-app.register(GetMusic);
+app.register(getMusicPerformance);
 
 // Music list
-app.register(GetMusicList);
+app.register(getMusicList);
 
 // Add a new music
-app.register(PostMusic);
+app.register(postMusic);
 
 // Add a new Performance/score
-app.register(CreateOrUpdatePerformance);
+app.register(createOrUpdatePerformance);
 
 // Update a music
-app.register(UpdateMusic);
+app.register(updateMusic);
 
 // User login
 app.register(getUserRouteHandler);
@@ -64,10 +66,13 @@ app.register(logoutUserRouteHandler);
 app.register(updateUserRouteHandler);
 
 // Scoreboard
-app.register(GetScoreboard);
+app.register(getScoreboard);
 
 // Add a new user route
 app.register(postUserRouteHandler);
+
+
+app.register(ready);
 
 app.setErrorHandler(errorHandler) 
 

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: projecta-env
+
+data:
+  url: "http://localhost:3333" 

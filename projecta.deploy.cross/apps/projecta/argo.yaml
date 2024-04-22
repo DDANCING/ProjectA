@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: projecta
+  namespace: argocd
+
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:DDANCING/api.projecta.database.git
+    targetRevision: HEAD
+    path: deploy
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: projecta
+  syncPolicy:
+    automated:
+      prune: true

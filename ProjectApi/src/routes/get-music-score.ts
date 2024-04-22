@@ -4,7 +4,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { BadRequest } from "./_errors/bad-request";
 
-export async function GetMusic(app: FastifyInstance) {
+export async function getMusicPerformance(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .get('/desempenho/:userId/:musicId', {
