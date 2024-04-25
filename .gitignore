@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+projecta.deploy.cross
 
 # Editor directories and files
 .vscode/*
@@ -24,5 +25,5 @@ dist-ssr
 *.sw?
 src/lib/apiURL.ts
 ProjectApi
-projecta.deploy.cross
+projecta.iac.database
 projecta.iac.api
