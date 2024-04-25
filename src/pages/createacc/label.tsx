@@ -68,8 +68,14 @@ export function InputForm() {
   }
 
   return (
+    <div className='flex flex-col '>
+      <div className='flex flex-row justify-center gap-4 items-end'>
+      <a className='text-sm hover:drop-shadow-[0_1.2px_1.2px_rgba(124,58,237,0.8)] ' href="/login">Faça login</a> 
+      <p className='text-2xl text-primary font-bold' >|</p> 
+      <a className='text-2xl font-extrabold text-foreground'  >Criar conta</a>
+      </div>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="">
         <FormField
           control={form.control}
           name="nome"
@@ -77,7 +83,7 @@ export function InputForm() {
             <FormItem>
               <FormLabel></FormLabel>
               <FormControl>
-                <Input className="bg-muted border border-muted-foreground" placeholder="Username" {...field} />
+                <Input className="bg-background border border-muted-foreground w-72" placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +96,7 @@ export function InputForm() {
             <FormItem>
               <FormLabel></FormLabel>
               <FormControl>
-                <Input className="bg-muted border border-muted-foreground" placeholder="Email" {...field} />
+                <Input className="bg-background border border-muted-foreground w-72" placeholder="Email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -104,7 +110,7 @@ export function InputForm() {
               <FormLabel></FormLabel>
               <FormControl>
                 <Input
-                  className="bg-muted border border-muted-foreground"
+                  className="bg-background border border-muted-foreground w-72"
                   type="password"
                   placeholder="Password"
                   {...field}
@@ -114,11 +120,12 @@ export function InputForm() {
             </FormItem>
           )}
         />
-        <Button  type="submit">
-          Criar conta
+        <Button className='w-72 mt-3'  type="submit">
+          Enviar
         </Button>
       </form>
     </Form>
+    </div>
   )
 }
 

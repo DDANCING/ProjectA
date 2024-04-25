@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const logoutUserRouteHandler = async (app: FastifyInstance) => {
   app
-    .delete<{ Querystring: { sessionId: string } }>(
+    .post<{ Querystring: { sessionId: string } }>(
       '/api/logout',
       {
         schema: {
@@ -17,18 +17,13 @@ export const logoutUserRouteHandler = async (app: FastifyInstance) => {
         },
       },
       async (request: FastifyRequest<{ Querystring: { sessionId: string } }>, reply: FastifyReply) => {
-        // Obter o ID da sessão da parte de consulta da solicitação
-        const sessionId = request.query.sessionId;
-
-        // Excluir a sessão da memória
-        delete sessionStorage[sessionId];
-
-        // Enviar uma resposta de sucesso com o cabeçalho Set-Cookie
-        reply.code(200)
-          .header('Set-Cookie', `session=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax`)
-          .send({
-            message: 'Usuário deslogado com sucesso.',
-          });
-      }
-    );
-};
+        try {
+          // Set the session cookie to an expired date
+          reply.header('session', '0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; HttpOnly; SameSite=Lax');
+          reply.send({ message: 'Logout successful' });
+        } catch (error: any) {
+          console.error('Error during logout:', error);
+          reply.status(400).send({ error: 'Invalid request' });
+        }
+      });
+    }

@@ -72,7 +72,6 @@ export const getUserRouteHandler = async (app: FastifyInstance) => {
 
             reply.code(201).send({ message: 'Usuário logado.', 
             user: { id: user.id, nome: user.nome, email: user.email }, 
-            token: token 
           });
           } catch (error) {
             console.error('Error in login:', error);

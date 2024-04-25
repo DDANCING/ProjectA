@@ -60,7 +60,6 @@ export const postUserRouteHandler = async (app: FastifyInstance) => {
 
           reply.send({ user:
              newUser,
-             token 
             }); // Send response with user data and token
         } catch (error: any) {
           console.error('Error creating a new user:', error);

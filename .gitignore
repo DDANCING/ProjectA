@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+src/lib/apiURL.ts
+ProjectApi
+projecta.deploy.cross
+projecta.iac.api

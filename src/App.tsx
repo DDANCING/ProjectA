@@ -1,71 +1,20 @@
-
-import { ModeToggle } from "./components/mode-toggle";
-import { ThemeProvider } from "./components/theme-provider";
-import { Button } from "./components/ui/button";
-import Captador from './components/utils/captator';
-import { CarouselMusic } from "./components/utils/carouselmusic";
-
-import ScoreboardList from "./components/utils/scoreBoard";
 import Createacc from "./pages/createacc";
 import Login from "./pages/login";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from './components/ui/toaster';
-import { useSession } from "@/hooks/useSession"
-import { deleteSessionCookie } from "./lib/CookieSession";
-import  TabComponent  from "./components/tablatura/tabsheet";
+
+import Header from "./components/main/header";
+import Main from "./components/main/main";
+
 
 function App() {
-  const musicNotation = `
-.
-:4 0.6 1.6 3.6 0.5 2.5 3.5 0.4 2.4 |
-   3.4 0.3 2.3 0.2 1.2 3.2 0.1 1.1 |
-   3.1.1
-`;
-  const { userId } = useSession();
-  
-  const handleLogout = () => {
-    deleteSessionCookie();
-  };
+
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col bg-background text-muted-foreground">
-        <div className="px-6 py-3 flex items-center justify-between border-b border-primary">
-          <h1 className="text-xl font-bold"></h1>
-          <div className="flex items-center gap-3">
-            {userId ? (
-              <div className="flex items-center gap-3">
-                <Button onClick={handleLogout} variant={'outline'}>Logout</Button> {/* Botão de logout */}
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Link to="/login" className="text-muted-foreground"> {/* Link para a página de login */}
-                  <Button variant={'outline'}>Login</Button>
-                </Link>
-                <Link to="/create" className="text-muted-foreground"> {/* Link para a página de criação de conta */}
-                  <Button variant={'outline'}>Criar conta</Button>
-                </Link>
-              </div>
-            )}
-            <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-              <ModeToggle />
-            </ThemeProvider>
-          </div>
-        </div>
-        <main className="flex-1 p-6 flex gap-6 bg-muted rounded-sm">
-          <div className="h-screen grid grid-rows-2 gap-4">
-            <div className="w-60 bg-background">
-              <ScoreboardList/>
-            </div>
-            <div className="bg-background  h-32"> <Captador/> </div>
-          </div>
-          <div className="p-3 bg-background rounded-sm flex-1 flex-col ">
-          <TabComponent/>
-          </div>
-          <div className="bg-background rounded-sm w-96 justify-self-start flex flex-col items-center p-2">
-            <CarouselMusic/>
-          </div>
-        </main>
+      <div className="flex flex-col h-screen bg-secondary">
+      <Header/>
+      <Main/>
         <Toaster />
       </div>
       <Routes>

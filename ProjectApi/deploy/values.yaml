@@ -1,69 +1,42 @@
-# Default values for deploy.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 5
-
 image:
   repository: ddancing/projectapi
-  pullPolicy: Always  
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "b235db9"
+  pullPolicy: Always
+  tag: 884049d
   port: 3333
-
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
+nameOverride: ''
+fullnameOverride: ''
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Automatically mount a ServiceAccount's API credentials?
   automount: true
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
+  name: ''
 podAnnotations: {}
 podLabels: {}
-
 podSecurityContext: {}
-  # fsGroup: 2000
-
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
 service:
-  type: ClusterIP
-  port: 80 
-
+  type: LoadBalancer
+  port: 80
 ingress:
   enabled: false
-  className: ""
+  className: ''
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls: []
-  startupProbe: 
+  startupProbe: null
   httpGet:
     path: /ready
     port: http
   initialDelaySeconds: 40
   failureThreshold: 5
   periodSeconds: 10
-livenessProbe: 
+livenessProbe:
   httpGet:
     path: /ready
     port: http
@@ -77,7 +50,7 @@ readinessProbe:
   initialDelaySeconds: 60
   failureThreshold: 5
   periodSeconds: 10
-resources: 
+resources:
   requests:
     cpu: 200m
     memory: 512Mi
@@ -87,25 +60,10 @@ resources:
 autoscaling:
   enabled: true
   minReplicas: 5
-  maxReplicas: 10
-  # targetCPUUtilizationPercentage: 80
+  maxReplicas: 8
   targetMemoryUtilizationPercentage: 75
-
-# Additional volumes on the output Deployment definition.
 volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
 volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}

@@ -13,8 +13,10 @@ import { postMusic } from './routes/post-music';
 import { createOrUpdatePerformance } from './routes/post-performance';
 import { updateMusic } from './routes/put-music';
 import { updateUserRouteHandler } from './routes/put-user';
-import { logoutUserRouteHandler } from './routes/user-logout';
+
 import { ready } from './routes/ready';
+import { getTokenRouteHandler } from './routes/get-token';
+import { logoutRouteHandler } from './routes/post-logout';
 
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -56,11 +58,13 @@ app.register(createOrUpdatePerformance);
 // Update a music
 app.register(updateMusic);
 
+app.register(getTokenRouteHandler);
+
 // User login
 app.register(getUserRouteHandler);
 
 // User logout
-app.register(logoutUserRouteHandler);
+app.register(logoutRouteHandler);
 
 // update
 app.register(updateUserRouteHandler);

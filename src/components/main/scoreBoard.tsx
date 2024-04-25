@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
+import { SERVER_URL } from '@/lib/apiURL';
 
 interface User {
   nome: string;
@@ -10,7 +11,7 @@ const ScoreboardList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   
   useEffect(() => {
-    fetch('http://localhost:3333/api/scoreboards')
+    fetch(`${SERVER_URL}/api/scoreboards`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
@@ -27,7 +28,7 @@ const ScoreboardList: React.FC = () => {
               <CardContent className="flex p-3 justify-between">
                 
                     <p>{user.nome}</p>
-                    <p className="text-primary">{`${user.score}%`}</p>
+                    <p className="text-primary text-opacity-100">{`${user.score}%`}</p>
               </CardContent>
             </Card>
           </div>
