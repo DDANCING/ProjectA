@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?    @map("email_verified")
+  image         String?
+  password      String?
+  accounts      Account[]
+  Performace    Performace[]
+  Scoreboard    Scoreboard?
+
+  @@map("users")
+}
+
+model Music {
+  id          Int          @id @default(autoincrement())
+  title       String
+  artist      String
+  youtubeLink String
+  tabs        String
+  coverAlbum  String
+  tuning      String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  timeMinutes Int
+  timeSeconds Int
+  performace  Performace[]
+}
+
+model Performace {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  musicId   Int
+  average   Int
+  updatedAt DateTime @updatedAt
+  music     Music    @relation(fields: [musicId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, musicId])
+}
+
+model Scoreboard {
+  id           Int     @id @default(autoincrement())
+  averagescore Int
+  userId       String? @unique
+  User         User?   @relation(fields: [userId], references: [id])
+}
