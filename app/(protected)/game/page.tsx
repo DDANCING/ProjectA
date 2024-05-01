@@ -1,6 +1,6 @@
-import { LoginButton } from "@/components/auth/login-button";
+
 import Captador from "@/components/captor/captor";
-import { Button } from "@/components/ui/button";
+
 
 
 export default function Game() {

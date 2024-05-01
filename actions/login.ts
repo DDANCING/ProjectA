@@ -5,7 +5,7 @@ import { signIn } from "@/auth"
 import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
-import { getUserByEmail } from "@/data/user";
+
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,

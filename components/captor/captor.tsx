@@ -16,7 +16,6 @@ import {
 import { Button } from "@/components/ui/button"
 
 
-
 interface State { note: string; frequency: number; selectedString: number; }
 
 const standardTuning = { E3: 329.628, B2: 246.942, G2: 195.998, D2: 146.832, A1: 110.000, E1: 82.407, };
