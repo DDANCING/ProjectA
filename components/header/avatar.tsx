@@ -15,11 +15,12 @@ import {
   } from "@/components/ui/avatar"
 
 
+
 export const ProfileOptions = () => {
   return (
     <DropdownMenu>
   <DropdownMenuTrigger> 
-    <Avatar className="w-8 h-8 border hover:border-primary" >
+    <Avatar className="w-8 h-8 hover:border hover:border-primary" >
     <AvatarImage src="https://github.com/ddancing.png" />
   <AvatarFallback>
     CN
@@ -32,13 +33,17 @@ export const ProfileOptions = () => {
       </DropdownMenuLabel>
     <DropdownMenuSeparator />
             <DropdownMenuItem>
-          Log out
           <DropdownMenuShortcut>
-          <form action={async () => {
-             "use server";
-                   await signOut();
-                 }}>
-            </form>   
+            
+          <form  action={async () => {
+            "use server";
+            await signOut();
+            }}>
+          
+            <button type="submit" >
+               Log out
+            </button>
+          </form>   
           </DropdownMenuShortcut>
         </DropdownMenuItem>
   </DropdownMenuContent>

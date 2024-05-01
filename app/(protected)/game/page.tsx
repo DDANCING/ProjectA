@@ -1,20 +1,21 @@
 import { LoginButton } from "@/components/auth/login-button";
+import Captador from "@/components/captor/captor";
 import { Button } from "@/components/ui/button";
 
 
 export default function Game() {
   return (
-    <main className="p-4 flex gap-4 bg-muted rounded-sm h-full">
+    <main className="p-4 flex gap-4 rounded-sm h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="grid grid-rows-2 gap-4">
-      <div className="w-60 bg-background">
+      <div className="w-60 bg-background/30 backdrop-blur-md">
         
       </div>
-      <div className="bg-background h-32">  </div>
+      <div className="bg-background/30 backdrop-blur-xl h-32"> <Captador/> </div>
     </div>
-    <div className="bg-background flex-1">
+    <div className="bg-background/30 backdrop-blur-md  flex-1">
       
     </div>
-    <div className="bg-background w-60 justify-self-start flex flex-col items-center p-2">
+    <div className="bg-background/30 backdrop-blur-md w-60 justify-self-start flex flex-col items-center p-2">
      
     </div>
   </main>
