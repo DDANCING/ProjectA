@@ -13,6 +13,8 @@ import {
   AvatarFallback,
   AvatarImage 
   } from "@/components/ui/avatar"
+import { X,  } from "lucide-react";
+import { GearIcon } from "@radix-ui/react-icons";
 
 
 
@@ -29,22 +31,26 @@ export const ProfileOptions = () => {
     </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuLabel>
-      My Account
+    My account
       </DropdownMenuLabel>
-    <DropdownMenuSeparator />
+   <DropdownMenuSeparator />
+           <DropdownMenuItem>
+          
+         <a href="/settings"> Settings </a>
+         <DropdownMenuShortcut> <GearIcon/>  </DropdownMenuShortcut>
+            </DropdownMenuItem>
             <DropdownMenuItem>
-          <DropdownMenuShortcut>
             
           <form  action={async () => {
             "use server";
             await signOut();
             }}>
-          
+           
             <button type="submit" >
-               Log out
+            Log out 
             </button>
           </form>   
-          </DropdownMenuShortcut>
+          <DropdownMenuShortcut><X size={16}/> </DropdownMenuShortcut>
         </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>

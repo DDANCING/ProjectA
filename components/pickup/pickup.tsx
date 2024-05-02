@@ -107,7 +107,7 @@ class Captador extends React.Component<{}, State> {
 
     return (
       <Drawer  >
-        <div className='flex flex-col items-center '>
+        <div className='flex flex-col items-center bg-background p-2'>
         <p className={`text-primary text-4xl`}>
         {note}
        </p>
