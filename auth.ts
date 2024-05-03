@@ -26,6 +26,7 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
+      
       // Permite autenticação OAuth sem verificação de email
       if (account?.provider !== "credentials") return true;
     
