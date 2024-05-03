@@ -5,7 +5,7 @@ import { PitchDetector } from 'pitchy';
 import getAudioContext from 'audio-context'; 
 
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCcw } from 'lucide-react';
 import {
   Drawer,
   DrawerClose,
@@ -29,7 +29,7 @@ class Captador extends React.Component<{}, State> {
   constructor(props: {}) { 
     super(props); 
     this.state = { 
-      note: '', 
+      note: '*', 
       frequency: 0, 
       selectedString: 1, 
     }; 
@@ -107,7 +107,11 @@ class Captador extends React.Component<{}, State> {
 
     return (
       <Drawer  >
-        <div className='flex flex-col items-center bg-background p-2'>
+         <div className=' bg-background p-2'>
+          <a href="/game">
+          <RefreshCcw className=' size-4'/>
+          </a>
+         <div className='flex flex-col items-center'>
         <p className={`text-primary text-4xl`}>
         {note}
        </p>
@@ -117,6 +121,7 @@ class Captador extends React.Component<{}, State> {
       <DrawerTrigger asChild> 
         <Button variant="outline" className='text-muted-foreground border border-muted-foreground'>Abrir afinador</Button>
       </DrawerTrigger>
+      </div>
       </div>
       <DrawerContent>
       <div className="flex flex-col items-center text-center mt-10 justify-center">

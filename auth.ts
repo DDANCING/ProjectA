@@ -3,7 +3,7 @@ import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { db } from "@/lib/db"
 import authConfig from "@/auth.config"
-import { getUserById } from "./data/user"
+import { getUserById } from "@/data/user"
 import { UserRole } from "@prisma/client"
 
 export const { 
@@ -25,7 +25,19 @@ export const {
    }
   },
   callbacks: {
+    async signIn({ user, account }) {
+      // Permite autenticação OAuth sem verificação de email
+      if (account?.provider !== "credentials") return true;
     
+      // Busca o usuário existente pelo ID
+      const existingUser = await getUserById(user.id);
+    
+      // Se o email do usuário existente não estiver verificado, retorna false
+      if(!existingUser?.emailVerified) return false;
+    
+      // Se o email do usuário existente estiver verificado, retorna true
+      return true;
+    },
     async session({token, session}) {
      if (token.sub && session.user) {
       session.user.id = token.sub

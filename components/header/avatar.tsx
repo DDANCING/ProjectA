@@ -13,32 +13,43 @@ import {
   AvatarFallback,
   AvatarImage 
   } from "@/components/ui/avatar"
-import { X,  } from "lucide-react";
+import { User, X,  } from "lucide-react";
 import { GearIcon } from "@radix-ui/react-icons";
+import { auth } from "@/auth";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 
+  
+ 
 
-export const ProfileOptions = () => {
+export const ProfileOptions = async () => {
+  const user = await auth();
   return (
     <DropdownMenu>
   <DropdownMenuTrigger> 
-    <Avatar className="w-8 h-8 hover:border hover:border-primary" >
-    <AvatarImage src="https://github.com/ddancing.png" />
+    <Avatar className="w-10 h-10 hover:border-2 hover:border-primary" >
+    <AvatarImage  src={user?.user.image}/>
   <AvatarFallback>
-    CN
+  <User  className="hover:text-primary"/>
     </AvatarFallback>
     </Avatar>
     </DropdownMenuTrigger>
-  <DropdownMenuContent>
+  <DropdownMenuContent className="box-content">
     <DropdownMenuLabel>
-    My account
+     My account
       </DropdownMenuLabel>
    <DropdownMenuSeparator />
+
            <DropdownMenuItem>
           
          <a href="/settings"> Settings </a>
-         <DropdownMenuShortcut> <GearIcon/>  </DropdownMenuShortcut>
+         <DropdownMenuShortcut> <GearIcon className="text-primary size-6"/>  </DropdownMenuShortcut>
             </DropdownMenuItem>
+            <DropdownMenuItem className="gap-x-10 ">
+            Dark mode
+            <DropdownMenuShortcut> <ModeToggle/> </DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem>
             
           <form  action={async () => {
@@ -50,7 +61,7 @@ export const ProfileOptions = () => {
             Log out 
             </button>
           </form>   
-          <DropdownMenuShortcut><X size={16}/> </DropdownMenuShortcut>
+          <DropdownMenuShortcut className="text-primary size-6"><X/> </DropdownMenuShortcut>
         </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>

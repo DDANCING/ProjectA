@@ -4,7 +4,10 @@ import * as z from "zod";
 import { signIn } from "@/auth"
 import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { sendVerificationEmail } from "@/lib/mail";
 import { AuthError } from "next-auth";
+import { generateVerificationToken } from "@/lib/tokens";
+import { getUserByEmail } from "@/data/user";
 
 
 export const login = async (
@@ -22,6 +25,25 @@ export const login = async (
  }
   const { email, password } = validatedFields.data;
   
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return {
+      error: "email does not exist!" }
+    }
+
+    if (!existingUser?.emailVerified) {
+      const verificationToken = await generateVerificationToken(
+        existingUser.email,
+      );
+
+      await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+      );
+
+      return { success: "confirmation email sent!" }
+    }
 
   
   try {

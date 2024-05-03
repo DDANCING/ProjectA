@@ -13,7 +13,7 @@ export default function Header() {
             </a>
             <div className="flex items-center gap-3">
             <ProfileOptions/>
-            <ModeToggle/>
+            
             </div>
         </div>
 
