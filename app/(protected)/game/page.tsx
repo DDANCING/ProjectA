@@ -11,7 +11,7 @@ export default function Game() {
       <div className="w-60 bg-background/30 backdrop-blur-md">
         <Scoreboard/>
       </div>
-      <div className="bg-background/30 backdrop-blur-xl h-32 p-2"> <Captador/> </div>
+      <div className="bg-background/30 backdrop-blur-xl h-36 p-2"> <Captador/> </div>
     </div>
     <div className="bg-background/30 backdrop-blur-md  flex-1">
       
