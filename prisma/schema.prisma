@@ -1,8 +1,8 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Esse é o seu arquivo de esquema Prisma.
+// Saiba mais sobre ele na documentação: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Procurando maneiras de acelerar suas consultas ou escalar facilmente com suas funções serverless ou de borda?
+// Experimente o Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 datasource db {
   provider = "postgresql"
@@ -39,16 +39,19 @@ enum UserRole {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String?
-  email         String?      @unique
-  emailVerified DateTime?    @map("email_verified")
-  image         String?
-  password      String?
-  role          UserRole     @default(USER)
-  accounts      Account[]
-  Performace    Performace[]
-  Scoreboard    Scoreboard?
+  id                      String                 @id @default(cuid())
+  name                    String?
+  email                   String?                @unique
+  emailVerified           DateTime?              @map("email_verified")
+  image                   String?
+  password                String?
+  role                    UserRole               @default(USER)
+  accounts                Account[]
+  Performace              Performace[]
+  Scoreboard              Scoreboard?
+  isTwoFactorEnabled      Boolean                @default(false)
+  twoFactorConfirmation   TwoFactorConfirmation?
+  twoFactorConfirmationId String?
 
   @@map("users")
 }
@@ -85,6 +88,8 @@ model Scoreboard {
   averagescore Int
   userId       String? @unique
   User         User?   @relation(fields: [userId], references: [id])
+
+  @@map("scoreboards")
 }
 
 model VerificationToken {
@@ -103,4 +108,21 @@ model PasswordResetToken {
   expires DateTime
 
   @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }

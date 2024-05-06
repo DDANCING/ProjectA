@@ -1,4 +1,6 @@
-import { signOut } from "@/auth";
+"use client"
+
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,20 +17,25 @@ import {
   } from "@/components/ui/avatar"
 import { User, X,  } from "lucide-react";
 import { GearIcon } from "@radix-ui/react-icons";
-import { auth } from "@/auth";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+
+import { logout } from "@/actions/logout";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 
   
  
 
-export const ProfileOptions = async () => {
-  const user = await auth();
+export const ProfileOptions = () => {
+  const user = useCurrentUser();
+  const onClick = () => {
+    logout();
+  }
   return (
     <DropdownMenu>
-  <DropdownMenuTrigger> 
+  <DropdownMenuTrigger className="rounded-full"> 
     <Avatar className="w-10 h-10 hover:border-2 hover:border-primary" >
-    <AvatarImage  src={user?.user.image}/>
+    <AvatarImage src={user?.image}/>
   <AvatarFallback>
   <User  className="hover:text-primary"/>
     </AvatarFallback>
@@ -36,7 +43,7 @@ export const ProfileOptions = async () => {
     </DropdownMenuTrigger>
   <DropdownMenuContent className="box-content">
     <DropdownMenuLabel>
-     My account
+     {user?.name}
       </DropdownMenuLabel>
    <DropdownMenuSeparator />
 
@@ -51,16 +58,9 @@ export const ProfileOptions = async () => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-            
-          <form  action={async () => {
-            "use server";
-            await signOut();
-            }}>
-           
-            <button type="submit" >
+            <button type="submit" onClick={onClick} >
             Log out 
             </button>
-          </form>   
           <DropdownMenuShortcut className="text-primary size-6"><X/> </DropdownMenuShortcut>
         </DropdownMenuItem>
   </DropdownMenuContent>
