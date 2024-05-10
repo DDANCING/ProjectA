@@ -1,6 +1,11 @@
 "use client"
 
 
+import { Music, User, X,  } from "lucide-react";
+import { GearIcon } from "@radix-ui/react-icons";
+
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { logout } from "@/actions/logout";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,18 +14,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { 
   Avatar,
   AvatarFallback,
   AvatarImage 
-  } from "@/components/ui/avatar"
-import { User, X,  } from "lucide-react";
-import { GearIcon } from "@radix-ui/react-icons";
-import { ModeToggle } from "@/components/ui/mode-toggle";
+  } from "@/components/ui/avatar";
 
-import { logout } from "@/actions/logout";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/data/hooks/use-current-user";
+import { RoleGate } from "@/components/auth/role-gate";
+import { UserRole } from "@prisma/client";
+
 
 
   
@@ -35,8 +39,8 @@ export const ProfileOptions = () => {
     <DropdownMenu>
   <DropdownMenuTrigger className="rounded-full"> 
     <Avatar className="w-10 h-10 hover:border-2 hover:border-primary" >
-    <AvatarImage src={user?.image}/>
-  <AvatarFallback>
+    <AvatarImage src={user?.image || ""}/>
+    <AvatarFallback>
   <User  className="hover:text-primary"/>
     </AvatarFallback>
     </Avatar>
@@ -52,10 +56,14 @@ export const ProfileOptions = () => {
          <a href="/settings"> Settings </a>
          <DropdownMenuShortcut> <GearIcon className="text-primary size-6"/>  </DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem className="gap-x-10 ">
-            Dark mode
-            <DropdownMenuShortcut> <ModeToggle/> </DropdownMenuShortcut>
-            </DropdownMenuItem>
+            
+            <RoleGate allowedRole={UserRole.ADMIN}>
+            <DropdownMenuItem>
+          
+          <a href="/new-music"> New music </a>
+          <DropdownMenuShortcut> <Music className="text-primary size-6"/>  </DropdownMenuShortcut>
+             </DropdownMenuItem>
+            </RoleGate>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
             <button type="submit" onClick={onClick} >
@@ -63,6 +71,7 @@ export const ProfileOptions = () => {
             </button>
           <DropdownMenuShortcut className="text-primary size-6"><X/> </DropdownMenuShortcut>
         </DropdownMenuItem>
+       
   </DropdownMenuContent>
 </DropdownMenu>
 

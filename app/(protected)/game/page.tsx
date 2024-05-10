@@ -1,7 +1,7 @@
 "use client"
 
-import Captador from "@/components/pickup/pickup";
-import Scoreboard from "@/components/scoreboard/list";
+import Captador from "@/app/(protected)/_components/pickup/pickup";
+import Scoreboard from "@/app/(protected)/_components/scoreboard/list";
 import { ScaleLoader } from "react-spinners";
 
 
