@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { scoreBoard } from "@/actions/scoreboard"
-import { Card, CardContent } from '../ui/card';
+import { scoreBoard } from "@/data/scoreboard"
+import { Card, CardContent } from '../../../../components/ui/card';
 
 
 interface ScoreboardItem {
