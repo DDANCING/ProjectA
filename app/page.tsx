@@ -16,7 +16,7 @@ export default function Home() {
      <div>
  
 
-      <LoginButton>
+      <LoginButton mode="modal" asChild>
       <Button  className="w-40">
         Sign in
       </Button>
