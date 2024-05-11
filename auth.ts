@@ -12,11 +12,12 @@ export const {
   handlers,
   auth, 
   signIn,
-  signOut 
+  signOut,
+  update
 } = NextAuth({
   pages: {
     signIn: "/auth/login",
-    error: "/auth/error",
+    error: "/auth/error", 
   },
   events: {
     async linkAccount({ user }) {

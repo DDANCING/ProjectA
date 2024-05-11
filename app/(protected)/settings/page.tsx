@@ -4,7 +4,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form"
 import { SettingsSchema } from "@/schemas";
-import { useSession } from "next-auth/react";
 import { settings } from "@/actions/settings";
 
 import { Button } from "@/components/ui/button";
@@ -20,16 +19,17 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { SyncLoader } from "react-spinners";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
+import { useSession } from "next-auth/react";
 
 
 
 
 const SettingsPage = () => {
 const [error, setError] = useState<string | undefined>(); 
-const [success, setSuccess] = useState<string | undefined>();  
-const { update } = useSession();  
+const [success, setSuccess] = useState<string | undefined>();   
 const [isPending, startTransition] = useTransition();
 const user =  useCurrentUser();
+const { update } = useSession();
 
 const form = useForm<z.infer<typeof SettingsSchema>>({
   resolver: zodResolver(SettingsSchema),
@@ -38,6 +38,7 @@ const form = useForm<z.infer<typeof SettingsSchema>>({
     newPassword: undefined,
     name: user?.name || undefined,
     email: user?.email || undefined,
+    isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
   }
 });
 
@@ -57,7 +58,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     }
 
     if (data.success) {
-      update();
+      update(); 
       setSuccess(data.success);
       toast(data.success, {
         
@@ -81,7 +82,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="account">Account</TabsTrigger>
         <TabsTrigger value="password">Password</TabsTrigger>
-        <TabsTrigger value="gameconfigs">Game Configs</TabsTrigger>
+        <TabsTrigger value="gameconfigs">Preferences</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>
@@ -189,6 +190,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
                 <Input
                 {...field}
                 placeholder="******" 
+                type="password"
                 disabled={isPending}
                 />
               </FormControl>
@@ -205,6 +207,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
                 <Input
                 {...field}
                 placeholder="******" 
+                type="password"
                 disabled={isPending}
                 />
               </FormControl>
@@ -226,7 +229,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
       <TabsContent value="gameconfigs">
         <Card>
           <CardHeader>
-            <CardTitle>Game config</CardTitle>
+            <CardTitle>Preferences</CardTitle>
             <CardDescription>
               
             </CardDescription>
