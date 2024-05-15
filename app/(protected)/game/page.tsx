@@ -3,6 +3,8 @@
 import Captador from "@/app/(protected)/_components/pickup/pickup";
 import Scoreboard from "@/app/(protected)/_components/scoreboard/list";
 import { ScaleLoader } from "react-spinners";
+import  MusicsListPage  from "@/app/(protected)/_components/music/list";
+
 
 
 
@@ -22,8 +24,8 @@ import { ScaleLoader } from "react-spinners";
     <ScaleLoader/>
     </div>
     </div>
-    <div className="bg-background/30 backdrop-blur-md w-60 justify-self-start flex flex-col items-center p-2">
-     
+    <div className="bg-background/30 backdrop-blur-md justify-self-start flex flex-col items-center p-2">
+   < MusicsListPage/>
     </div>
   </main>
   );
