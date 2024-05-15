@@ -4,9 +4,12 @@ import Captador from "@/app/(protected)/_components/pickup/pickup";
 import Scoreboard from "@/app/(protected)/_components/scoreboard/list";
 import { ScaleLoader } from "react-spinners";
 import  MusicsListPage  from "@/app/(protected)/_components/music/list";
+import dynamic from "next/dynamic";
 
 
-
+const Scene = dynamic(() => import('@/components/Guitar/scene'), {
+  ssr: false
+})
 
  const Game = () => {
  
@@ -21,7 +24,9 @@ import  MusicsListPage  from "@/app/(protected)/_components/music/list";
     </div>
     <div className="bg-background/30 backdrop-blur-md flex-1">
       <div className="h-full w-full flex justify-center items-center">
-    <ScaleLoader/>
+    
+    
+    <Scene/>
     </div>
     </div>
     <div className="bg-background/30 backdrop-blur-md justify-self-start flex flex-col items-center p-2">
