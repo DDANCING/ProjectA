@@ -49,8 +49,8 @@ export const MusicList: React.FC<musicListProps> = ({musicslist}) => {
            <CarouselItem key={index} >
             <Card className=' bg-background/30 rounded-sm '>
             <CardContent className=" p-3 w-80 box-content">
-            <div className='flex justify-between'>
-             <div>
+            <div >
+             <div className='flex flex-row justify-between'>
                  <Image
                   className='size-10'
                  src={musiclist.cover}
@@ -59,8 +59,8 @@ export const MusicList: React.FC<musicListProps> = ({musicslist}) => {
                  alt={musiclist.title}
                  />
                   <p>{musiclist.title}</p>
-                  <p className="text-primary text-opacity-100">{`100%`}</p>
-            </div>
+                  
+            
             <div className='pt-1'>
                   {playing === musiclist.link && isPlaying ? (
                     <button onClick={() => setIsPlaying(false)}> <Pause /></button>
@@ -72,6 +72,8 @@ export const MusicList: React.FC<musicListProps> = ({musicslist}) => {
                   )}
                   </div>
                   </div>
+                  </div>
+                 
             </CardContent>
             {playing === musiclist.link && (
                   <div className="inset-x-0 bottom-0 bg-opacity-75">
@@ -88,7 +90,7 @@ export const MusicList: React.FC<musicListProps> = ({musicslist}) => {
                     />
                    
                
-
+                    
                     <Progress value={(videoProgress.playedSeconds/videoProgress.duration) * 100 } />
                    
                   </div>

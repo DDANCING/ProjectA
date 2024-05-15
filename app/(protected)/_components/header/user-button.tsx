@@ -22,7 +22,7 @@ import {
   } from "@/components/ui/avatar";
 
 import { useCurrentUser } from "@/data/hooks/use-current-user";
-import { RoleGate } from "@/components/auth/role-gate";
+import { RoleGateNoMessage } from "@/components/auth/role-gate";
 import { UserRole } from "@prisma/client";
 
 
@@ -57,13 +57,13 @@ export const ProfileOptions = () => {
          <DropdownMenuShortcut> <GearIcon className="text-primary size-6"/>  </DropdownMenuShortcut>
             </DropdownMenuItem>
             
-            <RoleGate allowedRole={UserRole.ADMIN}>
+            <RoleGateNoMessage allowedRole={UserRole.ADMIN}>
             <DropdownMenuItem>
           
           <a href="/new-music"> New music </a>
           <DropdownMenuShortcut> <Music className="text-primary size-6"/>  </DropdownMenuShortcut>
              </DropdownMenuItem>
-            </RoleGate>
+            </RoleGateNoMessage>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
             <button type="submit" onClick={onClick} >
