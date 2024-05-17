@@ -2,19 +2,20 @@
 
 import Captador from "@/app/(protected)/_components/pickup/pickup";
 import Scoreboard from "@/app/(protected)/_components/scoreboard/list";
-import { ScaleLoader } from "react-spinners";
 import  MusicsListPage  from "@/app/(protected)/_components/music/list";
 import dynamic from "next/dynamic";
 
+import { Room } from "@/components/3Dcomponents/Room/Model";
 
-const Scene = dynamic(() => import('@/components/Guitar/scene'), {
+
+const SceneRoom = dynamic(() => import('@/components/3Dcomponents/scene'), {
   ssr: false
 })
 
  const Game = () => {
  
   return (
-    <main className="p-4 flex gap-4 rounded-sm h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-background from-primary to-background">
+    <main className="p-4 flex gap-4 rounded-sm h-full max-w-full justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="grid grid-rows-2 gap-4">
       <div className="w-60 bg-background/30 backdrop-blur-md">
         <Scoreboard/>
@@ -26,10 +27,12 @@ const Scene = dynamic(() => import('@/components/Guitar/scene'), {
       <div className="h-full w-full flex justify-center items-center">
     
     
-    <Scene/>
+    <SceneRoom>
+      <Room/>
+    </SceneRoom>
     </div>
     </div>
-    <div className="bg-background/30 backdrop-blur-md justify-self-start flex flex-col items-center p-2">
+    <div className=" bg-background/30 backdrop-blur-md justify-self-start flex flex-col items-center p-2">
    < MusicsListPage/>
     </div>
   </main>

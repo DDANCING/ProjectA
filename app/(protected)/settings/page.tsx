@@ -20,8 +20,14 @@ import { SyncLoader } from "react-spinners";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+import { Guitar } from "@/components/3Dcomponents/guitar/Model";
+import { Plans } from "../_components/payments/card";
 
 
+const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene'), {
+  ssr: false
+})
 
 
 const SettingsPage = () => {
@@ -76,13 +82,14 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 }
 
   return (
-    <div className="flex-1 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] bg-background from-primary to-background">
+    <div className="flex flex-row h h-full bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="flex h-full w-[50%] bg-background border-r border-primary">
     <Tabs defaultValue="account" className="w-full m-2">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="account">Account</TabsTrigger>
         <TabsTrigger value="password">Password</TabsTrigger>
         <TabsTrigger value="gameconfigs">Preferences</TabsTrigger>
+        <TabsTrigger value="payments">Payments</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>
@@ -244,10 +251,30 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
           </CardFooter>
         </Card>
       </TabsContent>
+      <TabsContent value="payments">
+        <Card>
+          <CardHeader>
+            <CardTitle>Plan</CardTitle>
+            <CardDescription>
+              
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+          <Plans/>
+              
+          </CardContent>
+          <CardFooter>
+         
+          </CardFooter>
+        </Card>
+      </TabsContent>
     
     </Tabs>
-    
-    
+    </div>
+    <div className="flex-1">
+    <SceneGuitar>
+      <Guitar/>
+    </SceneGuitar>
     </div>
     </div>
   )}
