@@ -264,7 +264,9 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
               
           </CardContent>
           <CardFooter>
-         
+          <Button variant={"outline"} disabled={isPending} type="submit" className="flex box-content"> 
+            {isPending? <SyncLoader size={9} color="#ffffff"/> : "Continue"}
+           </Button>
           </CardFooter>
         </Card>
       </TabsContent>
