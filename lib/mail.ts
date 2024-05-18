@@ -7,7 +7,7 @@ export const sendTwoFactorTokenEmail = async (
   token: string
 ) => {
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "mail@projecta.top",
     to: email,
     subject: "2FA code",
     html: `<p>Your 2FA code: ${token}</p>`
@@ -21,7 +21,7 @@ export const sendPasswordResetEmail = async (
   const resetLink = `${process.env.API_BASE_URL}/auth/new-password?token=${token}`
 
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "mail@projecta.top",
     to: email,
     subject: "Reset your password",
     html: `<p> Click <a href="${resetLink}">here</a> to reset password. </p>`
@@ -34,7 +34,7 @@ export const sendVerificationEmail = async (
   ) => {
     const confirmLink = `${process.env.API_BASE_URL}/auth/new-verification?token=${token}`;
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "mail@projecta.top",
     to: email,
     subject: "confirm your email",
     html:`<p> Click <a href="${confirmLink}">here</a> to confirm email. </p>`

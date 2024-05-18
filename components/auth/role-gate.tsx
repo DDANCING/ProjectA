@@ -36,7 +36,7 @@ export const RoleGateNoMessage = ({
 
  if (role !== allowedRole) {
    return (
-     toast("You do not have permission to view this content!")
+     <></>
    )
  }
 

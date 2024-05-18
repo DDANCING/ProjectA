@@ -44,7 +44,7 @@ export default function Home() {
         </div>
       </div>
       <footer className="text-end w-full p-1 text-sm text-muted-foreground">
-        version 0.5.1
+        version 0.6.1
       </footer>
     </main>
   );
