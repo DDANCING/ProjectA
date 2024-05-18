@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 interface BackButtonProps {
-  href?: string;
-  label?: string;
+  href: string;
+  label: string;
 } 
 
 
