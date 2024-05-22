@@ -1,4 +1,5 @@
 import { Room } from "@/components/3Dcomponents/Room/Model";
+import { Guitar } from "@/components/3Dcomponents/guitar/Model";
 
 import { LoginButton } from "@/components/auth/login-button";
 import { RegisterButton } from "@/components/auth/register-button";
@@ -6,19 +7,20 @@ import { NavigationMenuHome } from "@/components/home/menubar";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 
-const SceneRoom = dynamic(() => import('@/components/3Dcomponents/scene'), {
+
+const SceneeRoom = dynamic(() => import('@/components/3Dcomponents/scene-room'), {
   ssr: false
 })
-
 export default function Home() {
   return (
     <main className="relative flex h-full flex-col items-center justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
      
       <div className="flex w-full justify-around p-4 z-10">
       <div className="absolute inset-0 -z-10">
-        <SceneRoom >
-          <Room/>
-        </SceneRoom>
+         
+   <SceneeRoom> 
+    <Room/>
+   </SceneeRoom>
       </div>
         <h1 className="text-4xl font-bold text- drop-shadow-sm text-center">
           ProjectA

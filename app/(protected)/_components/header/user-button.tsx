@@ -45,7 +45,7 @@ export const ProfileOptions = () => {
     </AvatarFallback>
     </Avatar>
     </DropdownMenuTrigger>
-  <DropdownMenuContent className="box-content">
+  <DropdownMenuContent className="box-content mx-6">
     <DropdownMenuLabel>
      {user?.name}
       </DropdownMenuLabel>

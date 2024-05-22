@@ -5,7 +5,7 @@
  */
 
 export const publicRoutes = [
-  "/",
+  "/", 
   "/auth/new-verification"
 ];
 /**
@@ -36,4 +36,4 @@ export const apiAuthPrefix = "/api/auth";
  * @type {string}
  */
 
-export const DEFAULT_LOGIN_REDIRECT = "/game";
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";

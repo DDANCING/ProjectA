@@ -25,7 +25,7 @@ import { Guitar } from "@/components/3Dcomponents/guitar/Model";
 import { Plans } from "../_components/payments/card";
 
 
-const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene'), {
+const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {
   ssr: false
 })
 
