@@ -42,7 +42,7 @@ const RotatingObject: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const SceneRoom: React.FC<SceneRoomProps> = ({ children }) => {
   const { theme } = useTheme()
   return (
-    <Canvas style={{ backgroundColor: "transparent" }}>
+    <Canvas className="flex" style={{ backgroundColor: "transparent" }}>
       <directionalLight color={0x6D28D9} intensity={2} position={[0, 4, 6]} />
       <directionalLight color={0x6D28D9} intensity={2} position={[-1, 0, 2]} />
       <Environment preset="city" environmentIntensity={theme === "light" ? 1 : 0.05} />

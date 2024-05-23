@@ -4,7 +4,6 @@
 import { Music, User, X,  } from "lucide-react";
 import { GearIcon } from "@radix-ui/react-icons";
 
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { logout } from "@/actions/logout";
 import {
   DropdownMenu,

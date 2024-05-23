@@ -1,6 +1,6 @@
-import { Sidebar } from "@/app/(protected)/_components/sidebar/sidebar";
+import { Sidebar } from "../_components/sidebar/sidebar";
 
-const dashboardPage = () => {
+const SeachPage = () => {
   return ( 
     <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="hidden md:flex flex-col justify-between gap-4">
@@ -20,7 +20,7 @@ const dashboardPage = () => {
     </div>
    
   </main>
-  )
+  );
 }
  
-export default dashboardPage;
+export default SeachPage;

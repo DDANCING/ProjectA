@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { scoreBoard } from "@/data/scoreboard"
-import { Card, CardContent } from '../../../../components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 
 interface ScoreboardItem {

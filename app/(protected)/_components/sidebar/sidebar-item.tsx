@@ -31,7 +31,7 @@ export const SidebarItem = ({
     onClick={onClick }
     type="button"
     className={cn(
-      "flex items-center gap-x-2 text-muted-foreground text-sm font-[500] transition-all hover:text-primary hover:bg-muted/20", isActive && "text-primary hover:bg-muted-20 hover:text-primary"
+      "flex items-center  text-muted-foreground text-sm font-[500] transition-all hover:text-primary hover:bg-muted/20", isActive && "text-primary hover:bg-muted-20 hover:text-primary"
     )}
     > 
     <div className="flex items-center gap-x-2 py-4">
@@ -43,6 +43,9 @@ export const SidebarItem = ({
        />
        {label}
     </div>
+    <div
+    className="ml-auto opacity-0 border-2 border-primary h-full transition-all"
+    />
     </button>
    );
 }

@@ -83,7 +83,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 
   return (
     <div className="flex flex-row h h-full bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] bg-background from-primary to-background">
-    <div className="flex h-full w-[50%] bg-background border-r border-primary">
+    <div className="flex h-full w-[50%] bg-background">
     <Tabs defaultValue="account" className="w-full m-2">
       <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="account">Account</TabsTrigger>
