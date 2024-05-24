@@ -36,6 +36,8 @@ model Account {
 enum UserRole {
   USER
   ADMIN
+  TEACHER
+  PROUSER
 }
 
 model User {

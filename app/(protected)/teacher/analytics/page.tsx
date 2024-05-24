@@ -1,7 +1,6 @@
 import { Sidebar } from "@/app/(protected)/_components/sidebar/sidebar";
-import { Button } from "@/components/ui/button";
 
-const dashboardPage = () => {
+const AnalyticsPage = () => {
   return ( 
     <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="hidden md:flex flex-col justify-between gap-4">
@@ -12,7 +11,6 @@ const dashboardPage = () => {
   </div>
     </div>
     <div className="bg-background/30 backdrop-blur-md flex-1">
-      
       <div className="h-full w-full flex justify-center items-center">
     
       <div className="absolute inset-0 -z-10">
@@ -22,7 +20,7 @@ const dashboardPage = () => {
     </div>
    
   </main>
-  )
+   );
 }
  
-export default dashboardPage;
+export default AnalyticsPage;
