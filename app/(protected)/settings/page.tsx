@@ -82,7 +82,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 }
 
   return (
-    <div className="flex h-full bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] bg-background from-primary to-background">
+    <main className=" flex rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="flex h-full w-full md:w-[50%] bg-background">
     <Tabs defaultValue="account" className="w-full m-2">
       <TabsList className="grid w-full grid-cols-4">
@@ -273,12 +273,18 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     
     </Tabs>
     </div>
-    <div className="hidden md:flex flex-1">
-    <SceneGuitar>
-      <Guitar/>
-    </SceneGuitar>
+    <div className="bg-transparent backdrop-blur-md flex-1">
+      <div className="h-full w-full flex justify-center items-center">
+    
+      <div className="absolute inset-0 -z-10">
+         
+         <SceneGuitar> 
+          <Guitar/>
+         </SceneGuitar>
+      </div>
     </div>
     </div>
+    </main>
   )}
 
 export default SettingsPage;
