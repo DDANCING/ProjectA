@@ -28,6 +28,7 @@
     "@react-three/drei": "^9.105.6",
     "@types/three": "^0.164.0",
     "audio-context": "^1.0.3",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
