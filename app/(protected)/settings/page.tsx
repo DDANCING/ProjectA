@@ -20,8 +20,14 @@ import { SyncLoader } from "react-spinners";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+import { Guitar } from "@/components/3Dcomponents/guitar/Model";
+import { Plans } from "../_components/payments/card";
 
 
+const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {
+  ssr: false
+})
 
 
 const SettingsPage = () => {
@@ -76,13 +82,14 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 }
 
   return (
-    <div className="flex-1 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] bg-background from-primary to-background">
-    <div className="flex h-full w-[50%] bg-background border-r border-primary">
+    <main className=" flex rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
+    <div className="flex h-full w-full md:w-[50%] bg-background">
     <Tabs defaultValue="account" className="w-full m-2">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="account">Account</TabsTrigger>
         <TabsTrigger value="password">Password</TabsTrigger>
         <TabsTrigger value="gameconfigs">Preferences</TabsTrigger>
+        <TabsTrigger value="payments">Payments</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>
@@ -244,12 +251,40 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
           </CardFooter>
         </Card>
       </TabsContent>
+      <TabsContent value="payments">
+        <Card>
+          <CardHeader>
+            <CardTitle>Plan</CardTitle>
+            <CardDescription>
+              
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+          <Plans/>
+              
+          </CardContent>
+          <CardFooter>
+          <Button variant={"outline"} disabled={isPending} type="submit" className="flex box-content"> 
+            {isPending? <SyncLoader size={9} color="#ffffff"/> : "Continue"}
+           </Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
     
     </Tabs>
+    </div>
+    <div className="bg-transparent backdrop-blur-md flex-1">
+      <div className="h-full w-full flex justify-center items-center">
     
-    
+      <div className="absolute inset-0 -z-10">
+         
+         <SceneGuitar> 
+          <Guitar/>
+         </SceneGuitar>
+      </div>
     </div>
     </div>
+    </main>
   )}
 
 export default SettingsPage;
