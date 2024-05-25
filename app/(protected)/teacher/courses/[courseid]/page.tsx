@@ -1,3 +1,5 @@
+import { DescriptionForm } from "@/app/(protected)/_components/course/courseid/description-form";
+import { ImageForm } from "@/app/(protected)/_components/course/courseid/image-form";
 import { TitleForm } from "@/app/(protected)/_components/course/courseid/title-form";
 import { Sidebar } from "@/app/(protected)/_components/sidebar/sidebar";
 import { auth } from "@/auth";
@@ -62,7 +64,7 @@ const CourseIdPage = async ({
        </span>
      </div>
      </div>
-     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+     <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 mt-16">
      <div className="flex items-center gap-x-2">
       <IconBadge icon={LayoutPanelTop}/>
       <h2 className="text-xl">
@@ -73,6 +75,15 @@ const CourseIdPage = async ({
        initialData={course}
        courseId={course.id}
      />
+       <DescriptionForm
+       initialData={course}
+       courseId={course.id}
+     />
+     <ImageForm
+       initialData={course}
+       courseId={course.id}
+     />
+
      </div>
     </div>
    

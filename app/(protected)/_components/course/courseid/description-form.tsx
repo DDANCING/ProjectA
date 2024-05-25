@@ -19,31 +19,34 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
+import { Course } from "@prisma/client";
 
-interface TitleFormProps {
-  initialData: {
-    title: string;
-  };
+interface DescriptionFormProps {
+  initialData: Course;
   courseId: string;
 }
 
 const formSchema = z.object({
-  title: z.string().min(1, {
-    message: "title is required",
+ description: z.string().min(1, {
+    message: "description is required",
   }),
 });
 
-export const TitleForm = ({
+export const DescriptionForm = ({
   initialData,
   courseId
-}: TitleFormProps ) => {
+}: DescriptionFormProps ) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData, 
+    defaultValues: {
+      description: initialData?.description || ""
+    }
   });
 
 const  { isSubmitting, isValid} = form.formState;
@@ -74,7 +77,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
   return (
     <div className="mt-6 border bg-muted-foreground/20 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course title
+        Description
         <Button onClick={toggleEdit} className="gap-2" variant={"outline"}>
           {isEditing ? (
             <>Cancel</>
@@ -87,11 +90,11 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
         </Button>
       </div>
       {!isEditing && (
-        <p className="text-sm text-muted-foreground mt-2">
-      {initialData.title}
+        <p className={cn("text-sm mt-2", !initialData.description && "text-muted-foreground font-semibold" )}>
+      {initialData.description || "No description"}
         </p>
       )}
-      {isEditing && (
+      {isEditing && (  
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -99,13 +102,13 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
           >
             <FormField
             control={form.control}
-            name="title"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
+                  <Textarea
                   disabled={isSubmitting}
-                  placeholder="Guitar example"
+                  placeholder="Your course description"
                   {...field}
                   />
                 </FormControl>
