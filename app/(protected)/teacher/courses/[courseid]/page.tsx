@@ -1,5 +1,8 @@
+
+import { CategoryForm } from "@/app/(protected)/_components/course/courseid/category-form";
 import { DescriptionForm } from "@/app/(protected)/_components/course/courseid/description-form";
 import { ImageForm } from "@/app/(protected)/_components/course/courseid/image-form";
+import { PriceForm } from "@/app/(protected)/_components/course/courseid/price-form";
 import { TitleForm } from "@/app/(protected)/_components/course/courseid/title-form";
 import { Sidebar } from "@/app/(protected)/_components/sidebar/sidebar";
 import { auth } from "@/auth";
@@ -7,7 +10,7 @@ import { IconBadge } from "@/components/icon-badge";
 
 
 import { db } from "@/lib/db";
-import { LayoutPanelTop } from "lucide-react";
+import { BadgeDollarSign, FileMusic, LayoutPanelTop, ListTodo } from "lucide-react";
 import { redirect } from "next/navigation";
 
 
@@ -28,6 +31,14 @@ const CourseIdPage = async ({
         id: params.courseid
       }
     });
+
+    const categories = await db.category.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+
     if (!course) {
     return  redirect("/dashboard"); 
     
@@ -55,8 +66,8 @@ const CourseIdPage = async ({
       <div className="bg-background/30 backdrop-blur-xl h-36 p-2"> 
   </div>
     </div>
-    <div className=" p-6 bg-background/70 backdrop-blur-md flex-1">
-     <div className="flex w-full items-center justify-between">
+    <div className=" p-6 bg-background/70 backdrop-blur-md flex-1 box-content">
+     <div className="flex box-content items-center justify-between">
       <div className="flex flex-col gap-y-2">
        <h1 className="text-3xl font-medium"> Course setup </h1>
        <span className="text-sm text-muted-foreground">
@@ -64,7 +75,7 @@ const CourseIdPage = async ({
        </span>
      </div>
      </div>
-     <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 mt-16">
+     <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 mt-16 ">
      <div className="flex items-center gap-x-2">
       <IconBadge icon={LayoutPanelTop}/>
       <h2 className="text-xl">
@@ -83,7 +94,58 @@ const CourseIdPage = async ({
        initialData={course}
        courseId={course.id}
      />
+     <CategoryForm
+      initialData={course}
+      courseId={course.id}
+      options={categories.map((category) => ({
+       label: category.name,
+        value: category.id,
+         }))}
+      />
 
+     </div>
+     <div className="space-y-6">
+      <div>
+        <div className="flex items-center gap-x-2">
+          <IconBadge
+          icon={ListTodo}
+          />
+          <h2 className="text-xl">
+            Chapters
+          </h2>
+        </div>
+        <div>
+          TODO: chapters
+        </div>
+      </div>
+      <div>
+        <div className="flex items-center gap-x-2">
+          <IconBadge 
+          icon={BadgeDollarSign}
+          />
+          <h2 className=" text-xl">
+            Sell your course
+          </h2>
+        </div>
+        <PriceForm
+        initialData={course}
+        courseId={course.id}
+        />
+      </div>
+      <div>
+      <div className="flex items-center gap-x-2">
+          <IconBadge 
+          icon={FileMusic }
+          />
+          <h2 className=" text-xl">
+          Resources and Activities
+          </h2>
+        </div>
+        <ImageForm
+       initialData={course}
+       courseId={course.id}
+     />
+      </div>
      </div>
     </div>
    
