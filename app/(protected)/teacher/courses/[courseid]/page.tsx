@@ -1,4 +1,5 @@
 
+import { ActivitiesForm } from "@/app/(protected)/_components/course/courseid/activities-form";
 import { CategoryForm } from "@/app/(protected)/_components/course/courseid/category-form";
 import { DescriptionForm } from "@/app/(protected)/_components/course/courseid/description-form";
 import { ImageForm } from "@/app/(protected)/_components/course/courseid/image-form";
@@ -29,7 +30,14 @@ const CourseIdPage = async ({
     const course = await db.course.findUnique({
       where: {
         id: params.courseid
-      }
+      },
+      include: {
+      activities: {
+          orderBy: {
+           createdAt: "desc",
+          },
+        },
+      },
     });
 
     const categories = await db.category.findMany({
@@ -141,7 +149,7 @@ const CourseIdPage = async ({
           Resources and Activities
           </h2>
         </div>
-        <ImageForm
+        <ActivitiesForm
        initialData={course}
        courseId={course.id}
      />
