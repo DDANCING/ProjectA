@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import {  FilePlus2, ImagePlus, ImageUp, Images } from "lucide-react";
+import {  ImagePlus, ImageUp, Images } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -71,7 +71,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
           )}
           {!isEditing && !initialData.imageUrl && (
             <>
-            <FilePlus2 />
+            <ImagePlus />
             Add
             </>
           )}

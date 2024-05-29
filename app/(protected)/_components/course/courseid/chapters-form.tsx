@@ -22,12 +22,12 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 import { Chapter, Course } from "@prisma/client";
+import { ChaptersList } from "@/app/(protected)/_components/course/courseid/chapters-list";
 
 interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
   courseId: string;
-}
-
+};
 const formSchema = z.object({
   title: z.string().min(1),
 });
@@ -72,6 +72,33 @@ export const ChaptersForm = ({
       });
     }
   };
+
+  const onReorder = async (updateData: { id: string; position: number}[]) => {
+    try {
+      setIsUpdating(true);
+
+      await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+        list: updateData
+      }
+  );
+  toast("Success! Chapters reordered", {
+    action: {
+      label: "Close",
+      onClick: () => console.log("Undo"),
+    },
+  });
+   router.refresh();
+    } catch {
+      toast("Something went wrong", {
+        action: {
+          label: "Close",
+          onClick: () => console.log("Undo"),
+        },
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  }
 
   return (
     <div className="mt-6 border bg-muted-foreground/20 rounded-md p-4">
@@ -127,7 +154,11 @@ export const ChaptersForm = ({
           (!initialData.chapters || !initialData.chapters.length) && "text-muted-foreground font-bold"
         )}>
           {(!initialData.chapters || !initialData.chapters.length) && "No chapters"}
-          {/* list of chapters */}
+          <ChaptersList
+          onEdit={() => {}}
+          onReorder={onReorder}
+          items={initialData.chapters || []}
+          />
         </div>
       )}
       {!isCreating && (

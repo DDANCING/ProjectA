@@ -1,53 +1,54 @@
-import { useUserId } from "@/data/hooks/use-current-id";
-import { db } from "@/lib/db";
+
 import { NextResponse } from "next/server";
+
+import { db } from "@/lib/db";
+import { useUserId } from "@/data/hooks/use-current-id";
 
 export async function POST(
   req: Request,
-  { params }: { params: {courseId: string}}
+  { params }: { params: { courseId: string } }
 ) {
- try {
-  const userId = await useUserId(req);
-  const { title } = await req.json();
+  try {
+    const userId = await useUserId(req);
+    const { title } = await req.json();
 
-  if (!userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
-
-  const courseOwner = await db.course.findUnique({
-    where: {
-      id: params.courseId,
-      userId: userId,
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
-  });
 
-  if (!courseOwner) {
-    return new NextResponse("Unauthorized", { status: 401 })
-  }
+    const courseOwner = await db.course.findUnique({
+      where: {
+        id: params.courseId,
+        userId: userId
+      }
+    });
 
-  const lastChapter = await db.chapter.findFirst({
-    where: {
-      courseId: params.courseId,
-    },
-    orderBy: {
-      position: "desc",
-    },
-  });
-
-  const newPosition = lastChapter ? lastChapter.position +1 : 1;
-
-  const chapter = await db.chapter.create({
-    data: {
-      title,
-      courseId: params.courseId,
-      position: newPosition,
+    if (!courseOwner) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
-  });
 
-  return NextResponse.json(chapter);
+    const lastChapter = await db.chapter.findFirst({
+      where: {
+        courseId: params.courseId,
+      },
+      orderBy: {
+        position: "desc",
+      },
+    });
 
- } catch (error) {
-   console.log("[CHAPTERS]", error);
-   return new NextResponse("Internal Error", { status: 500 });
- } 
+    const newPosition = lastChapter ? lastChapter.position + 1 : 1;
+
+    const chapter = await db.chapter.create({
+      data: {
+        title,
+        courseId: params.courseId,
+        position: newPosition,
+      }
+    });
+
+    return NextResponse.json(chapter);
+  } catch (error) {
+    console.log("[CHAPTERS]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
 }

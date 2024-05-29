@@ -139,14 +139,14 @@ model Course {
   isPublished Boolean @default(false)
 
   categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
 
+  chapters   Chapter[]
   activities Activitie[]
+  purchases  Purchase[]
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  category  Category?  @relation(fields: [categoryId], references: [id])
-  Chapter   Chapter[]
-  Purchase  Purchase[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
 }

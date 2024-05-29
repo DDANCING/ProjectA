@@ -22,21 +22,21 @@ const CourseIdPage = async ({ params }: { params: { courseid: string } }) => {
 
   const course = await db.course.findUnique({
     where: {
-       id: params.courseid,
-       userId: user.user.id
-       },
+      id: params.courseid,
+      userId: user.user.id
+    },
     include: {
-      Chapter: {
+     chapters: {
         orderBy: {
           position: "asc",
         },
       },
-       activities: {
+      activities: {
         orderBy: {
-           createdAt: "desc" 
-          }
-         }
-         },
+          createdAt: "desc"
+        }
+      },
+    },
   });
 
   const categories = await db.category.findMany({ orderBy: { name: "asc" } });
@@ -51,7 +51,7 @@ const CourseIdPage = async ({ params }: { params: { courseid: string } }) => {
     course.imageUrl,
     course.price,
     course.categoryId,
-    course.Chapter.some(chapter => chapter.isPublished),
+    course.chapters.some(chapter => chapter.isPublished),
   ];
 
   const totalField = requiredFields.length;
@@ -100,9 +100,9 @@ const CourseIdPage = async ({ params }: { params: { courseid: string } }) => {
               <h2 className="text-xl">Chapters</h2>
             </div>
             <ChaptersForm
-            initialData={course}
-            courseId={course.id}
-            />
+             initialData={course}
+             courseId={course.id}
+              />
 
           </div>
           <div className="flex-1 min-w-[300px]">
