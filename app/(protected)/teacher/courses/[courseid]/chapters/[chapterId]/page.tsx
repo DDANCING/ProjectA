@@ -1,9 +1,12 @@
+import { ChapterAccessForm } from "@/app/(protected)/_components/course/chapterid/chapter-access-form";
+import { ChapterDescriptionForm } from "@/app/(protected)/_components/course/chapterid/chapter-description-form";
 import { ChapterTitleForm } from "@/app/(protected)/_components/course/chapterid/chapter-title-form";
+import { ChapterVideoForm } from "@/app/(protected)/_components/course/chapterid/chapter-video-form";
 import { auth } from "@/auth";
 import { IconBadge } from "@/components/icon-badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { db } from "@/lib/db";
-import { ArrowBigLeft, LayoutPanelTop } from "lucide-react";
+import { ArrowBigLeft, FileVideo, LayoutPanelTop, View } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { boolean } from "zod";
@@ -54,7 +57,7 @@ const ChapterIdPage = async ({
     <div className="w-full">
      <Link 
      href={`/teacher/courses/${params.courseId}`}
-     className="flex items-center text-sm hover:opacity-75 transition mb-6"
+     className="flex items-center text-muted-foreground text-sm hover:opacity-75 transition mb-6"
      >
       <ArrowBigLeft
       className="h-4 w-4 mr-2"
@@ -71,7 +74,7 @@ const ChapterIdPage = async ({
          </CardHeader>
          
       
-      <CardContent className=" grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+      <CardContent className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-16">
          <div>
           <div className="flex items-center gap-x-2">
             <IconBadge icon={LayoutPanelTop}/>
@@ -83,11 +86,46 @@ const ChapterIdPage = async ({
           initialData={chapter}
           courseId={params.courseId}
           chapterId={params.chapterId}
+          /> 
+           <ChapterDescriptionForm
+           initialData={chapter}
+           courseId={params.courseId}
+           chapterId={params.chapterId}
           />
          </div>
-         
+         <div>
+         <div className="flex items-center gap-x-2">
+            <IconBadge icon={View}/>
+            <h2 className="text-xl">
+              Access Settings
+            </h2>
+         </div>
+         <ChapterAccessForm
+         initialData={chapter}
+         courseId={params.courseId}
+         chapterId={params.chapterId}
+         />
+         </div>
+         <div>
+          <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={FileVideo}/>
+            <h2 className="text-xl">
+              Upload a chapter video
+            </h2>
+            </div>
+            <ChapterVideoForm
+            initialData={chapter}
+            chapterId={params.chapterId}
+            courseId={params.courseId
+
+            }
+            />
+          </div>
+         </div>
       </CardContent>
       </div>
+
      </Card>
     </div>
    </div>
