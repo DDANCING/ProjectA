@@ -1,0 +1,98 @@
+import { ChapterTitleForm } from "@/app/(protected)/_components/course/chapterid/chapter-title-form";
+import { auth } from "@/auth";
+import { IconBadge } from "@/components/icon-badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { db } from "@/lib/db";
+import { ArrowBigLeft, LayoutPanelTop } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { boolean } from "zod";
+
+
+const ChapterIdPage = async ({
+  params
+ } : {
+  params: {courseId: string; chapterId: string }
+ }
+) => {
+  const user = await auth();
+
+  if (!user?.user.id) {
+    return redirect("/dashboard")
+  }
+  
+  const chapter = await db.chapter.findUnique({
+    where: {
+      id: params.chapterId,
+      courseId: params.courseId
+    },
+    include: {
+      muxData: true,
+    },
+  });
+
+  if (!chapter) {
+    return redirect("/dashboard")
+  }
+
+  const requiredFields = [
+    chapter.title,
+    chapter.description,
+    chapter.videoUrl,
+  ];
+
+  const totalFields = requiredFields.length;
+  const completedFields = requiredFields.filter(Boolean).length;
+
+  const completionText = `(${completedFields}/${totalFields})`;
+
+
+  return ( 
+  <div className="min-w-[300px] p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background flex-1">
+   
+   <div className="flex items-center justify-between">
+    <div className="w-full">
+     <Link 
+     href={`/teacher/courses/${params.courseId}`}
+     className="flex items-center text-sm hover:opacity-75 transition mb-6"
+     >
+      <ArrowBigLeft
+      className="h-4 w-4 mr-2"
+      />
+      Back to course setup
+     </Link> 
+     <Card className="flex-1  justify-between w-full">
+      <div className="flex flex-col justify-between">
+         <CardHeader className="text-2xl font-medium">
+            Chapter Creation
+            <span className="text-sm text-muted-foreground">
+            Completed fields {completionText}
+            </span>
+         </CardHeader>
+         
+      
+      <CardContent className=" grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+         <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={LayoutPanelTop}/>
+            <h2 className="text-xl">
+              Customize your chapter
+            </h2>
+          </div>
+          <ChapterTitleForm 
+          initialData={chapter}
+          courseId={params.courseId}
+          chapterId={params.chapterId}
+          />
+         </div>
+         
+      </CardContent>
+      </div>
+     </Card>
+    </div>
+   </div>
+  </div>
+   );
+}
+ 
+export default ChapterIdPage;

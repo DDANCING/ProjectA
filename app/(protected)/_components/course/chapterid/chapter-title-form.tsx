@@ -20,23 +20,24 @@ import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
 
-interface TitleFormProps {
+interface ChapterTitleFormProps {
   initialData: {
     title: string;
   };
   courseId: string;
-}
+  chapterId: string;
+};
 
 const formSchema = z.object({
   title: z.string().min(1, {
-    message: "title is required",
   }),
 });
 
-export const TitleForm = ({
+export const ChapterTitleForm = ({
   initialData,
-  courseId
-}: TitleFormProps ) => {
+  courseId,
+  chapterId,
+}: ChapterTitleFormProps ) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -50,7 +51,7 @@ const  { isSubmitting, isValid} = form.formState;
 
 const onSubmit = async (values: z.infer<typeof formSchema>) => {
   try {
-    await axios.patch(`/api/courses/${courseId}`, values);
+    await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
   toast("Saved!", {
         
     action: {
@@ -74,7 +75,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
   return (
     <div className="mt-6 border bg-muted-foreground/20 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course title
+        Chapter title
         <Button onClick={toggleEdit} className="gap-2" variant={"outline"}>
           {isEditing ? (
             <>Cancel</>
@@ -106,7 +107,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
                   <Input
                   className="bg-primary/20"
                   disabled={isSubmitting}
-                  placeholder="Guitar example"
+                  placeholder="Introduction to the Guitar example"
                   {...field}
                   />
                 </FormControl>

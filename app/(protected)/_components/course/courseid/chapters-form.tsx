@@ -28,6 +28,7 @@ interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
   courseId: string;
 };
+
 const formSchema = z.object({
   title: z.string().min(1),
 });
@@ -41,13 +42,15 @@ export const ChaptersForm = ({
 
   const toggleCreating = () => {
     setIsCreating((current) => !current);
-  };
+  }
+
   const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-    }
+    },
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -81,7 +84,7 @@ export const ChaptersForm = ({
         list: updateData
       }
   );
-  toast("Success! Chapters reordered", {
+  toast.success("Success! Chapters reordered", {
     action: {
       label: "Close",
       onClick: () => console.log("Undo"),
@@ -89,7 +92,7 @@ export const ChaptersForm = ({
   });
    router.refresh();
     } catch {
-      toast("Something went wrong", {
+      toast.error("Something went wrong", {
         action: {
           label: "Close",
           onClick: () => console.log("Undo"),
@@ -98,6 +101,9 @@ export const ChaptersForm = ({
     } finally {
       setIsUpdating(false);
     }
+  }
+  const onEdit = (id: string) => {
+    router.push(`/teacher/courses/${courseId}/chapters/${id}`);
   }
 
   return (
@@ -123,6 +129,7 @@ export const ChaptersForm = ({
             className="space-y-4 mt-4"
           >
             <FormField
+              disabled={isUpdating}
               control={form.control}
               name="title"
               render={({ field }) => (
@@ -151,13 +158,13 @@ export const ChaptersForm = ({
       {!isCreating && (
         <div className={cn(
           "text-sm mt-2",
-          (!initialData.chapters || !initialData.chapters.length) && "text-muted-foreground font-bold"
+          !initialData.chapters.length && "text-slate-500 italic"
         )}>
-          {(!initialData.chapters || !initialData.chapters.length) && "No chapters"}
+          {!initialData.chapters.length && "No chapters"}
           <ChaptersList
-          onEdit={() => {}}
-          onReorder={onReorder}
-          items={initialData.chapters || []}
+            onEdit={onEdit}
+            onReorder={onReorder}
+            items={initialData.chapters || []}
           />
         </div>
       )}

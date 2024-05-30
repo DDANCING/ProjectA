@@ -9,30 +9,35 @@ import {
      DropResult 
     } from "@hello-pangea/dnd";
 import { cn } from "@/lib/utils";
-import {  Grip, GripVertical, PencilLine } from "lucide-react";
+import {  Grip, PencilLine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface ChaptersListProps {
   items: Chapter[];
-  onReorder:  (updateData: { id: string; position: number}[]) => void;
+  onReorder: (updateData: { id: string; position: number }[]) => void;
   onEdit: (id: string) => void;
-}
+};
 
-export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) => {
+export const ChaptersList = ({
+  items,
+  onReorder,
+  onEdit
+}: ChaptersListProps) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [chapter, setChapters] = useState(items);
+  const [chapters, setChapters] = useState(items);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  useEffect(() =>{
+
+  useEffect(() => {
     setChapters(items);
   }, [items]);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    const items = Array.from(chapter);
+    const items = Array.from(chapters);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
@@ -47,13 +52,12 @@ export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) =>
       id: chapter.id,
       position: items.findIndex((item) => item.id === chapter.id)
     }));
-    
-    onReorder(bulkUpdateData);
 
+    onReorder(bulkUpdateData);
   }
 
   if (!isMounted) {
-    return null
+    return null;
   }
 
   return (
@@ -62,7 +66,7 @@ export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) =>
       <Droppable droppableId="chapters">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-              {chapter.map((chapter, index) => (
+              {chapters.map((chapter, index) => (
                 <Draggable 
                 key={chapter.id} 
                 draggableId={chapter.id} 
@@ -77,7 +81,7 @@ export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) =>
                     {...provided.draggableProps}
                     >
                      <div className={cn(
-                      "px-2 py-3 border-r border-r-slate-200 hover:bg-muted-foreground rounded-l-md transition",
+                      "px-2 py-3 border-r border-r-primary-200 hover:bg-muted-foreground rounded-l-md transition",
                       chapter.isPublished && "border-r-primary/20  hover: bg-primary/20"
                      )}
                      {...provided.dragHandleProps}

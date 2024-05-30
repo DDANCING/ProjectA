@@ -107,6 +107,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
               <FormItem>
                 <FormControl>
                   <Textarea
+                  className="bg-primary/20"
                   disabled={isSubmitting}
                   placeholder="Your course description"
                   {...field}

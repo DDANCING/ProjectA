@@ -28,7 +28,7 @@ const iconVariants = cva(
   {
     variants: {
       variant: {
-        default: "text-primary/20",
+        default: "text-primary/60",
         success: "text-primary",
       },
       size: {

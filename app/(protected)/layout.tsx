@@ -7,7 +7,7 @@ const AuthLayout =  async ({ children }: { children: React.ReactNode}) => {
   const session = await auth()
   return(
     <SessionProvider session={session}>
-    <div className="flex flex-col h-screen bg-secondary">
+    <div className="flex flex-col h-screen bg-background">
      
     <Header/>
     {children}
