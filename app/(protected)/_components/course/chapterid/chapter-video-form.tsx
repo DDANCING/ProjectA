@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import {  Clapperboard, FileVideo, Video } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import MuxPlayer from "@mux/mux-player-react";
 
 import { useRouter } from "next/navigation";
 
@@ -90,7 +91,9 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
         </div>
        ) : (
         <div className="relative aspect-video mt-2">
-        Video Uploaded!
+       <MuxPlayer
+       playbackId={initialData?.muxData?.playbackId || ""}
+       />
         </div>
        )
       )}
