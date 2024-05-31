@@ -21,6 +21,8 @@ import { BadgeDollarSign, FileMusic, LayoutPanelTop, ListTodo } from "lucide-rea
 import { redirect } from "next/navigation";
 import UrlTabs from "@/app/(protected)/_components/course/courseid/urltabs";  // Import the new UrlTabs component
 import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Banner } from "@/components/banner";
+import { Actions } from "@/app/(protected)/_components/course/courseid/actions";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const user = await auth();
@@ -32,27 +34,32 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
-      userId: user.user.id
+      userId: user.user.id,
     },
     include: {
-     chapters: {
+      chapters: {
         orderBy: {
           position: "asc",
         },
       },
       activities: {
         orderBy: {
-          createdAt: "desc"
-        }
+          createdAt: "desc",
+        },
       },
     },
   });
 
-  const categories = await db.category.findMany({ orderBy: { name: "asc" } });
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
 
   if (!course) {
     return redirect("/dashboard");
   }
+
 
   const requiredFields = [
     course.title,
@@ -63,12 +70,22 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.chapters.some(chapter => chapter.isPublished),
   ];
 
-  const totalField = requiredFields.length;
+  const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
-  const completionText = `(${completedFields}/${totalField})`;
+
+  const completionText = `(${completedFields}/${totalFields})`;
+
+  const isComplete = requiredFields.every(Boolean);
 
   return (
-    <main className="p-4 flex gap-4 rounded-sm h-full w-full justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
+  <>
+  {!course.isPublished && (
+    <Banner
+    label="The course has not been published and is not visible to students."
+    
+    />
+  )}
+  <main className="p-4 flex gap-4 rounded-sm h-full w-full justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
       <div className="hidden md:flex flex-col justify-between gap-4">
         <div className="w-60 flex-1 bg-background/30 backdrop-blur-md">
           <Sidebar />
@@ -76,11 +93,18 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         <div className="bg-background/30 backdrop-blur-xl h-36 p-2"></div>
       </div>
       <div className="overflow-y-auto h-[87vh]  p-6 bg-background/70 backdrop-blur-md flex-1">
+      <div className="flex flex-row  justify-between">
         <div className="flex flex-col gap-y-2 pb-4">
           <h1 className="text-3xl font-medium">Course setup</h1>
           <span className="text-sm text-muted-foreground">
             Complete fields {completionText}
           </span>
+        </div>
+        <Actions
+            disabled={!isComplete}
+            courseId={params.courseId}
+            isPublished={course.isPublished}
+          />
         </div>
         <UrlTabs defaultValue="chapter">
           <TabsList className="grid w-full grid-cols-4">
@@ -187,6 +211,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         </UrlTabs>
       </div>
     </main>
+    </>
   );
 };
 
