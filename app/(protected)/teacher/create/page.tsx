@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -62,7 +63,7 @@ const CreatePage = () => {
     <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
       <div className="bg-background/30 backdrop-blur-md flex-1">
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
-          <div>
+          <Card className="p-6">
             <h1 className="text-2xl">Name your course</h1>
             <p className="text-sm text-muted-foreground">
               What would you like to name your course? Don’t worry, you can change this later.
@@ -101,7 +102,7 @@ const CreatePage = () => {
                 </div>
               </form>
             </Form>
-          </div>
+          </Card>
         </div>
       </div>
     </main>

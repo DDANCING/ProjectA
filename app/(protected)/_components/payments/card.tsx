@@ -2,13 +2,9 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import {
   Tabs,
   TabsContent,
@@ -17,8 +13,8 @@ import {
 } from "@/components/ui/tabs"
 import { ArrowBigRightIcon, Dot } from "lucide-react"
 import { PaymentButton } from "./payments-button"
+import { db } from "@/lib/db"
 
- 
 export function Plans() {
   return (
     <Tabs defaultValue="Monthly" className="w-full">
@@ -123,6 +119,7 @@ PRO
   <Dot/> full Accessibility
   </p>
   <PaymentButton mode="modal" asChild>
+    
  <Button>Subscribe <ArrowBigRightIcon/></Button>
  </PaymentButton>
   
