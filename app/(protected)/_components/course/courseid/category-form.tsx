@@ -122,7 +122,7 @@ const selectedOption = options.find((option) => option.value === initialData.cat
           disabled={!isValid || isSubmitting}
           type="submit"
           >
-            Save
+            Save category
           </Button>
          </div>
           </form>
