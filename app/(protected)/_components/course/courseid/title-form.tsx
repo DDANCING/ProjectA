@@ -14,10 +14,11 @@ FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { title } from "process";
 import { PencilLine } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { useRouter } from "next/navigation";
 
 interface TitleFormProps {
   initialData: {
@@ -39,7 +40,7 @@ export const TitleForm = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData, 
@@ -48,7 +49,8 @@ export const TitleForm = ({
 const  { isSubmitting, isValid} = form.formState;
 
 const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  console.log(values);
+  try {
+    await axios.patch(`/api/courses/${courseId}`, values);
   toast("Saved!", {
         
     action: {
@@ -56,13 +58,23 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
       onClick: () => console.log("Undo"),
     },
   })
+  toggleEdit();
+  router.refresh();
+} catch {
+  toast("something went wrong!", {
+        
+    action: {
+      label: "Close",
+      onClick: () => console.log("Undo"),
+    },
+  })
 }
-
+}
 
   return (
     <div className="mt-6 border bg-muted-foreground/20 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        course title
+        Course title
         <Button onClick={toggleEdit} className="gap-2" variant={"outline"}>
           {isEditing ? (
             <>Cancel</>
@@ -75,7 +87,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
         </Button>
       </div>
       {!isEditing && (
-        <p className="text-sm mt-2">
+        <p className="text-sm text-muted-foreground mt-2">
       {initialData.title}
         </p>
       )}
@@ -92,6 +104,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
               <FormItem>
                 <FormControl>
                   <Input
+                  className="bg-primary/20"
                   disabled={isSubmitting}
                   placeholder="Guitar example"
                   {...field}

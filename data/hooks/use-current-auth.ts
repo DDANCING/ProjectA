@@ -4,8 +4,9 @@ export async function useUser() {
   const session = await auth();
 
   if (!session || !session.user) {
-    return null;
+    return { user: null, userId: null };
   }
 
-  return session.user;
+  const userId = session.user.id;
+  return { user: session.user, userId };
 }

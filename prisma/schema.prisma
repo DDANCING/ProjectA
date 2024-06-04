@@ -41,19 +41,22 @@ enum UserRole {
 }
 
 model User {
-  id                      String                 @id @default(cuid())
-  name                    String?
-  email                   String?                @unique
-  emailVerified           DateTime?              @map("email_verified")
-  image                   String?
-  password                String?
-  role                    UserRole               @default(USER)
-  accounts                Account[]
-  Performace              Performace[]
-  Scoreboard              Scoreboard?
-  isTwoFactorEnabled      Boolean                @default(false)
-  twoFactorConfirmation   TwoFactorConfirmation?
-  twoFactorConfirmationId String?
+  id                       String                 @id @default(cuid())
+  name                     String?
+  email                    String?                @unique
+  emailVerified            DateTime?              @map("email_verified")
+  image                    String?
+  password                 String?
+  role                     UserRole               @default(USER)
+  accounts                 Account[]
+  Performace               Performace[]
+  Scoreboard               Scoreboard?
+  isTwoFactorEnabled       Boolean                @default(false)
+  twoFactorConfirmation    TwoFactorConfirmation?
+  twoFactorConfirmationId  String?
+  stripe_customer_id       String?
+  stripe_subscription_item String?
+  api_key                  String?
 
   @@map("users")
 }
@@ -139,14 +142,14 @@ model Course {
   isPublished Boolean @default(false)
 
   categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
 
-  attachments Attachment[]
+  chapters   Chapter[]
+  activities Activitie[]
+  purchases  Purchase[]
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  category  Category?  @relation(fields: [categoryId], references: [id])
-  Chapter   Chapter[]
-  Purchase  Purchase[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
 }
@@ -157,7 +160,7 @@ model Category {
   courses Course[]
 }
 
-model Attachment {
+model Activitie {
   id       String @id @default(uuid())
   name     String
   url      String @db.Text

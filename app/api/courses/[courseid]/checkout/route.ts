@@ -12,7 +12,7 @@ export async function POST(
   try {
     const user = await useUser()
 
-    if(!user || !user.id || !user.email) {
+    if(!user || !user.userId || !user.user.email) {
       return new NextResponse("Unauthorized", {status: 401});
     }
 
@@ -26,7 +26,7 @@ export async function POST(
     const purchase = await db.purchase.findUnique({
       where: {
         userId_courseId: {
-          userId: user.id,
+          userId: user.userId,
           courseId: params.courseid
 
         }
@@ -57,7 +57,7 @@ export async function POST(
       
     let StripeCustomer = await db.stripeCustomer.findUnique({
       where: {
-        userId: user.id,
+        userId: user.userId
       },
       select: {
         stripeCustomerId: true,
@@ -66,12 +66,12 @@ export async function POST(
 
     if(!StripeCustomer){
       const customer = await stripe.customers.create({
-        email: user.email[0],
+        email: user.user.email[0],
       });
 
       StripeCustomer = await db.stripeCustomer.create({
         data: {
-          userId: user.id,
+          userId: user.userId,
           stripeCustomerId: customer.id,
         }
       });
@@ -84,7 +84,7 @@ export async function POST(
       cancel_url: `${process.env.API_BASE_URL}/courses/${course.id}?canceled=1`,
       metadata: {
         courseId: course.id,
-        userid: user.id,
+        userid: user.userId,
       }
     });
 

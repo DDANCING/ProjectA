@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import * as z from "zod";
 
 export const SettingsSchema = z.object({
