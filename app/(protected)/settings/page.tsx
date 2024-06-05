@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { Guitar } from "@/components/3Dcomponents/guitar/Model";
 import { Plans } from "../_components/payments/card";
+import { cn } from "@/lib/utils";
 
 
 const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {
@@ -85,9 +86,15 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     <main className=" flex rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="flex h-full w-full md:w-[50%] bg-background">
     <Tabs defaultValue="account" className="w-full m-2">
-      <TabsList className="grid w-full grid-cols-4">
+      <TabsList className={cn(
+        "grid w-full grid-cols-4",
+        user?.isOAuth !== false && "grid w-full grid-cols-3"
+      )}
+      >  
         <TabsTrigger value="account">Account</TabsTrigger>
+        {user?.isOAuth === false &&(
         <TabsTrigger value="password">Password</TabsTrigger>
+        )}
         <TabsTrigger value="gameconfigs">Preferences</TabsTrigger>
         <TabsTrigger value="payments">Payments</TabsTrigger>
       </TabsList>
@@ -177,14 +184,16 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
           </CardFooter>
         </Card>
       </TabsContent>
+      {user?.isOAuth === false &&(
       <TabsContent value="password">
+        
       <Form {...form}>
             <form 
             className="space-y-6" 
             onSubmit={form.handleSubmit(onSubmit)}
             >
               <div className="space-y-4" >
-              {user?.isOAuth === false &&(
+            <Card className="p-6"> 
                 <>
               <FormField
               control={form.control}
@@ -223,7 +232,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
             )}
               />
               </>
-            )} 
+              </Card> 
               
            </div>
            <Button variant={"outline"} disabled={isPending} type="submit" className="flex box-content"> 
@@ -232,7 +241,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
             </form>
           </Form>
       </TabsContent>
-
+ )} 
       <TabsContent value="gameconfigs">
         <Card>
           <CardHeader>

@@ -1,5 +1,5 @@
 import { Room } from "@/components/3Dcomponents/Room/Model";
-import { Guitar } from "@/components/3Dcomponents/guitar/Model";
+import packageJson from '@/package.json';
 
 import { LoginButton } from "@/components/auth/login-button";
 import { RegisterButton } from "@/components/auth/register-button";
@@ -7,7 +7,7 @@ import { NavigationMenuHome } from "@/components/home/menubar";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 
-
+const APP_VERSION: string = packageJson.version;
 const SceneeRoom = dynamic(() => import('@/components/3Dcomponents/scene-room'), {
   ssr: false
 })
@@ -46,7 +46,7 @@ export default function Home() {
         </div>
       </div>
       <footer className="text-end w-full p-1 text-sm text-muted-foreground">
-        version 0.6.2
+        version {APP_VERSION}
       </footer>
     </main>
   );
