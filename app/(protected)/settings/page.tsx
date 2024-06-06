@@ -8,7 +8,7 @@ import { settings } from "@/actions/settings";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 
 import { ModeToggle } from "@/components/ui/mode-toggle";
@@ -24,19 +24,39 @@ import dynamic from "next/dynamic";
 import { Guitar } from "@/components/3Dcomponents/guitar/Model";
 import { Plans } from "../_components/payments/card";
 import { cn } from "@/lib/utils";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 
 const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {
   ssr: false
 })
+interface SettingsPageProps {
+  defaultValue: string;
+}
 
-
-const SettingsPage = () => {
+const SettingsPage = ({
+  defaultValue,
+}: SettingsPageProps) => {
 const [error, setError] = useState<string | undefined>(); 
 const [success, setSuccess] = useState<string | undefined>();   
 const [isPending, startTransition] = useTransition();
 const user =  useCurrentUser();
 const { update } = useSession();
+const pathname = usePathname();
+const searchParams = useSearchParams();
+const router = useRouter();
+const currentTab = searchParams.get('tab') || defaultValue;
+
+const handleTabChange = (value: string) => {
+  const params = new URLSearchParams(searchParams);
+  params.set('tab', value);
+  router.push(`${pathname}?${params.toString()}`)
+};
+
+useEffect(() => {
+  handleTabChange(currentTab);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [currentTab]);
 
 const form = useForm<z.infer<typeof SettingsSchema>>({
   resolver: zodResolver(SettingsSchema),
@@ -85,7 +105,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
   return (
     <main className=" flex rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="flex h-full w-full md:w-[50%] bg-background">
-    <Tabs defaultValue="account" className="w-full m-2">
+    <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full m-2">
       <TabsList className={cn(
         "grid w-full grid-cols-4",
         user?.isOAuth !== false && "grid w-full grid-cols-3"

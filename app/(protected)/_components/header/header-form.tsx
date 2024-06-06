@@ -17,7 +17,7 @@ export default function Header() {
   return (
 <div className="px-6 py-3 flex max-h-16 items-center justify-between bg-background text-muted-foreground border-b border-muted">
            
-           <a className="hidden md:flex" href="/game">
+           <a className="hidden md:flex" href="/dashboard">
             <PurpleLogo/>
             </a>
            <Sheet>
