@@ -34,14 +34,13 @@ const CoursesPage =  async () => {
       <div className="bg-background/30 backdrop-blur-xl h-36 p-2"> 
   </div>
     </div>
-    <div className="bg-background/30 backdrop-blur-md flex-1">
+    
   
-     <Card className="p-6 m-6">
+     <Card className="p-6 flex-1 rounded border-primary shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#7C3AED,0_0_15px_#7C3AED,0_0_30px_#7C3AED] ">
      <DataTable columns={columns} data={courses} />
       </Card>
       
-    
-    </div>
+
    
   </main>
    

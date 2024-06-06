@@ -25,6 +25,11 @@ const SeachPage = async ({
   }
 
   const categories = await db.category.findMany({
+    where: {
+      courses: {
+        some: {},
+      },
+    },
     orderBy: {
       name: "asc",
     },
@@ -43,12 +48,12 @@ const SeachPage = async ({
         </div>
         <div className="bg-background/30 backdrop-blur-xl h-36 p-2"></div>
       </div>
-      <div>
+      <div className="flex-1 pr-2">
           <div>
             <SearchImput/>
             <Categories items={categories} />
           </div>
-          <Card className="bg-background/30 backdrop-blur-md flex-1 mt-2 border-none">
+          <Card className="bg-background/30 backdrop-blur-md mt-2 border-none">
             <CoursesList 
             items={courses}
             />

@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Category, Course } from "@prisma/client";
+import { CourseCard } from "@/app/(protected)/_components/course/courses/course-card";
 
 type CourseWithProgressWhithCategory = Course & {
   category: Category | null;
@@ -15,12 +16,19 @@ export const CoursesList = ({
   items
 }: CoursesListProps) => {
   return (
-   <div className="p-4">
+   <div className="p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
     <div>
      {items.map((item) => (
-      <Card key={item.id}>
-        {item.title}
-      </Card>
+      <CourseCard 
+      key={item.id}
+      id={item.id}
+      title={item.title}
+      imageUrl={item.imageUrl!}
+      chaptersLength={item.chapters.length}
+      price={item.price!}
+      progress={item.progress}
+      category={item?.category?.name!}
+      />
      ))}
     </div>
     {items.length === 0 && (
