@@ -1,4 +1,4 @@
-import { CircleChevronRight } from "lucide-react";
+import { CircleChevronUp } from "lucide-react";
 import { Chapter, Course, UserProgress } from "@prisma/client";
 
 import {
@@ -24,10 +24,10 @@ export const CourseMobileSidebar = ({
 }: CourseMobileSidebarProps) => {
   return (
     <Sheet>
-      <SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
-        <CircleChevronRight />
+      <SheetTrigger className="absolute top-[95%] left-[50%] md:hidden pr-4 hover:opacity-75 transition">
+        <CircleChevronUp  className="animate-bounce"/>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 bg-white w-72">
+      <SheetContent side="bottom" className="p-0 bg-white w-full">
         <CourseSidebar
           course={course}
           progressCount={progressCount}

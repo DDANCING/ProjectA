@@ -37,9 +37,7 @@ export const CourseSidebar = async ({
   return (
     <div className="h-full flex-col overflow-y-auto shadow-sm">
       <div className="p-2 flex flex-col ">
-        <h1 className="font-bold">
-          {course.title}
-        </h1>
+       {course.chapters.length === 1 ? ("Chapter") : ("Chapters") }
         {/* check purchase and add progress*/}
       </div>
       <div className="flex flex-col w-full">
