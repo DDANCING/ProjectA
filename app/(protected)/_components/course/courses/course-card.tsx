@@ -59,7 +59,7 @@ export const CourseCard = ({
           </div>
         ) : (
           <Badge className="flex justify-center">
-        <p className="text-md md:text-sm font-medium text-muted-foreground">
+        <p className="text-md md:text-sm font-medium text-white">
         {price !== 0 ? (formatPrice(price)) : ("FREE")}
         </p> 
         </Badge>

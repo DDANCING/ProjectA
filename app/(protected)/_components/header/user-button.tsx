@@ -62,7 +62,7 @@ export const ProfileOptions = () => {
 
            <DropdownMenuItem>
           
-         <a href="/settings?tab=account"> Settings </a>
+         <a href="/settings"> Settings </a>
         
             </DropdownMenuItem>
             
