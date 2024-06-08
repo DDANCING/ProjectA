@@ -58,7 +58,7 @@ export function NavigationMenuHome() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger> How to use  </NavigationMenuTrigger>
+          <NavigationMenuTrigger> Community  </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
@@ -72,8 +72,7 @@ export function NavigationMenuHome() {
                       ProjectA
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components built with Radix UI and
-                      Tailwind CSS.
+                    Project A is a platform where you learn while competing with other students.
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -107,9 +106,9 @@ export function NavigationMenuHome() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/Partners" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Community
+            Partners
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

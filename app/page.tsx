@@ -7,11 +7,14 @@ import { NavigationMenuHome } from "@/components/home/menubar";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 
+
 const APP_VERSION: string = packageJson.version;
 const SceneeRoom = dynamic(() => import('@/components/3Dcomponents/scene-room'), {
   ssr: false
 })
-export default function Home() {
+
+export default async function Home() {
+
   return (
     <main className="relative flex h-full flex-col items-center justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
      
@@ -27,7 +30,7 @@ export default function Home() {
         </h1>
         <NavigationMenuHome />
         <LoginButton mode="modal" asChild>
-          <Button className="w-40 rounded-full bg-transparent border-primary" variant={"outline"}>
+          <Button  className="w-40 rounded-full bg-transparent border-primary" variant={"outline"}>
             Sign in
           </Button>
         </LoginButton>
@@ -37,7 +40,7 @@ export default function Home() {
           <h1 className="text-white text-4xl font-bold">
             Play The Guitar
           </h1>
-          <p className="text-white/60">Turn Your Learning Into Competitiveness</p>
+          <p className="text-white/60">Turn your learning into a competition </p>
           <RegisterButton mode="modal" asChild>
             <Button className="w-40 my-5">
               Register

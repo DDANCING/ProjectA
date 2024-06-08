@@ -24,6 +24,7 @@ import dynamic from "next/dynamic";
 import { Guitar } from "@/components/3Dcomponents/guitar/Model";
 import { Plans } from "../_components/payments/card";
 import { cn } from "@/lib/utils";
+import UrlTabs from "../_components/course/courseid/urltabs";
 
 
 const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {
@@ -85,7 +86,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
   return (
     <main className=" flex rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
     <div className="flex h-full w-full md:w-[50%] bg-background">
-    <Tabs defaultValue="account" className="w-full m-2">
+    <UrlTabs defaultValue="account">
       <TabsList className={cn(
         "grid w-full grid-cols-4",
         user?.isOAuth !== false && "grid w-full grid-cols-3"
@@ -95,7 +96,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
         {user?.isOAuth === false &&(
         <TabsTrigger value="password">Password</TabsTrigger>
         )}
-        <TabsTrigger value="gameconfigs">Preferences</TabsTrigger>
+        <TabsTrigger value="configs">Preferences</TabsTrigger>
         <TabsTrigger value="payments">Payments</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
@@ -242,7 +243,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
           </Form>
       </TabsContent>
  )} 
-      <TabsContent value="gameconfigs">
+      <TabsContent value="configs">
         <Card>
           <CardHeader>
             <CardTitle>Preferences</CardTitle>
@@ -280,7 +281,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
         </Card>
       </TabsContent>
     
-    </Tabs>
+      </UrlTabs>
     </div>
     <div className="bg-transparent backdrop-blur-md flex-1">
       <div className="h-full w-full flex justify-center items-center">

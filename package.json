@@ -1,6 +1,6 @@
 {
   "name": "projecta",
-  "version": "0.6.3",
+  "version": "0.7.3",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -27,6 +27,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
@@ -46,6 +47,7 @@
     "next": "14.2.3",
     "next-auth": "^5.0.0-beta.17",
     "next-themes": "^0.3.0",
+    "nextjs-toploader": "^1.6.12",
     "pitchy": "^4.1.0",
     "query-string": "^9.0.0",
     "react": "^18",
@@ -68,7 +70,7 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
-    "@prisma/client": "^5.14.0",
+    "@prisma/client": "^5.15.0",
     "@types/audio-context": "^1.0.3",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
@@ -81,7 +83,7 @@
     "i": "^0.3.7",
     "npm": "^10.8.0",
     "postcss": "^8",
-    "prisma": "^5.14.0",
+    "prisma": "^5.15.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

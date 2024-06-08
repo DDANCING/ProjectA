@@ -46,7 +46,7 @@ export const CategoryItem = ({
   return (
     <Button
       variant="outline"
-      onClick={isSelected ? () => {} : onClick }
+      onClick={onClick }
       className={cn(
         " py-2 px-3 text-sm border border-primary rounded-full flex items-center gap-x-1 hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#7C3AED,0_0_15px_#7C3AED,0_0_30px_#7C3AED] transition",
         isSelected && "border-primary bg-foreground text-background"
