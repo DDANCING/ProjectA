@@ -4,6 +4,7 @@ import { Chapter, Course, UserProgress } from "@prisma/client"
 import { redirect } from "next/navigation";
 import { CourseSidebarItem } from "@/app/(protected)/_components/course/courses/course-sidebar-item";
 import { auth } from "@/auth";
+import { Separator } from "@/components/ui/separator";
 
 
 interface CourseSidebarProps {
@@ -36,10 +37,11 @@ export const CourseSidebar = async ({
 
   return (
     <div className="h-full flex-col overflow-y-auto shadow-sm">
-      <div className="p-2 flex flex-col ">
+      <div className="p-2 flex flex-col text-center font-semibold">
        {course.chapters.length === 1 ? ("Chapter") : ("Chapters") }
         {/* check purchase and add progress*/}
       </div>
+      <Separator/>
       <div className="flex flex-col w-full">
         {course.chapters.map((chapter) => (
           <CourseSidebarItem
