@@ -8,8 +8,8 @@ const bannerVariantes = cva(
   {
     variants: {
       variant: {
-        warning: " rounded-none bg-gradient-to-r from-violet-500 to-purple-500 text-white  ",
-        success: "rounded-none bg-gradient-to-r from-violet-500 to-purple-500 text-white",
+        warning: " rounded-none bg-gradient-to-r from-violet-500 to-purple-500 text-white hidden md:flex ",
+        success: "rounded-none bg-gradient-to-r from-violet-500 to-purple-500 text-white sm:hidden",
       }
     },
     defaultVariants: {

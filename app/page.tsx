@@ -38,7 +38,7 @@ export default async function Home() {
       <div className="space-y-4 z-10">
         <div className="text-center">
           <h1 className="text-white text-4xl font-bold">
-            Play The Guitar
+            Play Guitar
           </h1>
           <p className="text-white/60">Turn your learning into a competition </p>
           <RegisterButton mode="modal" asChild>

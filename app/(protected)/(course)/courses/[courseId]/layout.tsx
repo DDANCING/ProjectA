@@ -65,6 +65,12 @@ const CourseLayout =  async ({
           {children}
           
       </div>
+      <CourseMobileSidebar
+  
+      course={course}
+      progressCount={progressCount}
+
+      />
       
     </main>
     </div>

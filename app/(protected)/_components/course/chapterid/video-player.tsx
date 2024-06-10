@@ -1,10 +1,8 @@
 "use client";
 
-import axios from "axios";
+
 import MuxPlayer from "@mux/mux-player-react";
 import { useState } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { Loader2, Lock } from "lucide-react";
 
 import { cn } from "@/lib/utils";
