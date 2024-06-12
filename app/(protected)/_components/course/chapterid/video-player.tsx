@@ -6,6 +6,9 @@ import { useState } from "react";
 import { Loader2, Lock } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import axios from "axios";
 
 interface VideoPlayerProps {
   playbackId: string;
@@ -27,6 +30,25 @@ export const VideoPlayer = ({
   title,
 }: VideoPlayerProps) => {
   const [isReady, setIsReady] = useState(false);
+  const router = useRouter();
+
+  const onEnd = async () => {
+    try {
+      if (completeOnEnd) {
+        await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
+          isCompleted: true,
+        });
+        toast.success("Progress updated");
+      }
+    } catch {
+      toast.error("Something went wrong");
+      router.refresh();
+
+      if (nextChapterId) {
+        router.push(`/courses/$${courseId}/chapters/${nextChapterId}`)
+      }
+    }
+  }
 
   return (
     <div className="relative aspect-video">
@@ -53,7 +75,7 @@ export const VideoPlayer = ({
           !isReady && "hidden"
         )}
         onCanPlay={() => setIsReady(true)}
-        onEnded={() => {}}
+        onEnded={onEnd}
         autoPlay
         playbackId={playbackId}
         />
