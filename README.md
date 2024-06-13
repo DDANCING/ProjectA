@@ -1,139 +1,225 @@
-# ProjectA
 
-![Logo](https://via.placeholder.com/150)
+<a name="readme-top"></a>
 
-## ProjectA: A Escola de Música
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-ProjectA é uma escola de música inovadora que utiliza métodos eficazes de ensino para proporcionar uma experiência de aprendizado completa e imersiva. Oferecemos uma ampla gama de recursos para estudantes e professores, desde a inscrição em cursos até a interação com atividades musicais e desafios.
 
-### Explore os recursos:
 
-- Cadastro e autenticação de usuários
-- Biblioteca de músicas com detalhes completos e links do YouTube
-- Ferramentas para afinação de instrumentos
-- Recurso de tocar músicas com feedback em tempo real
-- Sistema de pontuação e histórico de desempenho
-- Inscrição e acesso a cursos com materiais de vídeo e texto
-- Gerenciamento de cursos para professores
-- Atividades interativas com feedback imediato
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/DDANCING/ProjectA">
+    <img src="https://i.imgur.com/WQJge11.png" alt="Logo" width="80" height="80">
+  </a>
 
-## Table of Contents
+  <h3 align="center">ProjectA</h3>
 
-- [About The Project](#about-the-project)
-- [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-- [Acknowledgments](#acknowledgments)
+  <p align="center">
+   In learning there is no Plan B!
+    <br />
+    <a href="https://github.com/DDANCING/ProjectA"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://projecta.top/">View Demo</a>
+    ·
+    <a href="https://projecta.top/bug-reporting/">Report Bug</a>
+    ·
+    <a href="https://projecta.top/feedback/">Request Feature</a>
+  </p>
+</div>
 
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
 ## About The Project
 
-### Product Name Screen Shot
+[![ProjectA][product-screenshot]](https://projecta.top/feedback/)
 
-![Product Screenshot](https://via.placeholder.com/600x400)
+ProjectA is an innovative music school that employs effective teaching methods to provide a comprehensive and immersive learning experience. We offer a wide range of resources for students and teachers, from course registration to interaction with musical activities and challenges.
 
-ProjectA é uma plataforma de aprendizado musical que visa proporcionar uma experiência de ensino completa e personalizada. Nossa abordagem é focada em oferecer ferramentas intuitivas e interativas para facilitar o aprendizado de música.
+Explore the features:
 
-Here's why:
+* User registration and authentication
+* Music library with comprehensive details and YouTube links
+* Instrument tuning tools
+* Real-time song playing with feedback
+* Scoring system and performance history
+* Course registration and access with video and text materials
+* Course management for teachers
+* Interactive activities with immediate feedback
 
-- Foco em criar algo incrível que resolva problemas e ajude outros
-- Implementação de princípios DRY para evitar tarefas repetitivas
-- Interface intuitiva e design responsivo
 
-(back to top)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Built With
 
-- [Next.js](https://nextjs.org/)
-- [React](https://reactjs.org/)
-- [Prisma](https://www.prisma.io/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Three.js](https://threejs.org/)
 
-(back to top)
+### Built With
 
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+
+* [![Next][Next.js]][Next-url]
+* [![React][React.js]][React-url]
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
 ## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Você precisará do npm para gerenciar os pacotes:
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
 
-npm install npm@latest -g
-# ProjectA
+### Installation
 
-## Installation
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-Clone o repositório:
+1. Clone the repo
+   ```sh
+   git clone https://github.com/DDANCING/ProjectA.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Run project
+   ```sh
+   npm run dev
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-git clone https://github.com/your_username/ProjectA.git
-Instale os pacotes NPM:
 
-sh
-Copiar código
-npm install
-Configure sua API no arquivo config.js:
+<!-- USAGE EXAMPLES -->
+## Usage
 
-js
-Copiar código
-const API_KEY = 'ENTER YOUR API';
-back to top
+Create your account and navigate through the various sections of the code. If you wish to visit the teachers' section, please contact me at (45) 998405219.
 
-Usage
-Use este espaço para mostrar exemplos úteis de como o projeto pode ser utilizado. Inclua screenshots adicionais, exemplos de código e demonstrações.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Para mais exemplos, consulte a Documentação.
 
-back to top
 
-Roadmap
-Adicionar Changelog
-Adicionar links "back to top"
-Adicionar templates adicionais com exemplos
-Adicionar documento de "componentes" para copiar e colar seções do README
-Suporte multilíngue
-Chinês
-Espanhol
-Veja as issues abertas para uma lista completa de funcionalidades propostas (e problemas conhecidos).
+<!-- ROADMAP -->
+## Roadmap
 
-back to top
+- [x] Next configuration
+- [x] Add auth5 authentication and 2FA
+- [x] Add user settings
+- [IN PROGRESS] Add the teacher mode where it's possible to create and manage courses and students
+- [ ] Add activities module with level feedback for students
+- [ ] Add games module with level feedback for students
+- [ ] Add score board with ranks to develop competitive mode
+- [ ] Multi-language Support
+    - [ ] Portugese
+    - [ ] Spanish
 
-Contributing
-Contribuições são o que fazem a comunidade de código aberto um lugar incrível para aprender, inspirar e criar. Qualquer contribuição é muito bem-vinda!
 
-Se você tiver uma sugestão que tornaria este projeto melhor, por favor, faça um fork do repositório e crie um pull request. Você também pode simplesmente abrir uma issue com a tag "enhancement". Não se esqueça de dar uma estrela ao projeto! Obrigado!
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Fork o Projeto
-Crie sua Branch de Funcionalidade (git checkout -b feature/AmazingFeature)
-Comite suas mudanças (git commit -m 'Add some AmazingFeature')
-Push para a Branch (git push origin feature/AmazingFeature)
-Abra um Pull Request
-back to top
 
-License
-Distribuído sob a licença MIT. Veja LICENSE.txt para mais informações.
 
-back to top
 
-Contact
-Seu Nome - @seu_twitter - seuemail@example.com
+<!-- LICENSE -->
+## License
 
-Link do Projeto: https://github.com/your_username/ProjectA
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-back to top
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Acknowledgments
-Choose an Open Source License
-GitHub Emoji Cheat Sheet
-Malven's Flexbox Cheatsheet
-Malven's Grid Cheatsheet
-Img Shields
-GitHub Pages
-Font Awesome
-React Icons
-back to top
+
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [Marcelo mazzonetto](https://x.com/mazzonetto_9) - projecta.contactt@gmail.com
+
+Project Link: [https://github.com/DDANCING/ProjectA](https://github.com/DDANCING/ProjectA)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
+* [Malven's Grid Cheatsheet](https://grid.malven.co/)
+* [Img Shields](https://shields.io)
+* [GitHub Pages](https://pages.github.com)
+* [Font Awesome](https://fontawesome.com)
+* [React Icons](https://react-icons.github.io/react-icons/search)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: https://i.imgur.com/NrciebN.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Prisma-url]: https://www.prisma.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
+[Svelte-url]: https://svelte.dev/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+[tailwind-url]: https://tailwindcss.com/
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com 
