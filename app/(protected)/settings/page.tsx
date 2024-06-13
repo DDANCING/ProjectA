@@ -100,7 +100,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
         <TabsTrigger value="payments">Payments</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
-        <Card>
+        <Card className="shadow-none">
           <CardHeader>
             <CardTitle>Account</CardTitle>
             <CardDescription>
@@ -194,7 +194,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
             onSubmit={form.handleSubmit(onSubmit)}
             >
               <div className="space-y-4" >
-            <Card className="p-6"> 
+            <Card className="p-6 shadow-none"> 
                 <>
               <FormField
               control={form.control}
@@ -244,7 +244,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
       </TabsContent>
  )} 
       <TabsContent value="configs">
-        <Card>
+        <Card className="shadow-none">
           <CardHeader>
             <CardTitle>Preferences</CardTitle>
             <CardDescription>
@@ -262,7 +262,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
         </Card>
       </TabsContent>
       <TabsContent value="payments">
-        <Card>
+        <Card className="shadow-none">
           <CardHeader>
             <CardTitle>Plan</CardTitle>
             <CardDescription>
