@@ -20,7 +20,7 @@
   <h3 align="center">ProjectA</h3>
 
   <p align="center">
-    ProjectA: In learning there is no Plan B!
+   In learning there is no Plan B!
     <br />
     <a href="https://github.com/DDANCING/ProjectA"><strong>Explore the docs »</strong></a>
     <br />
@@ -174,20 +174,13 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://x.com/mazzonetto_9) - projecta.contactt@gmail.com
+Your Name - [Marcelo mazzonetto](https://x.com/mazzonetto_9) - projecta.contactt@gmail.com
 
 Project Link: [https://github.com/DDANCING/ProjectA](https://github.com/DDANCING/ProjectA)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 * [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
 * [Malven's Grid Cheatsheet](https://grid.malven.co/)
