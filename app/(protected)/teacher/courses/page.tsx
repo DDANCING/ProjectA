@@ -36,7 +36,7 @@ const CoursesPage =  async () => {
     </div>
     
   
-     <Card className="p-6 flex-1 rounded border-primary shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#7C3AED,0_0_15px_#7C3AED,0_0_30px_#7C3AED] ">
+     <Card className="p-6 flex-1 rounded  ">
      <DataTable columns={columns} data={courses} />
       </Card>
       

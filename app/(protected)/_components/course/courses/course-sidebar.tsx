@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { CourseSidebarItem } from "@/app/(protected)/_components/course/courses/course-sidebar-item";
 import { auth } from "@/auth";
 import { Separator } from "@/components/ui/separator";
+import { CourseProgress } from "@/app/(protected)/_components/course/progress/course-progress";
 
 
 interface CourseSidebarProps {
@@ -36,12 +37,28 @@ export const CourseSidebar = async ({
   });
 
   return (
-    <div className="h-full flex-col overflow-y-auto shadow-sm">
+    <div>
       <div className="p-2 flex flex-col text-center font-semibold">
-       {course.chapters.length === 1 ? ("Chapter") : ("Chapters") }
-        {/* check purchase and add progress*/}
-      </div>
-      <Separator/>
+       
+       {purchase && (
+         <div className="">
+          
+           {course.chapters.length === 1 ? ("Chapter") : ("Chapters") }
+           <CourseProgress
+              variant={progressCount === 100 ? "success" : "default"}
+              value={progressCount}
+              
+            />
+         </div>
+         
+       )}
+    
+     </div>
+     <Separator/>
+    <div className="h-full flex flex-col overflow-y-auto shadow-sm justify-between">
+     
+      
+    
       <div className="flex flex-col w-full">
         {course.chapters.map((chapter) => (
           <CourseSidebarItem
@@ -54,6 +71,9 @@ export const CourseSidebar = async ({
           />
         ))}
       </div>
+      
+      
+     </div>
     </div>
   )
 }

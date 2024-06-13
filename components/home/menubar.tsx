@@ -14,6 +14,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import PurpleLogo from "../images/Logo"
+import { FaTiktok } from "react-icons/fa"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -77,11 +78,11 @@ export function NavigationMenuHome() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
+              <ListItem className="flex flex-col-reverse" href="https://www.tiktok.com/@projecta.top" title="TikTok">
+               <FaTiktok className="mb-2"/>
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
+              <ListItem className="flex flex-col-reverse" href="/docs" title="TikTok">
+               <FaTiktok className="mb-2"/>
               </ListItem>
               <ListItem href="/docs/primitives/typography" title="Typography">
                 Styles for headings, paragraphs, lists...etc

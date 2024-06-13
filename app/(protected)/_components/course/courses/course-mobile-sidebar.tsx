@@ -27,7 +27,7 @@ export const CourseMobileSidebar = ({
       <SheetTrigger className="absolute top-[95%] left-[50%] md:hidden pr-4 hover:opacity-75 transition">
         <CircleChevronUp  className="animate-bounce"/>
       </SheetTrigger>
-      <SheetContent side="bottom" className="p-0 bg-white w-full">
+      <SheetContent side="bottom" className="p-0 bg-background border-primary w-full">
         <CourseSidebar
           course={course}
           progressCount={progressCount}
