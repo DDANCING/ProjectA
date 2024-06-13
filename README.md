@@ -14,10 +14,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/DDANCING/ProjectA">
-    <img src="https://i.imgur.com/WQJge11.png" alt="Logo" width="80" height="80">
+    <img src="https://i.imgur.com/WQJge11.png" alt="Logo" width="82" height="82">
   </a>
 
-  <h3 align="center">ProjectA</h3>
+  <h3 align="center">ProjectA </h3>
 
   <p align="center">
    In learning there is no Plan B!
