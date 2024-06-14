@@ -10,14 +10,14 @@
 
 
 
-<!-- PROJECT LOGO -->
+<!--LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/DDANCING/ProjectA">
-    <img src="https://i.imgur.com/WQJge11.png" alt="Logo" width="80" height="80">
+    <img src="https://i.imgur.com/WQJge11.png" alt="Logo" width="82" height="82">
   </a>
 
-  <h3 align="center">ProjectA</h3>
+  <h3 align="center">ProjectA </h3>
 
   <p align="center">
    In learning there is no Plan B!
@@ -174,27 +174,16 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [Marcelo mazzonetto](https://x.com/mazzonetto_9) - projecta.contactt@gmail.com
+Developer - [Marcelo mazzonetto](https://www.linkedin.com/in/marcelo-mazzonetto-87214b233/) - projecta.contactt@gmail.com
+Fone - +55(45)998405219
 
-Project Link: [https://github.com/DDANCING/ProjectA](https://github.com/DDANCING/ProjectA)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+Project Link: [https://projecta.top/](https://projecta.top/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
