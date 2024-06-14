@@ -26,7 +26,7 @@ import { Actions } from "@/app/(protected)/_components/course/courseid/actions";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const user = await auth();
-  const courseId = await params.courseId;
+  const courseId = params.courseId;
 
   if (!user?.user.id) {
     return redirect("/dashboard");
