@@ -80,20 +80,16 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
 
   return (
   <>
-  {!course.isPublished && (
+  
+  <main className="p-4 flex gap-4 rounded-sm h-full  justify-between ">
+      
+      <Card className="overflow-y-auto h-[87vh]  p-6 backdrop-blur-md flex-1">
+      {!course.isPublished && (
     <Banner
     label="The course has not been published and is not visible to students."
     
     />
   )}
-  <main className="p-4 flex gap-4 rounded-sm h-full w-full justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
-      <div className="hidden md:flex flex-col justify-between gap-4">
-        <div className="w-60 flex-1 bg-background/30 backdrop-blur-md">
-          <Sidebar />
-        </div>
-        <div className="bg-background/30 backdrop-blur-xl h-36 p-2"></div>
-      </div>
-      <div className="overflow-y-auto h-[87vh]  p-6 bg-background/70 backdrop-blur-md flex-1">
       <div className="flex flex-row  justify-between">
         <div className="flex flex-col gap-y-2 pb-4">
           <h1 className="text-3xl font-medium">Course setup</h1>
@@ -115,7 +111,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             <TabsTrigger value="activities">Activities</TabsTrigger>
           </TabsList>
           <TabsContent value="settings">
-            <Card>
+            <Card className="shadow-none">
               <CardHeader>
                 <CardTitle>
                   <div className="flex items-center gap-x-2 mb-4">
@@ -146,7 +142,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             </Card>
           </TabsContent>
           <TabsContent value="chapter">
-            <Card>
+            <Card className="shadow-none">
               <CardHeader>
                 <CardTitle>
                   <div className="flex items-center gap-x-2 mb-4">
@@ -170,7 +166,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             </Card>
           </TabsContent>
           <TabsContent value="price">
-            <Card>
+            <Card className="shadow-none">
               <CardHeader>
                 <CardTitle>
                   <div className="flex-1 min-w-[300px]">
@@ -191,7 +187,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             </Card>
           </TabsContent>
           <TabsContent value="activities">
-            <Card>
+            <Card className="shadow-none">
               <CardHeader>
                 <CardTitle>
                   <div className="flex items-center gap-x-2 mb-4 mt-4">
@@ -210,7 +206,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             </Card>
           </TabsContent>
         </UrlTabs>
-      </div>
+      </Card>
     </main>
     </>
   );

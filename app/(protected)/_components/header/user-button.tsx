@@ -1,8 +1,8 @@
 "use client"
 
 
-import { Music, User, X,  } from "lucide-react";
-import { GearIcon } from "@radix-ui/react-icons";
+import { User } from "lucide-react";
+
 
 import { logout } from "@/actions/logout";
 import {
@@ -12,7 +12,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { 
   Avatar,
@@ -23,10 +22,8 @@ import {
 import { useCurrentUser } from "@/data/hooks/use-current-user";
 import { RoleGateNoMessage } from "@/components/auth/role-gate";
 import { UserRole } from "@prisma/client";
-import { usePathname, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
 
 export const ProfileOptions = () => {
@@ -34,9 +31,7 @@ export const ProfileOptions = () => {
   const onClick = () => {
     logout();
   };
-  const pathname = usePathname();
-  const isTeacherPage = pathname?.startsWith("/teacher");
-  const isPlayerPage = pathname?.includes("/chapter")
+ 
 
   return (
     <DropdownMenu>
@@ -55,10 +50,6 @@ export const ProfileOptions = () => {
     </DropdownMenuTrigger>
     </div>
   <DropdownMenuContent className="box-content mx-6">
-    <DropdownMenuLabel>
-     {user?.name}
-      </DropdownMenuLabel>
-   <DropdownMenuSeparator />
 
            <DropdownMenuItem>
           
@@ -78,31 +69,16 @@ export const ProfileOptions = () => {
             <button type="submit" onClick={onClick} >
             Log out 
             </button>
-         
+            
         </DropdownMenuItem>
-
         <DropdownMenuSeparator />
-        
-<DropdownMenuItem>
-  
-        <RoleGateNoMessage allowedRole={UserRole.TEACHER} >
-
-{isPlayerPage || isTeacherPage ? (
-  <Link href="/dashboard" className="flex justify-between gap-5">
-    <h1>User mode</h1>
-
-</Link>
-) : (
-<Link href="/teacher/courses" className="flex justify-between gap-5">
-<h1>Teacher mode</h1>
-
-
-</Link>
-)}
-    </RoleGateNoMessage>
-
-    </DropdownMenuItem>
-
+        <DropdownMenuItem>
+          <Link href="/settings?tab=payments">
+            <Button className="rounded-full">
+              Upgrade plan
+            </Button>
+            </Link>
+            </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
 
