@@ -2,7 +2,7 @@
 import { ProfileOptions } from "@/app/(protected)/_components/header/user-button";
 
 import PurpleLogo from "@/components/images/Logo";
-import { Crown, Heart, LayoutDashboard, Menu, Search, TicketPlus, Wallet } from "lucide-react";
+import { Crown, Heart, LayoutDashboard, Menu, Wallet } from "lucide-react";
 
 import {
   Sheet,
@@ -14,7 +14,7 @@ import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarMenu,
 import { RoleGate } from "@/components/auth/role-gate";
 import { UserRole } from "@prisma/client";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+
 import { GiHeartPlus } from "react-icons/gi";
 
 
