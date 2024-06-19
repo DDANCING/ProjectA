@@ -22,9 +22,9 @@ import { Switch } from "@/components/ui/switch";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { Guitar } from "@/components/3Dcomponents/guitar/Model";
-import { Plans } from "../_components/payments/card";
+import { Plans } from "../(protected)/_components/payments/card";
 import { cn } from "@/lib/utils";
-import UrlTabs from "../_components/course/courseid/urltabs";
+import UrlTabs from "../(protected)/_components/course/courseid/urltabs";
 
 
 const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {

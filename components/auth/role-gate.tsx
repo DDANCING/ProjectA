@@ -6,7 +6,7 @@ import { FormError } from "@/components/form-error";
 import { toast } from "sonner";
 
 interface RoleGateProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   allowedRole: UserRole;
 };
 

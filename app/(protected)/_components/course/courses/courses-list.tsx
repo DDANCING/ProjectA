@@ -16,8 +16,7 @@ export const CoursesList = ({
   items
 }: CoursesListProps) => {
   return (
-   <div className="p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3">
-    <div>
+   <div className="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
      {items.map((item) => (
       <CourseCard 
       key={item.id}
@@ -30,7 +29,6 @@ export const CoursesList = ({
       category={item?.category?.name!}
       />
      ))}
-    </div>
     {items.length === 0 && (
       <div className="text-center text-sm text-muted-foreground mt-10">
         No courses found

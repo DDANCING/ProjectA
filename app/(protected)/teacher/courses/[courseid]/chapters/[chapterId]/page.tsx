@@ -61,7 +61,7 @@ const ChapterIdPage = async ({
       label="The chapter has not been published and is not visible in the course."
       />
     )}
-  <div className="min-w-[300px] p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background flex-1">
+  <div className="min-w-[300px] p-6 ">
    
    <div className="flex items-center justify-between">
     <div className="w-full">

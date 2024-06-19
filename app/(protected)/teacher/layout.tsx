@@ -11,9 +11,9 @@ const TeacherLayout =  async ({ children }: { children: React.ReactNode}) => {
   return(
     <SessionProvider session={session}>
       <RoleGate allowedRole={UserRole.TEACHER} >
-    <div className="min-w-[420px] flex flex-col h-screen bg-background">
+    <div className="min-w-[420px] flex flex-col h-full  bg-background/30">
      
-    {children}
+    {children} 
       
     </div>
     </RoleGate>

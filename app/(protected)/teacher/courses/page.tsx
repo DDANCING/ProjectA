@@ -26,23 +26,14 @@ const CoursesPage =  async () => {
      })
   return ( 
     
-      <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
-    <div className="hidden md:flex flex-col justify-between gap-4">
-      <div className="w-60 flex-1 bg-background/30 backdrop-blur-md">
-      <Sidebar/>
-      </div>
-      <div className="bg-background/30 backdrop-blur-xl h-36 p-2"> 
-  </div>
-    </div>
+      
+    
     
   
-     <Card className="p-6 flex-1 rounded  ">
+     <Card className=" p-6 w-full rounded shadow-none bg-background/40">
      <DataTable columns={columns} data={courses} />
       </Card>
       
-
-   
-  </main>
    
    );
 }
