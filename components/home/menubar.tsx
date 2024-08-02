@@ -14,7 +14,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import PurpleLogo from "../images/Logo"
-import { FaTiktok } from "react-icons/fa"
+import { FaGamepad, FaTiktok } from "react-icons/fa"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -59,7 +59,7 @@ export function NavigationMenuHome() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger> Community  </NavigationMenuTrigger>
+          <NavigationMenuTrigger> Go to </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
@@ -78,8 +78,8 @@ export function NavigationMenuHome() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem className="flex flex-col-reverse" href="https://www.tiktok.com/@projecta.top" title="TikTok">
-               <FaTiktok className="mb-2"/>
+              <ListItem className="flex flex-col-reverse" href="/game" title="Game">
+             <FaGamepad className="mb-2 size-5"/> 
               </ListItem>
               <ListItem className="flex flex-col-reverse" href="/docs" title="TikTok">
                <FaTiktok className="mb-2"/>
@@ -109,7 +109,7 @@ export function NavigationMenuHome() {
         <NavigationMenuItem>
           <Link href="/Partners" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Partners
+            Community
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

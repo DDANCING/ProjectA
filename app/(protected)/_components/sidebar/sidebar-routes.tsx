@@ -1,38 +1,77 @@
 "use client"
 
-import { BarChart, Compass, Guitar, Layout, List, Sidebar } from "lucide-react";
+import { ArrowBigLeftDash, BarChart, Compass, Crown, Gamepad2, Guitar, Heart, Layout, List, Search, Settings, ShoppingBasket, Sidebar, User, Video } from "lucide-react";
 import { SidebarItem } from "@/app/(protected)/_components/sidebar/sidebar-item";
 import { usePathname } from "next/navigation";
-import { Menubar,
-  MenubarCheckboxItem,
-   MenubarContent,
-     MenubarItem,
-      MenubarMenu,
-       MenubarRadioGroup,
-        MenubarRadioItem,
-         MenubarSeparator,
-          MenubarShortcut,
-           MenubarSub,
-            MenubarSubContent,
-             MenubarSubTrigger,
-              MenubarTrigger
-               } from "@/components/ui/menubar";
-import Link from "next/link";
 
 const guestRoutes = [
   {
-    icon: Layout,
-    label: "Dashboard",
-    href: "/dashboard"
+    icon: Gamepad2,
+    label: "Game",
+    href: "/game"
+  },
+  {
+    icon: Video  ,
+    label: "Courses",
+    href: "/courses/dashboard"
   },
   {
     icon: Compass,
-    label: "Browse",
-    href: "/search"
+    label: "Activities",
+    href: "/activities/dashboard"
+  },
+  {
+    icon: Crown,
+    label: "Scoreboard",
+    href: "/scoreboard"
+  },
+  {
+    icon: User,
+    label: "Profile",
+    href: "/profile"
+  },
+  {
+    icon: Settings,
+    label: "Settings",
+    href: "/settings"
+  },
+];
+
+
+const courseRoutes = [
+  {
+    icon: ArrowBigLeftDash,
+    label: "Return",
+    href: "/dashboard"
+  },
+  {
+    icon: Layout,
+    label: "Courses dashboard",
+    href: "/courses/dashboard"
+  },
+  {
+    icon: Compass,
+    label: "Browse courses",
+    href: "/courses/search"
+  },
+  {
+    icon: ShoppingBasket,
+    label: "courses purchased",
+    href: "/courses/purchased"
+  },
+  {
+    icon: Crown,
+    label: "Course leaderboard",
+    href: "/courses/leaderboard"
   },
 ];
 
 const teacherRoutes = [
+  {
+    icon: ArrowBigLeftDash,
+    label: "Return",
+    href: "/dashboard"
+  },
   {
     icon: List,
     label: "Courses",
@@ -43,39 +82,60 @@ const teacherRoutes = [
     label: "Analytics",
     href: "/teacher/analytics"
   },
+  
 ];
 const gameRoutes = [
   {
-    icon: Layout,
-    label: "Dashboard",
+    icon: ArrowBigLeftDash,
+    label: "Return",
     href: "/dashboard"
   },
   {
-    icon: Compass,
-    label: "Browse",
-    href: "/search"
+    icon: Layout,
+    label: "Game dashboard",
+    href: "/game/dashboard"
+  },
+  {
+    icon: Search,
+    label: "Browse music",
+    href: "/game/search"
   },
   {
     icon: Guitar,
     label: "Game",
     href: "/game"
+  },
+  {
+    icon: Crown,
+    label: "Game leaderboard",
+    href: "/game/leaderboard"
   },
 ];
 const activityRoutes = [
   {
-    icon: Layout,
-    label: "Dashboard",
+    icon: ArrowBigLeftDash,
+    label: "Return",
     href: "/dashboard"
   },
   {
-    icon: Compass,
-    label: "Browse",
-    href: "/search"
+    icon: Layout,
+    label: "Activities dashboard",
+    href: "/activities/dashboard"
   },
   {
-    icon: Guitar,
-    label: "Game",
-    href: "/game"
+    icon: Compass,
+    label: "Your route",
+    href: "/activities/route"
+  },
+  {
+    icon: Heart,
+    label: "Liked activities",
+    href: "/activities/liked"
+  },
+  {
+    icon: Crown,
+    label: "Activities leaderboard",
+    href: "/activities/leaderboard"
   },
 ];
 
@@ -88,6 +148,7 @@ export const SidebarRoutes = () => {
   const isTeacherPage = pathname?.includes("/teacher");
   const isGamePage = pathname?.includes("/game");
   const isActivitiesPage = pathname?.includes("/activities");
+  const isCoursePage = pathname?.includes("/course");
 
   let routes;
 
@@ -97,6 +158,8 @@ export const SidebarRoutes = () => {
     routes = gameRoutes;
   } else if (isActivitiesPage) {
     routes = activityRoutes; 
+  } else if (isCoursePage) {
+    routes = courseRoutes;
   } else {
     routes = guestRoutes;
   }

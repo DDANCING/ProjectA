@@ -22,29 +22,29 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-    <html lang="en">
-      <body className={inter.className}>
-      <NextTopLoader  
-      color="#6213D2"
-      initialPosition={0.08}
-      crawlSpeed={200}
-      height={3}
-      crawl={true}
-      showSpinner={false}
-      easing="ease"
-      speed={200}
-      shadow="0 0 10px #6213D2,0 0 5px #6213D2"/>
-      <ThemeProvider
+      <html lang="en">
+        <body className={inter.className}>
+          <NextTopLoader
+            color="#6213D2"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #6213D2,0 0 5px #6213D2" />
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
             {children}
-            <Toaster/>
+            <Toaster />
           </ThemeProvider>
-      </body>
-    </html>
+        </body>
+      </html>
     </SessionProvider>
   );
 }

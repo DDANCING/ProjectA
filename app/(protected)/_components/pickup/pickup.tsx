@@ -119,7 +119,7 @@ class Captador extends React.Component<{}, State> {
        {frequency.toFixed(2)} Hz
       </p>
       <DrawerTrigger asChild> 
-        <Button variant="outline" className='text-muted-foreground border border-muted-foreground'>Abrir afinador</Button>
+        <Button variant="outline" className='text-muted-foreground border border-muted-foreground'>open tuner</Button>
       </DrawerTrigger>
       </div>
       </div>

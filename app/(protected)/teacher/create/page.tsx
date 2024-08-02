@@ -62,7 +62,7 @@ const CreatePage = () => {
   return (
 
     
-      <div className="flex-1 bg-transparent">
+      <div className="flex-1">
         <div className=" mx-auto flex md:items-center md:justify-center h-full p-6">
           <Card className="p-6 border-primary ">
             <h1 className="text-2xl">Name your course</h1>
