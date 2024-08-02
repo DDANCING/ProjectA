@@ -1,9 +1,9 @@
-
+import { VscCompassActive } from "react-icons/vsc";
 import { ProfileOptions } from "@/app/(protected)/_components/header/user-button";
-
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import PurpleLogo from "@/components/images/Logo";
 import { Crown, Heart, LayoutDashboard, Menu, Wallet } from "lucide-react";
-
+import { SiGoogleclassroom } from "react-icons/si";
 import {
   Sheet,
   SheetContent,
@@ -16,6 +16,7 @@ import { UserRole } from "@prisma/client";
 import Link from "next/link";
 
 import { GiHeartPlus } from "react-icons/gi";
+import { FaGamepad, FaUserCircle } from "react-icons/fa";
 
 
 
@@ -43,14 +44,19 @@ export default function Header() {
       <MenubarMenu>
         <MenubarTrigger> <Crown /> </MenubarTrigger>
         <MenubarContent>
+          <Link href={"/game/dashboard"}>
           <MenubarItem>
-            Music Leaderboard 
+            Game Leaderboard 
           </MenubarItem>
+          </Link>
+          <Link href={"/courses/dashboard"}>
           <MenubarItem>
           Class Leaderboard 
           </MenubarItem>
+          </Link>
+          <Link href={"/activities/dashboard"}>
           <MenubarItem >Activities Leaderboard </MenubarItem>
-         
+          </Link>
           <MenubarSeparator />
           <MenubarItem>
             Scoreboard 
@@ -91,15 +97,26 @@ export default function Header() {
          
         </MenubarContent>
       </MenubarMenu>
-      <RoleGate allowedRole={UserRole.TEACHER} >
+      
       <MenubarMenu>
         <MenubarTrigger><LayoutDashboard /></MenubarTrigger>
         <MenubarContent>
           <Link href={"/dashboard"}>
-          <MenubarItem > User dashboard </MenubarItem>
+          <MenubarItem > User dashboard <MenubarShortcut> <FaUserCircle /> </MenubarShortcut>  </MenubarItem> 
           </Link>
+          <RoleGate allowedRole={UserRole.TEACHER} >
           <Link href={"/teacher/courses"}>
-          <MenubarItem > Teacher dashboard </MenubarItem>
+          <MenubarItem > Teacher dashboard <MenubarShortcut> <LiaChalkboardTeacherSolid /> </MenubarShortcut> </MenubarItem>
+          </Link>
+          </RoleGate>
+          <Link href={"/game"}>
+          <MenubarItem > Game <MenubarShortcut> <FaGamepad /> </MenubarShortcut>  </MenubarItem>
+          </Link>
+          <Link href={"/courses/dashboard"}>
+          <MenubarItem > Courses <MenubarShortcut> <SiGoogleclassroom /> </MenubarShortcut> </MenubarItem>
+          </Link>
+          <Link href={"/activities/dashboard"}>
+          <MenubarItem > Activities <MenubarShortcut> <VscCompassActive /> </MenubarShortcut> </MenubarItem>
           </Link>
           <MenubarSeparator/>
           <MenubarSub>
@@ -112,7 +129,6 @@ export default function Header() {
           </MenubarSub>
         </MenubarContent>
       </MenubarMenu>
-      </RoleGate>
     </Menubar>
             <ProfileOptions/>
             

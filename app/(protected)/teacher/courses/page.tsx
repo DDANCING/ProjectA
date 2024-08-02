@@ -30,7 +30,7 @@ const CoursesPage =  async () => {
     
     
   
-     <Card className=" p-6 w-full rounded shadow-none bg-background/40">
+     <Card className="h-full p-6 w-full rounded shadow-none bg-background/40">
      <DataTable columns={columns} data={courses} />
       </Card>
       
