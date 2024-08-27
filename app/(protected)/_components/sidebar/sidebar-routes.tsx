@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowBigLeftDash, BarChart, Compass, Crown, Gamepad2, Guitar, Heart, Layout, List, Search, Settings, ShoppingBasket, Sidebar, User, Video } from "lucide-react";
+import { ArrowBigLeftDash, BarChart, Compass, Crown, Gamepad2, Guitar, Layout, List, Search, Settings, ShoppingBasket, Sidebar, Store, User, Video } from "lucide-react";
 import { SidebarItem } from "@/app/(protected)/_components/sidebar/sidebar-item";
 import { usePathname } from "next/navigation";
 
@@ -124,17 +124,17 @@ const activityRoutes = [
   },
   {
     icon: Compass,
-    label: "Your route",
-    href: "/activities/route"
+    label: "Quests",
+    href: "/activities/quests"
   },
   {
-    icon: Heart,
-    label: "Liked activities",
-    href: "/activities/liked"
+    icon: Store,
+    label: "Shop",
+    href: "/activities/shop"
   },
   {
     icon: Crown,
-    label: "Activities leaderboard",
+    label: "Leaderboard",
     href: "/activities/leaderboard"
   },
 ];
