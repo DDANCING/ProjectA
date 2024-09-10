@@ -13,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sidebar } from "@/app/(protected)/_components/sidebar/sidebar";
 import { auth } from "@/auth";
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
@@ -24,13 +23,18 @@ import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Banner } from "@/components/banner";
 import { Actions } from "@/app/(protected)/_components/course/courseid/actions";
 
-const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
+const CourseIdPage = async ({ params }: { params: { courseid: string } }) => {
   const user = await auth();
-  const courseId = params.courseId;
+  const courseId = params.courseid;
 
   if (!user?.user.id) {
     return redirect("/dashboard");
   }
+
+if (!courseId) {
+  return redirect("/dashboard");
+}
+
 
   const course = await db.course.findUnique({
     where: {
@@ -80,16 +84,16 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
 
   return (
   <>
-  
-  <main className="p-4 flex gap-4 rounded-sm h-full  justify-between ">
-      
-      <Card className="overflow-y-auto h-[87vh]  p-6 backdrop-blur-md flex-1">
-      {!course.isPublished && (
+  {!course.isPublished && (
     <Banner
     label="The course has not been published and is not visible to students."
     
     />
   )}
+  <main className="p-4 flex gap-4 rounded-sm h-full  justify-between ">
+      
+      <Card className="overflow-y-auto h-[87vh]  p-6 backdrop-blur-md flex-1">
+      
       <div className="flex flex-row  justify-between">
         <div className="flex flex-col gap-y-2 pb-4">
           <h1 className="text-3xl font-medium">Course setup</h1>
@@ -99,7 +103,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         </div>
         <Actions
             disabled={!isComplete}
-            courseId={params.courseId}
+            courseId={params.courseid}
             isPublished={course.isPublished}
           />
         </div>
