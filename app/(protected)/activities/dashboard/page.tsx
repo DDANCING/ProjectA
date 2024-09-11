@@ -21,7 +21,7 @@ const dashboardPage = async () => {
            road
         </div>
       </Card>
-      <Card className="flex-1 relative top-0 pb-10">
+      <Card className="overflow-y-auto h-[87vh] flex-1 relative top-0 pb-10">
           <div className="h-[200px] w-full bg-primary"/>
           <div className="h-[200px] w-full bg-primary"/>
           <div className="h-[200px] w-full bg-primary"/>
