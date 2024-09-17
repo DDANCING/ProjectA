@@ -18,7 +18,7 @@ const guestRoutes = [
   {
     icon: Compass,
     label: "Activities",
-    href: "/activities/dashboard"
+    href: "/activities"
   },
   {
     icon: Crown,
@@ -119,8 +119,13 @@ const activityRoutes = [
   },
   {
     icon: Layout,
-    label: "Activities dashboard",
-    href: "/activities/dashboard"
+    label: "Activities",
+    href: "/activities"
+  },
+  {
+    icon: Compass,
+    label: "Learn",
+    href: "/activities/learn"
   },
   {
     icon: Compass,

@@ -18,7 +18,7 @@ export const UserProgress = ({
 }: Props) => {
   return (
     <div className="flex items-center justify-between gap-x-2 w-full">
-     <Link href="/courses">
+     <Link href="/activities">
      <Button variant="ghost">
       <Image
       src={activeCourse.imageSrc}
@@ -29,13 +29,13 @@ export const UserProgress = ({
       />
      </Button>
      </Link>
-     <Link href="activies/shop">
+     <Link href="/activities/shop">
      <Button variant="ghost" className="text-primary">
        <Image src="\img\icons\XP.svg" height={28} width={28} alt="Points" className="mr-2"/>
        {points}
      </Button>
      </Link>
-     <Link href="activies/shop">
+     <Link href="/activities/shop">
      <Button variant="ghost" className="text-primary">
        <Image src="\img\icons\heart.svg" height={22} width={22} alt="heart" className="mr-2"/>
        {hasActiveSubscription ? <InfinityIcon className="h-4 w-4 stroke-[3]"/> : hearts}
