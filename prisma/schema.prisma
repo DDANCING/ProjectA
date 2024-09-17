@@ -36,10 +36,10 @@ model User {
   password                 String?
   role                     UserRole               @default(USER)
   isTwoFactorEnabled       Boolean                @default(false)
-  twoFactorConfirmationId  String?
   stripe_customer_id       String?
   stripe_subscription_item String?
   api_key                  String?
+  twoFactorConfirmationId  String?
   Performace               Performace[]
   twoFactorConfirmation    TwoFactorConfirmation?
   accounts                 Account[]
@@ -49,18 +49,19 @@ model User {
 }
 
 model Music {
-  id          Int          @id @default(autoincrement())
-  title       String
-  artist      String
-  youtubeLink String
-  tabs        String
-  coverAlbum  String
-  tuning      String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  timeMinutes Int
-  timeSeconds Int
-  performace  Performace[]
+  id             Int              @id @default(autoincrement())
+  title          String
+  artist         String
+  youtubeLink    String
+  tabs           String
+  coverAlbum     String
+  tuning         String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  timeMinutes    Int
+  timeSeconds    Int
+  ExerciseModule ExerciseModule[]
+  performace     Performace[]
 }
 
 model Performace {
@@ -118,20 +119,21 @@ model TwoFactorConfirmation {
 }
 
 model Course {
-  id          String      @id @default(uuid())
-  userId      String
-  title       String
-  description String?
-  imageUrl    String?
-  price       Float?
-  isPublished Boolean     @default(false)
-  categoryId  String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  activities  Activitie[]
-  chapters    Chapter[]
-  category    Category?   @relation(fields: [categoryId], references: [id])
-  purchases   Purchase[]
+  id             String           @id @default(uuid())
+  userId         String
+  title          String
+  description    String?
+  imageUrl       String?
+  price          Float?
+  isPublished    Boolean          @default(false)
+  categoryId     String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  activities     Activitie[]
+  chapters       Chapter[]
+  category       Category?        @relation(fields: [categoryId], references: [id])
+  ExerciseModule ExerciseModule[]
+  purchases      Purchase[]
 
   @@index([categoryId])
 }
@@ -181,13 +183,15 @@ model MuxData {
 }
 
 model UserProgress {
-  id          String   @id @default(uuid())
-  userId      String
-  chapterId   String
-  isCompleted Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  id               String          @id @default(uuid())
+  userId           String
+  isCompleted      Boolean         @default(false)
+  chapterId        String
+  createdAt        DateTime        @default(now())
+  exerciseModuleId Int?
+  updatedAt        DateTime        @updatedAt
+  chapter          Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  ExerciseModule   ExerciseModule? @relation(fields: [exerciseModuleId], references: [id])
 
   @@unique([userId, chapterId])
   @@index([chapterId])
@@ -205,12 +209,98 @@ model Purchase {
   @@index([courseId])
 }
 
+model ExerciseModule {
+  id                         Int                          @id @default(autoincrement())
+  title                      String
+  imageSrc                   String
+  courseId                   String?
+  musicId                    Int?
+  course                     Course?                      @relation(fields: [courseId], references: [id])
+  music                      Music?                       @relation(fields: [musicId], references: [id])
+  units                      Unit[]
+  userProgress               UserProgress[]
+  UserProgressExerciseModule UserProgressExerciseModule[]
+}
+
+model Unit {
+  id          Int            @id @default(autoincrement())
+  title       String
+  description String
+  order       Int
+  activitieId Int
+  lessons     Lesson[]
+  activitie   ExerciseModule @relation(fields: [activitieId], references: [id], onDelete: Cascade)
+}
+
+model Lesson {
+  id         Int         @id @default(autoincrement())
+  title      String
+  unitId     Int
+  order      Int
+  challenges Challenge[]
+  unit       Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
+}
+
+model Challenge {
+  id                Int                 @id @default(autoincrement())
+  lessonId          Int
+  type              ChallengeType
+  question          String
+  order             Int
+  lesson            Lesson              @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  challengeOptions  ChallengeOption[]
+  challengeProgress ChallengeProgress[]
+}
+
+model ChallengeOption {
+  id          Int       @id @default(autoincrement())
+  challengeId Int
+  text        String
+  correct     Boolean
+  imageSrc    String?
+  audioSrc    String?
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model ChallengeProgress {
+  id          Int       @id @default(autoincrement())
+  userId      String
+  challengeId Int
+  completed   Boolean   @default(false)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model UserProgressExerciseModule {
+  userId            String         @id
+  userName          String         @default("User")
+  userImageSrc      String         @default("/mascot.svg")
+  activeActivitieId Int?
+  hearts            Int            @default(5)
+  points            Int            @default(0)
+  exerciseModuleId  Int
+  ExerciseModule    ExerciseModule @relation(fields: [exerciseModuleId], references: [id])
+}
+
+model UserSubscription {
+  id                     Int      @id @default(autoincrement())
+  userId                 String   @unique
+  stripeCustomerId       String   @unique
+  stripeSubscriptionId   String   @unique
+  stripePriceId          String
+  stripeCurrentPeriodEnd DateTime
+}
+
 model StripeCustomer {
   id               String   @id @default(uuid())
   userId           String   @unique
   stripeCustomerId String   @unique
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+enum ChallengeType {
+  SELECT
+  ASSIST
 }
 
 enum UserRole {

@@ -31,6 +31,7 @@ const dashboardPage = async () => {
       </Card>
       <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10">
           <Header title="Course name"/>
+         
       </Card>
     </div>
 
