@@ -22,7 +22,7 @@ const dashboardPage = async () => {
       <Card className="hidden lg:block w-[368px] stick self-end bottom-6">
         <div className="min-h-[calc(94vh-48px)] sticky top-6 flex flex-col gap-y-4">
            <UserProgress
-            activeCourse={{ title: "guitar", imageSrc: "/guitar.svg"}}
+            activeCourse={{ title: "guitar", imageSrc: "\public\img\icons\Guitar.svg"}}
             hearts={5}
             points={100}
             hasActiveSubscription={false}
