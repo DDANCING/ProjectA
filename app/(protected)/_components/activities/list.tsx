@@ -1,5 +1,5 @@
 "use client";
-import { Card } from "@/components/ui/card";
+
 import { ExerciseModule } from "@prisma/client"
 import { ActivitieCard } from "./card";
 
