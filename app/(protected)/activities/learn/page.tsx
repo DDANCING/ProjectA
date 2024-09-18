@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Header } from "../../_components/activities/header";
 import { UserProgress } from "../../_components/activities/user-progress";
+import { getUserProgress } from "@/actions/get-userProgress";
 
 
 const dashboardPage = async () => {
@@ -11,10 +12,19 @@ const dashboardPage = async () => {
 
 
   if (!userId) {
-    return redirect("/");
+    return redirect("/activities");
   }
+ const userProgressData = getUserProgress();
 
+ const [
+  userProgress
+] = await Promise.all([
+  userProgressData
+])
 
+if(!userProgress || !userProgress.activeExercise) {
+  redirect("/activities")
+}
   return ( 
    
    

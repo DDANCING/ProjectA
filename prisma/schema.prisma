@@ -274,11 +274,11 @@ model UserProgressExerciseModule {
   userId           String         @id
   userName         String         @default("User")
   userImageSrc     String         @default("/mascot.svg")
-  activeExerciseId Int?
   hearts           Int            @default(5)
   points           Int            @default(0)
   exerciseModuleId Int
-  ExerciseModule   ExerciseModule @relation(fields: [exerciseModuleId], references: [id])
+  activeExerciseId Int?
+  activeExercise   ExerciseModule @relation(fields: [exerciseModuleId], references: [id])
 }
 
 model UserSubscription {
