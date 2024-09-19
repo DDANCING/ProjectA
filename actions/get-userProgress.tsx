@@ -69,7 +69,7 @@ export const upsertUserProgress = async (activitieId: number) => {
     data: {
       userId: user.id,
       activeExercise: { connect: { id: activitieId } },
-      userName: user.name,
+      userName: user?.name ?? '',
       userImageSrc: user.image || "TODO:svg",
     },
   });

@@ -22,9 +22,9 @@ const dashboardPage = async () => {
   userProgressData
 ])
 
-//if(!userProgress || !userProgress.activeExercise) {
-  //redirect("/activities")
-//}
+if(!userProgress || !userProgress.activeExercise) {
+  redirect("/activities")
+}
   return ( 
    
    
