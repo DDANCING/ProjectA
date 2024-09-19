@@ -38,7 +38,7 @@ export const List = ({ activities, activeActivitieId }: Props) => {
           title={activitie.title}
           imageSrc={activitie.imageSrc}
           onClick={onClick}
-          disabled={false}
+          disabled={pending}
           active={activitie.id === activeActivitieId}  // Verifica se a atividade é a ativa
         />
       ))}

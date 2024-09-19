@@ -42,6 +42,7 @@ export const upsertUserProgress = async (activitieId: number) => {
   if (!activitie) {
     throw new Error("Activity not found");
   }
+  
 
  // if (!activitie.units.length || !activitie.units[0].lessons.length) {
   //  throw new Error("Activity is empty");
