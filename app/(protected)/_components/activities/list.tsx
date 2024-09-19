@@ -1,7 +1,11 @@
 "use client";
 
-import { ExerciseModule, UserProgress } from "@prisma/client";
+import { ExerciseModule } from "@prisma/client";
 import { ActivitieCard } from "./card";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { upsertUserProgress } from "@/actions/get-userProgress";
+import { toast } from "sonner";
 
 type Props = {
   activities: ExerciseModule[];
@@ -9,6 +13,22 @@ type Props = {
 };
 
 export const List = ({ activities, activeActivitieId }: Props) => {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+
+  const onClick = (id: number) => {
+    if (pending) return;
+
+    if (id === activeActivitieId) {
+      return router.push("/activities/learn");
+    }
+
+    startTransition(() => {
+      upsertUserProgress(id)  
+        .catch(() => toast.error("Something went wrong."));
+    });
+  
+  }
   return (
     <div className="pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
       {activities.map((activitie) => (
@@ -17,7 +37,7 @@ export const List = ({ activities, activeActivitieId }: Props) => {
           id={activitie.id}
           title={activitie.title}
           imageSrc={activitie.imageSrc}
-          onClick={() => {}}
+          onClick={onClick}
           disabled={false}
           active={activitie.id === activeActivitieId}  // Verifica se a atividade é a ativa
         />
