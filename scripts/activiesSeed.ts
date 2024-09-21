@@ -26,8 +26,8 @@ const main = async () => {
     // Insert units (without specifying IDs)
     await prisma.unit.createMany({
       data: [
-        { activitieId: 1, title: 'Unit 1: Basic Chords', description: 'Learn essential chords', order: 1 },
-        { activitieId: 1, title: 'Unit 2: Strumming Patterns', description: 'Develop rhythm and strumming', order: 2 },
+        { exerciseModuleId: 1, title: 'Unit 1: Basic Chords', description: 'Learn essential chords', order: 1 },
+        { exerciseModuleId: 1, title: 'Unit 2: Strumming Patterns', description: 'Develop rhythm and strumming', order: 2 },
       ],
     });
 

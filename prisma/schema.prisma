@@ -223,13 +223,13 @@ model ExerciseModule {
 }
 
 model Unit {
-  id          Int            @id @default(autoincrement())
-  title       String
-  description String
-  order       Int
-  activitieId Int
-  lessons     Lesson[]
-  activitie   ExerciseModule @relation(fields: [activitieId], references: [id], onDelete: Cascade)
+  id               Int            @id @default(autoincrement())
+  title            String
+  description      String
+  order            Int
+  lessons          Lesson[]
+  exerciseId       ExerciseModule @relation(fields: [exerciseModuleId], references: [id])
+  exerciseModuleId Int
 }
 
 model Lesson {
