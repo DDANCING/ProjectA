@@ -1,6 +1,14 @@
+"use server"
+
 import { cache } from "react"; 
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getActivitiesById } from "./get-activities";
+import { UserProgress } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+
 
 export const getUserProgress = cache(async () => {
   const user = await currentUser();
@@ -14,9 +22,59 @@ export const getUserProgress = cache(async () => {
       userId: user.id,
     },
     include: {
-      activeExercise: true, 
+      activeExercise: true,  // Inclui a atividade ativa
     },
   });
 
+  // Retorna o id da atividade ativa
   return data;
 });
+
+export const upsertUserProgress = async (activitieId: number) => {
+  const user = await currentUser();
+
+  if (!user?.id || !user) {
+    throw new Error("Unauthorized");
+  }
+
+  const  activitie = await getActivitiesById(activitieId);
+
+  if (!activitie) {
+    throw new Error("Activity not found");
+  }
+  
+
+ // if (!activitie.units.length || !activitie.units[0].lessons.length) {
+  //  throw new Error("Activity is empty");
+  //}
+
+  const existingUserProgress = await getUserProgress();
+
+  if (existingUserProgress) {
+    await db.userProgressExerciseModule.update({
+      where: {
+        userId: user.id,  
+      },
+      data: {
+      activeExerciseId: activitieId,
+      userName: user.name ?? "Unknown User",
+      userImageSrc: user.image || "TODO:svg",
+        
+      },
+    });
+    revalidatePath("/activities");
+    revalidatePath("/activities/learn");
+    redirect("/activities/learn")
+  }
+  await db.userProgressExerciseModule.create({
+    data: {
+      userId: user.id,
+      activeExercise: { connect: { id: activitieId } },
+      userName: user?.name ?? '',
+      userImageSrc: user.image || "TODO:svg",
+    },
+  });
+  revalidatePath("/activities");
+  revalidatePath("/activities/learn");
+  redirect("/activities/learn")
+}

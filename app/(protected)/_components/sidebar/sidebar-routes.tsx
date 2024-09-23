@@ -118,11 +118,6 @@ const activityRoutes = [
     href: "/dashboard"
   },
   {
-    icon: Layout,
-    label: "Activities",
-    href: "/activities"
-  },
-  {
     icon: Compass,
     label: "Learn",
     href: "/activities/learn"

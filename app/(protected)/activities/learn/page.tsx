@@ -3,6 +3,10 @@ import { redirect } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Header } from "../../_components/activities/header";
 import { UserProgress } from "../../_components/activities/user-progress";
+import { getUserProgress } from "@/actions/get-userProgress";
+import { getUnits } from "@/actions/get-units";
+import { CardStackPlusIcon } from "@radix-ui/react-icons";
+import { Unit } from "../../_components/activities/unit";
 
 
 const dashboardPage = async () => {
@@ -11,8 +15,23 @@ const dashboardPage = async () => {
 
 
   if (!userId) {
-    return redirect("/");
+    return redirect("/activities");
   }
+ const userProgressData = getUserProgress();
+ const unitsData = getUnits();
+
+ const [
+  userProgress,
+  units,
+] = await Promise.all([
+  userProgressData,
+  unitsData,
+]);
+
+if(!userProgress || !userProgress.activeExercise) {
+  redirect("/activities")
+}
+
 
 
   return ( 
@@ -30,8 +49,20 @@ const dashboardPage = async () => {
         </div>
       </Card>
       <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10">
-          <Header title="Course name"/>
-         
+          <Header title={userProgress.activeExercise.title}/>
+          {units.map((unit) => (
+            <div key={unit.id} className="mb-10">
+              <Unit
+              id={unit.id}
+              order={unit.order}
+              description={unit.description}
+              title={unit.title}
+              lessons={unit.lessons}
+              activeLesson={undefined}
+              activeLessonPercentage={0}
+              />
+            </div>
+          ))}
       </Card>
     </div>
 
