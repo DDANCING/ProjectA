@@ -2,12 +2,16 @@
 import { cache } from "react";
 import { db } from "@/lib/db";
 import { getUserProgress } from "./get-userProgress";
+import { useUser } from "@/data/hooks/use-current-auth";
 
 export const getUnits = cache(async () => {
+  const user = await useUser();
+  
+
   const userProgress = await getUserProgress();
 
 
-  if (!userProgress?.activeExerciseId) {
+  if (!user.userId || !userProgress?.activeExerciseId) {
     return [];
   }
   
@@ -20,7 +24,11 @@ export const getUnits = cache(async () => {
         include: {
           challenges: {
             include: {
-              challengeProgress: true,
+              challengeProgress: {
+                where: {
+                  userId: user.userId,
+                }
+              },
             },
           },
         },
@@ -28,7 +36,6 @@ export const getUnits = cache(async () => {
     },
   });
   
-  console.log("Unidades encontradas:", data);
 
    const normalizedData = data.map((unit) => {
     const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
