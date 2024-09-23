@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Header } from "../../_components/activities/header";
 import { UserProgress } from "../../_components/activities/user-progress";
 import { getUserProgress } from "@/actions/get-userProgress";
+import { getUnits } from "@/actions/get-units";
 
 
 const dashboardPage = async () => {
@@ -15,16 +16,22 @@ const dashboardPage = async () => {
     return redirect("/activities");
   }
  const userProgressData = getUserProgress();
+ const unitsData = getUnits();
 
  const [
-  userProgress
+  userProgress,
+  units,
 ] = await Promise.all([
-  userProgressData
-])
+  userProgressData,
+  unitsData,
+]);
 
 if(!userProgress || !userProgress.activeExercise) {
   redirect("/activities")
 }
+
+
+
   return ( 
    
    
@@ -41,7 +48,11 @@ if(!userProgress || !userProgress.activeExercise) {
       </Card>
       <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10">
           <Header title="Course name"/>
-         
+          {units.map((unit) => (
+            <div key={unit.id} className="mb-10">
+              {JSON.stringify(unit)}
+            </div>
+          ))}
       </Card>
     </div>
 

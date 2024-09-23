@@ -227,9 +227,9 @@ model Unit {
   title            String
   description      String
   order            Int
+  exerciseModuleId Int
   lessons          Lesson[]
   exerciseId       ExerciseModule @relation(fields: [exerciseModuleId], references: [id])
-  exerciseModuleId Int
 }
 
 model Lesson {
