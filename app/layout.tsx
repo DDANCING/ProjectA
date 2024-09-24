@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from 'nextjs-toploader';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +24,7 @@ export default async function RootLayout({
   return (
     
     <SessionProvider session={session}>
-      <SpeedInsights/>
+      
       <html lang="en">
         <body className={inter.className}>
           <NextTopLoader
@@ -37,12 +37,14 @@ export default async function RootLayout({
             easing="ease"
             speed={200}
             shadow="0 0 10px #6213D2,0 0 5px #6213D2" />
+         
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
+           
             {children}
             <Toaster />
           </ThemeProvider>
