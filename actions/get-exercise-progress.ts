@@ -1,13 +1,15 @@
-import { useCurrentUser } from "@/data/hooks/use-current-user";
+"use server"
+
 import { cache } from "react";
 import { getUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
+import { auth } from "@/auth";
 
 export const getExerciseProgress =  cache(async () =>{
-  const user = useCurrentUser();
+  const user = await auth();
   const userProgress = await getUserProgress();
 
-  if (!user?.id || !userProgress?.activeExerciseId){
+  if (!user?.user.id || !userProgress?.activeExerciseId){
    return null;
   }
   const unitsInActiveExercise = await db.unit.findMany({
@@ -28,7 +30,7 @@ export const getExerciseProgress =  cache(async () =>{
             where: {
               challengeProgress: {
                 some: { 
-                  userId: user.id,
+                  userId: user.user.id,
                 },
               },
             },

@@ -1,16 +1,19 @@
+"use server"
+
 import { useCurrentUser } from "@/data/hooks/use-current-user";
 import { cache } from "react";
 import { getExerciseProgress } from "./get-exercise-progress";
 import { db } from "@/lib/db";
+import { auth } from "@/auth";
 
 
 export const getLesson = cache(async (id?: number) => {
-  const user = useCurrentUser();
+  const user = await auth();
   const exerciseProgress = await getExerciseProgress();
 
   const lessonId = id || exerciseProgress?.activeLessonId;
   
-  if(!user?.id) {
+  if(!user?.user.id) {
     return null;
   }
   if(!lessonId) {
@@ -30,7 +33,7 @@ export const getLesson = cache(async (id?: number) => {
           challengeOptions: true,
           challengeProgress: {
             where: {
-              userId: user?.id,
+              userId: user?.user.id,
             },
           },
         },
@@ -58,5 +61,16 @@ export const getLessonPercentage = cache(async () => {
     return 0;
   }
 
-  const lesson = await getLesson(exerciseProgress.activeLessonId)
-})
+  const lesson = await getLesson(exerciseProgress.activeLessonId);
+
+  if (!lesson) {
+    return 0;
+  }
+
+  const completedChallenges = lesson.challenges.filter((challenge) => challenge.completed);
+  const percentage = Math.round(
+    (completedChallenges.length / lesson.challenges.length) * 100,
+  );
+  return percentage;
+  
+});

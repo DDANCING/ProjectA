@@ -73,7 +73,7 @@ export const LessonButton = ({
               classNames={{
                 svg: "w-[102px] h-[102px] drop-shadow-md",
                 indicator: "stroke-primary",
-                track: "stroke-white/10",
+                track: "stroke-foreground/30",
                 value: "text-3xl font-semibold text-white",
               }}
               value={Number.isNaN(percentage) ? 0 : percentage}
@@ -83,7 +83,7 @@ export const LessonButton = ({
             <div className="absolute inset-0 flex items-center justify-center">
                 <Button
                   variant={locked ? "locked" : "default"}
-                  className="rounded-full h-[70px] w-[70px] border-b-2 flex items-center justify-center"
+                  className="rounded-full h-[70px] w-[70px] border-b-4 border-background/40 flex items-center justify-center"
                 >
                   <Icon
                     className={cn(

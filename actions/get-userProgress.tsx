@@ -4,22 +4,22 @@ import { cache } from "react";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getActivitiesById } from "./get-activities";
-import { UserProgress } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 
 
 export const getUserProgress = cache(async () => {
-  const user = await currentUser();
+  const user = await auth();
 
-  if (!user?.id) {
+  if (!user?.user.id) {
     return null;
   }
 
   const data = await db.userProgressExerciseModule.findFirst({
     where: {
-      userId: user.id,
+      userId: user.user.id,
     },
     include: {
       activeExercise: true,  // Inclui a atividade ativa
@@ -56,9 +56,9 @@ export const upsertUserProgress = async (activitieId: number) => {
         userId: user.id,  
       },
       data: {
-      activeExerciseId: activitieId,
-      userName: user.name ?? "Unknown User",
-      userImageSrc: user.image || "TODO:svg",
+        activeExercise: { connect: { id: activitieId } },
+        userName: user?.name ?? '',
+        userImageSrc: user.image || "TODO:svg",
         
       },
     });
