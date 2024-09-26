@@ -1,6 +1,5 @@
 "use server"
 
-import { useCurrentUser } from "@/data/hooks/use-current-user";
 import { cache } from "react";
 import { getExerciseProgress } from "./get-exercise-progress";
 import { db } from "@/lib/db";
@@ -74,3 +73,15 @@ export const getLessonPercentage = cache(async () => {
   return percentage;
   
 });
+
+export const getActiveLesson = cache(async () => {
+const exerciseProgress = await getExerciseProgress();
+const activeLesson = await db.lesson.findFirst({
+  
+  where: { id: exerciseProgress?.activeLessonId },
+  include: {
+    unit: true 
+  },
+});
+return activeLesson;
+})

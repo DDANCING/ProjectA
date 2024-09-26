@@ -6,9 +6,8 @@ import { UserProgress } from "../../_components/activities/user-progress";
 import { getUserProgress } from "@/actions/get-userProgress";
 import { getUnits } from "@/actions/get-units";
 import { getExerciseProgress } from "@/actions/get-exercise-progress";
-import { getLessonPercentage } from "@/actions/get-lesson";
+import { getActiveLesson, getLessonPercentage } from "@/actions/get-lesson";
 import { Unit } from "../../_components/activities/unit";
-import { db } from "@/lib/db";
 
 
 const learnPage = async () => {
@@ -20,40 +19,37 @@ const learnPage = async () => {
   }
 
   
-  const exerciseProgress = await getExerciseProgress();
-
-  if (!exerciseProgress) {
-    return redirect("/courses");
-  }
-
-  
-  const activeLesson = await db.lesson.findFirst({
-    where: { id: exerciseProgress?.activeLessonId },
-    include: {
-      unit: true 
-    },
-  });
-
-  if (!activeLesson) {
-    return redirect("/courses");
-  }
-
+  const exerciseProgressData = getExerciseProgress();
+  const activeLessonData = getActiveLesson();
   const userProgressData = getUserProgress();
   const lessonPercentageData = getLessonPercentage();
   const unitsData = getUnits();
 
   const [
+    exerciseProgress,
+    activeLesson,
     userProgress,
     units,
     lessonPercentage,
   ] = await Promise.all([
+    exerciseProgressData,
+    activeLessonData,
     userProgressData,
     unitsData,
     lessonPercentageData,
   ]);
 
+  if (!exerciseProgress) {
+    return redirect("/activities");
+  }
+
+
+  if (!activeLesson) {
+    return redirect("/activities");
+  }
+
   if (!userProgress || !userProgress.activeExercise) {
-    return redirect("/courses");
+    return redirect("/activities");
   }
 
   return (
@@ -68,7 +64,7 @@ const learnPage = async () => {
           />
         </div>
       </Card>
-      <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10">
+      <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
         <Header title={userProgress.activeExercise.title} />
         {units.map((unit) => (
           <div key={unit.id} className="mb-10">

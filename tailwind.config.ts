@@ -1,6 +1,9 @@
 import { withUt } from "uploadthing/tw";
 import type { Config } from "tailwindcss";
 
+// Adicione aqui o plugin da scrollbar se for necessário
+const scrollbarPlugin = require('tailwind-scrollbar');
+
 const config: Config = withUt({
   darkMode: ["class"],
   content: [
@@ -59,6 +62,13 @@ const config: Config = withUt({
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      spacing: {
+        128: '32rem',
+        144: '36rem',
+      },
+      screens: {
+        '3xl': '1600px', // Adiciona novo breakpoint para telas muito grandes
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -75,7 +85,10 @@ const config: Config = withUt({
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"), 
+    scrollbarPlugin({ nocompatible: true }) // Adicionando o plugin para estilizar scrollbar
+  ],
 });
 
 export default config;
