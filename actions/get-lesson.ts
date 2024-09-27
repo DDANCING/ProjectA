@@ -39,7 +39,7 @@ export const getLesson = cache(async (id?: number) => {
       },
     },
   });
-
+  
   if (!data || !data.challenges) {
     return null;
   }
@@ -49,39 +49,47 @@ export const getLesson = cache(async (id?: number) => {
 
     return { ...challenge, completed };
   });
-
+  
   return { ...data, challenges: normalizedChallenges};
 });
 
 export const getLessonPercentage = cache(async () => {
   const exerciseProgress = await getExerciseProgress();
-
-  if(!exerciseProgress?.activeLessonId) {
+ 
+  if (!exerciseProgress?.activeLessonId) {
     return 0;
   }
 
   const lesson = await getLesson(exerciseProgress.activeLessonId);
+  
 
   if (!lesson) {
     return 0;
   }
 
-  const completedChallenges = lesson.challenges.filter((challenge) => challenge.completed);
+  const completedChallenges = lesson.challenges
+    .filter((challenge) => challenge.completed);
+  
+
   const percentage = Math.round(
     (completedChallenges.length / lesson.challenges.length) * 100,
   );
-  return percentage;
   
+
+  return percentage;
 });
 
 export const getActiveLesson = cache(async () => {
-const exerciseProgress = await getExerciseProgress();
-const activeLesson = await db.lesson.findFirst({
+  const exerciseProgress = await getExerciseProgress();
   
-  where: { id: exerciseProgress?.activeLessonId },
-  include: {
-    unit: true 
-  },
+
+  const activeLesson = await db.lesson.findFirst({
+    where: { id: exerciseProgress?.activeLessonId },
+    include: {
+      unit: true 
+    },
+  });
+  
+
+  return activeLesson;
 });
-return activeLesson;
-})
