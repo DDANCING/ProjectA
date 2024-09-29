@@ -28,7 +28,7 @@ export const ExitModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={close}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md border-none">
         <DialogHeader>
          <div className="flex items-center w-full justify-center mb-5">
           <Image 
@@ -46,9 +46,15 @@ export const ExitModal = () => {
             </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mb-4">
-         <div className="w-full">
+         <div className="flex flex-col w-full gap-y-4">
          <Button className="w-full" size="lg" onClick={close}>
           Keep learning
+         </Button>
+         <Button variant="ghost" className="w-full text-red-600" size="lg" onClick={() => {
+          close();
+          router.push("/activities/learn");
+         }}>
+          END SESSION
          </Button>
          </div>
         </DialogFooter>
