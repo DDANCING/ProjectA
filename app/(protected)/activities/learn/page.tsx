@@ -5,68 +5,83 @@ import { Header } from "../../_components/activities/header";
 import { UserProgress } from "../../_components/activities/user-progress";
 import { getUserProgress } from "@/actions/get-userProgress";
 import { getUnits } from "@/actions/get-units";
-import { CardStackPlusIcon } from "@radix-ui/react-icons";
+import { getExerciseProgress } from "@/actions/get-exercise-progress";
+import { getActiveLesson, getLessonPercentage } from "@/actions/get-lesson";
 import { Unit } from "../../_components/activities/unit";
 
 
-const dashboardPage = async () => {
+const learnPage = async () => {
   const user = await auth();
   const userId = user?.user.id;
-
 
   if (!userId) {
     return redirect("/activities");
   }
- const userProgressData = getUserProgress();
- const unitsData = getUnits();
 
- const [
-  userProgress,
-  units,
-] = await Promise.all([
-  userProgressData,
-  unitsData,
-]);
+  
+  const exerciseProgressData = getExerciseProgress();
+  const activeLessonData = getActiveLesson();
+  const userProgressData = getUserProgress();
+  const lessonPercentageData = getLessonPercentage();
+  const unitsData = getUnits();
 
-if(!userProgress || !userProgress.activeExercise) {
-  redirect("/activities")
-}
+  const [
+    exerciseProgress,
+    activeLesson,
+    userProgress,
+    units,
+    lessonPercentage,
+  ] = await Promise.all([
+    exerciseProgressData,
+    activeLessonData,
+    userProgressData,
+    unitsData,
+    lessonPercentageData,
+  ]);
+
+  if (!exerciseProgress) {
+    return redirect("/activities");
+  }
 
 
+  if (!activeLesson) {
+    return redirect("/activities");
+  }
 
-  return ( 
-   
-   
+  if (!userProgress || !userProgress.activeExercise) {
+    return redirect("/activities");
+  }
+
+  return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <Card className="hidden lg:block w-[368px] stick self-end bottom-6">
         <div className="min-h-[calc(94vh-48px)] sticky top-6 flex flex-col gap-y-4">
-           <UserProgress
-            activeCourse={{ title: "guitar", imageSrc: "\public\img\icons\Guitar.svg"}}
+          <UserProgress
+            activeCourse={{ title: "guitar", imageSrc: "/public/img/icons/Guitar.svg" }}
             hearts={5}
             points={100}
             hasActiveSubscription={false}
-           />
+          />
         </div>
       </Card>
-      <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10">
-          <Header title={userProgress.activeExercise.title}/>
-          {units.map((unit) => (
-            <div key={unit.id} className="mb-10">
-              <Unit
+      <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+        <Header title={userProgress.activeExercise.title} />
+        {units.map((unit) => (
+          <div key={unit.id} className="mb-10">
+            <Unit
               id={unit.id}
               order={unit.order}
               description={unit.description}
               title={unit.title}
               lessons={unit.lessons}
-              activeLesson={undefined}
-              activeLessonPercentage={0}
-              />
-            </div>
-          ))}
+              activeLesson={activeLesson}
+              activeLessonPercentage={lessonPercentage}
+            />
+          </div>
+        ))}
       </Card>
     </div>
+  );
+};
 
-  )
-}
- 
-export default dashboardPage;
+export default learnPage;

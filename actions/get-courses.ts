@@ -1,3 +1,4 @@
+"use server";
 import { Category, Course } from "@prisma/client";
 
 import { getProgess } from "@/actions/get-progress";

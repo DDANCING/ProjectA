@@ -1,9 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { UnitBanner } from './unit-banner';
-import { LessonButton } from './lesson-button';
-
-
-const prisma = new PrismaClient();
+import { UnitBanner } from "./unit-banner";
+import { LessonButton } from "./lesson-button";
 
 type Props = {
   id: number;
@@ -15,18 +11,18 @@ type Props = {
     title: string;
     completed: boolean;
   }[];
-  activeLesson?: {
+  activeLesson: {
     id: number;
     title: string;
     unit: {
       id: number;
       title: string;
     };
-  };
+  } | undefined;
   activeLessonPercentage: number;
 };
 
-export const Unit = async ({
+export const Unit = ({
   id,
   order,
   title,
@@ -35,25 +31,12 @@ export const Unit = async ({
   activeLesson,
   activeLessonPercentage,
 }: Props) => {
-  const unit = await prisma.unit.findUnique({
-    where: { id },
-    include: {
-      lessons: {
-        select: {
-          id: true,
-          title: true,
-          order: true,
-        },
-      },
-    },
-  });
-
   return (
     <>
       <UnitBanner title={title} description={description} />
       <div className="flex items-center flex-col relative">
         {lessons.map((lesson, index) => {
-          const isCurrent =  lesson.id === activeLesson?.id;
+          const isCurrent = lesson.id === activeLesson?.id;
           const isLocked = !lesson.completed && !isCurrent;
 
           return (

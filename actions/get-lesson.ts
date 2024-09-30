@@ -1,16 +1,18 @@
-import { useCurrentUser } from "@/data/hooks/use-current-user";
+"use server"
+
 import { cache } from "react";
 import { getExerciseProgress } from "./get-exercise-progress";
 import { db } from "@/lib/db";
+import { auth } from "@/auth";
 
 
 export const getLesson = cache(async (id?: number) => {
-  const user = useCurrentUser();
+  const user = await auth();
   const exerciseProgress = await getExerciseProgress();
 
   const lessonId = id || exerciseProgress?.activeLessonId;
   
-  if(!user?.id) {
+  if(!user?.user.id) {
     return null;
   }
   if(!lessonId) {
@@ -30,14 +32,14 @@ export const getLesson = cache(async (id?: number) => {
           challengeOptions: true,
           challengeProgress: {
             where: {
-              userId: user?.id,
+              userId: user?.user.id,
             },
           },
         },
       },
     },
   });
-
+  
   if (!data || !data.challenges) {
     return null;
   }
@@ -47,16 +49,47 @@ export const getLesson = cache(async (id?: number) => {
 
     return { ...challenge, completed };
   });
-
+  
   return { ...data, challenges: normalizedChallenges};
 });
 
 export const getLessonPercentage = cache(async () => {
   const exerciseProgress = await getExerciseProgress();
-
-  if(!exerciseProgress?.activeLessonId) {
+ 
+  if (!exerciseProgress?.activeLessonId) {
     return 0;
   }
 
-  const lesson = await getLesson(exerciseProgress.activeLessonId)
-})
+  const lesson = await getLesson(exerciseProgress.activeLessonId);
+  
+
+  if (!lesson) {
+    return 0;
+  }
+
+  const completedChallenges = lesson.challenges
+    .filter((challenge) => challenge.completed);
+  
+
+  const percentage = Math.round(
+    (completedChallenges.length / lesson.challenges.length) * 100,
+  );
+  
+
+  return percentage;
+});
+
+export const getActiveLesson = cache(async () => {
+  const exerciseProgress = await getExerciseProgress();
+  
+
+  const activeLesson = await db.lesson.findFirst({
+    where: { id: exerciseProgress?.activeLessonId },
+    include: {
+      unit: true 
+    },
+  });
+  
+
+  return activeLesson;
+});

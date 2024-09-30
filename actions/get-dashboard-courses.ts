@@ -1,3 +1,4 @@
+"use server"
 import { db } from "@/lib/db";
 import { Category, Chapter, Course } from "@prisma/client";
 import { getProgess } from "@/actions/get-progress";

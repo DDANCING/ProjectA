@@ -1,15 +1,22 @@
-import { useCurrentUser } from "@/data/hooks/use-current-user";
+"use server"
+
 import { cache } from "react";
 import { getUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
+import { auth } from "@/auth";
 
-export const getExerciseProgress =  cache(async () =>{
-  const user = useCurrentUser();
+export const getExerciseProgress = cache(async () => {
+  const user = await auth();
+  
+
   const userProgress = await getUserProgress();
+  
 
-  if (!user?.id || !userProgress?.activeExerciseId){
-   return null;
+  if (!user?.user.id || !userProgress?.activeExerciseId) {
+    
+    return null;
   }
+
   const unitsInActiveExercise = await db.unit.findMany({
     orderBy: {
       order: "asc",
@@ -25,13 +32,7 @@ export const getExerciseProgress =  cache(async () =>{
         include: {
           unit: true,
           challenges: {
-            where: {
-              challengeProgress: {
-                some: { 
-                  userId: user.id,
-                },
-              },
-            },
+            // Remover o filtro para garantir que todos os desafios sejam incluídos
             include: {  
               challengeProgress: true,
             },
@@ -41,17 +42,30 @@ export const getExerciseProgress =  cache(async () =>{
     },
   });
   
+  
+
+  unitsInActiveExercise.forEach((unit) => {
+    unit.lessons.forEach((lesson) => {
+      lesson.challenges.forEach((challenge) => {
+      });
+    });
+  });
+
   const firstUncompletedLesson = unitsInActiveExercise
     .flatMap((unit) => unit.lessons)
     .find((lesson) => {
       return lesson.challenges.some((challenge) => {
-        return !challenge.challengeProgress || challenge.challengeProgress.length === 0 || challenge.challengeProgress.some((progress) => progress.completed === false)
+        return (
+          !challenge.challengeProgress || 
+          challenge.challengeProgress.length === 0 || 
+          challenge.challengeProgress.some((progress) => progress.completed === false)
+        );
       });
     });
-    return {
-      activeLesson: firstUncompletedLesson,
-      activeLessonId: firstUncompletedLesson?.id,
-    };
-  });
 
- 
+
+  return {
+    activeLesson: firstUncompletedLesson,
+    activeLessonId: firstUncompletedLesson?.id,
+  };
+});

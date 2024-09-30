@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from 'nextjs-toploader';
+import { ExitModal } from "@/components/modals/exit-modal";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -47,6 +48,7 @@ export default async function RootLayout({
            
             {children}
             <Toaster />
+            <ExitModal/>
           </ThemeProvider>
         </body>
       </html>
