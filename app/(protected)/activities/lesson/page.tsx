@@ -2,6 +2,7 @@ import { getLesson } from "@/actions/get-lesson";
 import { getUserProgress } from "@/actions/get-userProgress";
 import { redirect } from "next/navigation";
 import { Quiz } from "../../_components/activities/lesson/quiz";
+import { Card } from "@/components/ui/card";
 
 
 const LessonPage = async () => {
@@ -26,6 +27,7 @@ const LessonPage = async () => {
   .length / lesson.challenges.length * 100;
 
   return (
+    <Card>
     <Quiz
       initialLessonId={lesson.id}
       initialLessonChallenges={lesson.challenges}
@@ -33,6 +35,7 @@ const LessonPage = async () => {
       initialPercentage={initialPercentage}
       userSubscription={null}
     />
+    </Card>
   );
 }
 export default LessonPage;
