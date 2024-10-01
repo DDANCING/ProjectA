@@ -27,7 +27,7 @@ const LessonPage = async () => {
   .length / lesson.challenges.length * 100;
 
   return (
-    <Card>
+    
     <Quiz
       initialLessonId={lesson.id}
       initialLessonChallenges={lesson.challenges}
@@ -35,7 +35,7 @@ const LessonPage = async () => {
       initialPercentage={initialPercentage}
       userSubscription={null}
     />
-    </Card>
+    
   );
 }
 export default LessonPage;
