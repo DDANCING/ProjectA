@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Header } from "./Header";
 import { ChallengeType } from "@prisma/client";
 import { QuestionBubble } from "./question-bubble";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
 import { Card } from "@/components/ui/card";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { toast } from "sonner";
 
 
 
@@ -15,6 +17,7 @@ type Props = {
   initialHearts: number;
   initialLessonId: number;
   initialLessonChallenges: {
+    id: number;
     completed: boolean;
     type: string; 
     question: string;  
@@ -44,6 +47,7 @@ export const Quiz = ({
     return uncompletedIndex === -1 ? 0 : uncompletedIndex;
   });
 
+  const [pending, startTransition] = useTransition();
   const [selectedOption, setSelectedOption] = useState<number>();
   const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
 
@@ -82,7 +86,23 @@ export const Quiz = ({
     }
 
     if (correctOption.id === selectedOption) {
-      console.log("correct option!");
+      startTransition(() => {
+        upsertChallengeProgress(challenge.id)
+        .then((response) => {
+          if (response?.error === "hearts") {
+            console.log("missing hearts")
+            return;
+          }
+          setStatus("correct");
+          setPercentage((prev) => prev + 100 / challenges.length);
+
+          if (initialPercentage === 100) {
+           setHearts((prev) =>  Math.min(prev + 1, 5))
+          }
+        })
+        .catch(() => toast.error("something went wrong! Please try again."))
+      })
+      
 
     } else {
       console.log("wrong option!");
