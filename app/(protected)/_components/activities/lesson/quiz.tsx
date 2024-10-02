@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Header } from "./Header";
 import { ChallengeType } from "@prisma/client";
 import { QuestionBubble } from "./question-bubble";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
 import { Card } from "@/components/ui/card";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { toast } from "sonner";
+import { reduceHearts } from "@/actions/get-userProgress";
+import { useAudio } from "react-use";
 
 
 
@@ -15,6 +19,7 @@ type Props = {
   initialHearts: number;
   initialLessonId: number;
   initialLessonChallenges: {
+    id: number;
     completed: boolean;
     type: string; 
     question: string;  
@@ -36,6 +41,17 @@ export const Quiz = ({
   initialLessonId,
   userSubscription,
 }: Props) => {
+  const [
+    correctAudio,
+    _c,
+    correctControls,
+  ] = useAudio({src: "/correct.wav"});
+  const [
+    incorrectAudio,
+    _i,
+    incorrectControls,
+  ] = useAudio({src: "/incorrect.wav"});
+
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
@@ -44,6 +60,7 @@ export const Quiz = ({
     return uncompletedIndex === -1 ? 0 : uncompletedIndex;
   });
 
+  const [pending, startTransition] = useTransition();
   const [selectedOption, setSelectedOption] = useState<number>();
   const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
 
@@ -82,11 +99,44 @@ export const Quiz = ({
     }
 
     if (correctOption.id === selectedOption) {
-      console.log("correct option!");
+      startTransition(() => {
+        upsertChallengeProgress(challenge.id)
+        .then((response) => {
+          if (response?.error === "hearts") {
+            console.log("missing hearts")
+            return;
+          }
+
+          correctControls.play();
+          setStatus("correct");
+          setPercentage((prev) => prev + 100 / challenges.length);
+
+          if (initialPercentage === 100) {
+           setHearts((prev) =>  Math.min(prev + 1, 5))
+          }
+        })
+        .catch(() => toast.error("something went wrong! Please try again."))
+      })
+      
 
     } else {
-      console.log("wrong option!");
-    }
+      startTransition(() => {
+        reduceHearts(challenge.id)
+        .then((response) => {
+          if (response?.error === "hearts") {
+            console.error("Missing hearts");
+            return;
+          }
+          incorrectControls.play();
+          setStatus("wrong");
+
+          if (!response?.error) {
+            setHearts((prev) => Math.max(prev - 1, 0))
+          }
+        })
+        .catch(() => toast.error("Something went wrong. Please try again."))
+      })
+    };
   };
 
   const title = challenge.type === "ASSIST" 
@@ -95,6 +145,8 @@ export const Quiz = ({
 
   return (
     <>
+    {incorrectAudio}
+    {correctAudio}
      <Card className="h-full flex flex-col">
       <Header
        hearts={hearts}
@@ -118,7 +170,7 @@ export const Quiz = ({
                onSelect={onSelect}
                status="none"
                selectedOption={selectedOption}
-               disabled={false}
+               disabled={pending}
                type={challenge.type}
               />
             </div>
@@ -127,7 +179,7 @@ export const Quiz = ({
       
      <div>
        <Footer
-        disabled={!selectedOption}
+        disabled={pending || !selectedOption}
         status={status}
         onCheck={onContinue}
         
