@@ -28,6 +28,16 @@ export const Card = ({
   status,
   type,
 }: Props) => {
+  const [
+    correctAudio,
+    _c,
+    correctControls,
+  ] = useAudio({src: "/correct.wav"});
+  const [
+    incorrectAudio,
+    _i,
+    incorrectControls,
+  ] = useAudio({src: "/incorrect.wav"});
   const [audio, _, controls] = useAudio({src: audioSrc || ""});
 
   const handleClick = useCallback(() => {

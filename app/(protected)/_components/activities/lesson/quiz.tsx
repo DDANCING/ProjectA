@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/get-userProgress";
+import { useAudio } from "react-use";
 
 
 
@@ -40,6 +41,17 @@ export const Quiz = ({
   initialLessonId,
   userSubscription,
 }: Props) => {
+  const [
+    correctAudio,
+    _c,
+    correctControls,
+  ] = useAudio({src: "/correct.wav"});
+  const [
+    incorrectAudio,
+    _i,
+    incorrectControls,
+  ] = useAudio({src: "/incorrect.wav"});
+
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
@@ -94,6 +106,8 @@ export const Quiz = ({
             console.log("missing hearts")
             return;
           }
+
+          correctControls.play();
           setStatus("correct");
           setPercentage((prev) => prev + 100 / challenges.length);
 
@@ -113,7 +127,7 @@ export const Quiz = ({
             console.error("Missing hearts");
             return;
           }
-
+          incorrectControls.play();
           setStatus("wrong");
 
           if (!response?.error) {
@@ -131,6 +145,8 @@ export const Quiz = ({
 
   return (
     <>
+    {incorrectAudio}
+    {correctAudio}
      <Card className="h-full flex flex-col">
       <Header
        hearts={hearts}
