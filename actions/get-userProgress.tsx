@@ -7,6 +7,7 @@ import { getActivitiesById } from "./get-activities";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { error } from "console";
 
 
 
@@ -78,3 +79,64 @@ export const upsertUserProgress = async (activitieId: number) => {
   revalidatePath("/activities/learn");
   redirect("/activities/learn")
 }
+
+export const reduceHearts = async (challengeId: number) => {
+  const user = await auth();
+
+  if (!user?.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const currentUserProgress = await getUserProgress();
+
+  const challenge = await db.challenge.findFirst({
+    where: {
+      id: challengeId,
+    },
+  });
+
+  if (!challenge) {
+    throw new Error("Challenge not found");
+  }
+
+  
+  const existingChallengeProgress = await db.challengeProgress.findFirst({
+    where: {
+      challengeId: challengeId,
+      userId: user.user.id,
+    },
+  });
+
+  const isPratice = !!existingChallengeProgress;
+
+  if(isPratice) {
+    return { error: "pratice" };
+  }
+
+  if (!currentUserProgress) {
+    throw new Error("User progress not found");
+  }
+  const lessonId = challenge.lessonId;
+
+  if (currentUserProgress.hearts === 0) {
+    return { error: "hearts" };
+  }
+
+  await db.userProgressExerciseModule.update({
+    where: {
+     userId: user.user.id
+   },
+   data: {
+     hearts: Math.max(currentUserProgress.hearts - 1, 0),
+     points: currentUserProgress.points + 10,
+   },
+ });
+
+ revalidatePath("/activities");
+ revalidatePath("/activities/learn");
+ revalidatePath("/activities/shop");
+ revalidatePath("/activities/quests");
+ revalidatePath("/activities/leaderboard");
+ revalidatePath(`/activities/lesson/${lessonId}`);
+
+};

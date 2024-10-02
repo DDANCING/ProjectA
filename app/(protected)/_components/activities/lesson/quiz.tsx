@@ -9,6 +9,7 @@ import { Footer } from "./footer";
 import { Card } from "@/components/ui/card";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
+import { reduceHearts } from "@/actions/get-userProgress";
 
 
 
@@ -105,8 +106,23 @@ export const Quiz = ({
       
 
     } else {
-      console.log("wrong option!");
-    }
+      startTransition(() => {
+        reduceHearts(challenge.id)
+        .then((response) => {
+          if (response?.error === "hearts") {
+            console.error("Missing hearts");
+            return;
+          }
+
+          setStatus("wrong");
+
+          if (!response?.error) {
+            setHearts((prev) => Math.max(prev - 1, 0))
+          }
+        })
+        .catch(() => toast.error("Something went wrong. Please try again."))
+      })
+    };
   };
 
   const title = challenge.type === "ASSIST" 
@@ -138,7 +154,7 @@ export const Quiz = ({
                onSelect={onSelect}
                status="none"
                selectedOption={selectedOption}
-               disabled={false}
+               disabled={pending}
                type={challenge.type}
               />
             </div>
@@ -147,7 +163,7 @@ export const Quiz = ({
       
      <div>
        <Footer
-        disabled={!selectedOption}
+        disabled={pending || !selectedOption}
         status={status}
         onCheck={onContinue}
         
