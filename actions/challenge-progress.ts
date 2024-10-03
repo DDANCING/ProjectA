@@ -63,11 +63,11 @@ export const upsertChallengeProgress = async (challengeId: number) => {
       },
     });
 
-    revalidatePath("/learn");
-    revalidatePath("/lesson");
-    revalidatePath("/quests");
-    revalidatePath("/leaderboard");
-    revalidatePath(`/lesson/${lessonId}`);
+    revalidatePath("/activities/learn");
+    revalidatePath("/activities/lesson");
+    revalidatePath("/activities/quests");
+    revalidatePath("/activities/leaderboard");
+    revalidatePath(`/activities/lesson/${lessonId}`);
     return;
   }
 
@@ -88,9 +88,9 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     },
   });
 
-  revalidatePath("/learn");
-  revalidatePath("/lesson");
-  revalidatePath("/quests");
-  revalidatePath("/leaderboard");
-  revalidatePath(`/lesson/${lessonId}`);
+  revalidatePath("/activities/learn");
+  revalidatePath("/activities/lesson");
+  revalidatePath("/activities/quests");
+  revalidatePath("/activities/leaderboard");
+  revalidatePath(`/activities/lesson/${lessonId}`);
 };
