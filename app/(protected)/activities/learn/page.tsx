@@ -24,6 +24,7 @@ const learnPage = async () => {
   const userProgressData = getUserProgress();
   const lessonPercentageData = getLessonPercentage();
   const unitsData = getUnits();
+  
 
   const [
     exerciseProgress,

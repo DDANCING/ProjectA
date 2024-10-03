@@ -139,6 +139,14 @@ export const Quiz = ({
     };
   };
 
+  if (!challenge) {
+    return (
+      <div>
+       Finhished the challenge
+      </div>
+    );
+  };
+
   const title = challenge.type === "ASSIST" 
   ? "Select the correct meaning" 
   : challenge.question;

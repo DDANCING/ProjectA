@@ -57,6 +57,7 @@ export const upsertUserProgress = async (activitieId: number) => {
         userId: user.id,  
       },
       data: {
+        activeExerciseId: activitieId,
         activeExercise: { connect: { id: activitieId } },
         userName: user?.name ?? '',
         userImageSrc: user.image || "TODO:svg",
@@ -70,6 +71,7 @@ export const upsertUserProgress = async (activitieId: number) => {
   await db.userProgressExerciseModule.create({
     data: {
       userId: user.id,
+      activeExerciseId: activitieId,
       activeExercise: { connect: { id: activitieId } },
       userName: user?.name ?? '',
       userImageSrc: user.image || "TODO:svg",
