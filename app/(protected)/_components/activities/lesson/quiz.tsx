@@ -11,8 +11,7 @@ import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/get-userProgress";
 import { useAudio } from "react-use";
-
-
+import AudioChallenge from "./audio-challenge"; // Adicione a importação do AudioChallenge
 
 type Props = {
   initialPercentage: number;
@@ -28,6 +27,7 @@ type Props = {
       text: string;
       correct: boolean;
     }[];
+    correctFrequency?: number | null; 
   }[];
   userSubscription: {
     isActive: boolean;
@@ -45,12 +45,12 @@ export const Quiz = ({
     correctAudio,
     _c,
     correctControls,
-  ] = useAudio({src: "/correct.wav"});
+  ] = useAudio({ src: "/correct.wav" });
   const [
     incorrectAudio,
     _i,
     incorrectControls,
-  ] = useAudio({src: "/incorrect.wav"});
+  ] = useAudio({ src: "/incorrect.wav" });
 
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
@@ -65,7 +65,8 @@ export const Quiz = ({
   const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
 
   const challenge = challenges[activeIndex];
-  const options = challenge.challengeOptions ?? [];
+  const options = challenge?.challengeOptions ?? [];
+
 
   const onNext = () => {
     setActiveIndex((current) => current + 1);
@@ -73,11 +74,18 @@ export const Quiz = ({
 
   const onSelect = (id: number) => {
     if (status !== "none") return;
-
     setSelectedOption(id);
   };
 
-  const onContinue =  () => {
+  const onContinue = () => {
+    if (challenge.type === "AUDIO") {
+      // Não precisa mais desta função, pois estamos usando o componente AudioChallenge
+    } else {
+      handleChallengeCompletion();
+    }
+  };
+
+  const handleChallengeCompletion = () => {
     if (!selectedOption) return;
 
     if (status === "wrong") {
@@ -85,115 +93,121 @@ export const Quiz = ({
       setSelectedOption(undefined);
       return;
     }
+
     if (status === "correct") {
       onNext();
       setStatus("none");
       setSelectedOption(undefined);
       return;
     }
-    
-    const correctOption = options.find((option)  => option.correct);
 
-    if (!correctOption) {
-      return;
-    }
+    const correctOption = options.find((option) => option.correct);
+    if (!correctOption) return;
 
     if (correctOption.id === selectedOption) {
       startTransition(() => {
         upsertChallengeProgress(challenge.id)
-        .then((response) => {
-          if (response?.error === "hearts") {
-            console.log("missing hearts")
-            return;
-          }
-
-          correctControls.play();
-          setStatus("correct");
-          setPercentage((prev) => prev + 100 / challenges.length);
-
-          if (initialPercentage === 100) {
-           setHearts((prev) =>  Math.min(prev + 1, 5))
-          }
-        })
-        .catch(() => toast.error("something went wrong! Please try again."))
-      })
-      
-
+          .then((response) => {
+            if (response?.error === "hearts") return;
+            correctControls.play();
+            setStatus("correct");
+            setPercentage((prev) => prev + 100 / challenges.length);
+            if (initialPercentage === 100) {
+              setHearts((prev) => Math.min(prev + 1, 5));
+            }
+          })
+          .catch(() => toast.error("something went wrong! Please try again."));
+      });
     } else {
       startTransition(() => {
         reduceHearts(challenge.id)
-        .then((response) => {
-          if (response?.error === "hearts") {
-            console.error("Missing hearts");
-            return;
-          }
-          incorrectControls.play();
-          setStatus("wrong");
-
-          if (!response?.error) {
-            setHearts((prev) => Math.max(prev - 1, 0))
-          }
-        })
-        .catch(() => toast.error("Something went wrong. Please try again."))
-      })
-    };
+          .then((response) => {
+            if (response?.error === "hearts") return;
+            incorrectControls.play();
+            setStatus("wrong");
+            setHearts((prev) => Math.max(prev - 1, 0));
+          })
+          .catch(() => toast.error("Something went wrong. Please try again."));
+      });
+    }
   };
 
-  if (!challenge) {
-    return (
-      <div>
-       Finhished the challenge
-      </div>
-    );
+  const onAnswer = (isCorrect: boolean) => {
+    if (isCorrect) {
+      correctControls.play();
+      setStatus("correct");
+      onNext();
+    } else {
+      incorrectControls.play();
+      setStatus("wrong");
+      setHearts((prev) => Math.max(prev - 1, 0));
+    }
   };
 
-  const title = challenge.type === "ASSIST" 
-  ? "Select the correct meaning" 
-  : challenge.question;
+  const title = challenge && challenge.type === "ASSIST"
+  ? "Select the correct meaning"
+  : challenge && challenge.question;
+
+     if (activeIndex >= challenges.length) {
+  return (
+    <div>
+      Finished the challenge
+    </div>
+  );
+}
 
   return (
     <>
-    {incorrectAudio}
-    {correctAudio}
-     <Card className="h-full flex flex-col">
-      <Header
-       hearts={hearts}
-       percentage={percentage}
-       hasActiveSubscription={!!userSubscription?.isActive}
-      />
-      
+      {incorrectAudio}
+      {correctAudio}
+      <Card className="h-full flex flex-col">
+        <Header
+          hearts={hearts}
+          percentage={percentage}
+          hasActiveSubscription={!!userSubscription?.isActive}
+        />
+
         <div className="h-full flex items-center justify-center">
           <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
             <h1 className="text-lg lg:text-2xl text-center lg:text-start font-bold text-muted-foreground">
               {title}
             </h1>
-            <div>
-              {challenge.type === "ASSIST" && (
-                <QuestionBubble 
+
+            {challenge.type === "AUDIO" && (
+             <div>
+              <p> {challenge.correctFrequency} </p>
+              <AudioChallenge
                 question={challenge.question}
-                />
-              )}
-              <Challenge
-               options={options}
-               onSelect={onSelect}
-               status="none"
-               selectedOption={selectedOption}
-               disabled={pending}
-               type={challenge.type}
+                challenge={{
+                  correctFrequency: challenge.correctFrequency!,
+                  correctNote: challenge.correctFrequency ? `${challenge.correctFrequency}` : "",
+                }}
+                onAnswer={onAnswer}
               />
-            </div>
+              </div>
+            )}
+
+            {challenge.type === "ASSIST" && (
+              <QuestionBubble question={challenge.question} />
+            )}
+
+            <Challenge
+              options={options}
+              onSelect={onSelect}
+              status="none"
+              selectedOption={selectedOption}
+              disabled={pending}
+              type={challenge.type}
+            />
           </div>
         </div>
-      
-     <div>
-       <Footer
-        disabled={pending || !selectedOption}
-        status={status}
-        onCheck={onContinue}
-        
-      />
-      </div>
+
+        <Footer
+          disabled={pending || !selectedOption}
+          status={status}
+          onCheck={onContinue}
+        />
       </Card>
     </>
-  )
-}
+  );
+};

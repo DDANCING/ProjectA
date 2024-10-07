@@ -3,6 +3,7 @@ import { getUserProgress } from "@/actions/get-userProgress";
 import { redirect } from "next/navigation";
 import { Quiz } from "../../_components/activities/lesson/quiz";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 
 const LessonPage = async () => {
@@ -18,7 +19,8 @@ const LessonPage = async () => {
   ]);
   
   if(!lesson || !userProgress) {
-   redirect('/activities/learn');
+   redirect('/activities');
+   
   }
  
   const initialPercentage = lesson.challenges.filter((
