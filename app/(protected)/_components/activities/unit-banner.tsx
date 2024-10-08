@@ -15,7 +15,7 @@ export const UnitBanner = ({title, description}: Props) => {
       <h3 className="text-xl font-bold">{title}</h3>
       <p className="text-lg text-muted-foreground">{description}</p>
       </div>
-      <Link href="/activities/leason">
+      <Link href="/activities/lesson">
       <Button variant={"ghost"} className="hidden xl:flex border-2 border-b-4 active:border-b-2">
       <NotepadText className="mr-2" />
       Continue

@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import { Header } from "./Header";
-import { ChallengeType } from "@prisma/client";
 import { QuestionBubble } from "./question-bubble";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
@@ -10,12 +9,13 @@ import { Card } from "@/components/ui/card";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/get-userProgress";
-import { useAudio } from "react-use";
+import { useAudio, useMount } from "react-use";
 import AudioChallenge from "./audio-challenge"; // Adicione a importação do AudioChallenge
-import { Car, Flag } from "lucide-react";
-import Image from "next/image";
+import {  Flag } from "lucide-react";
 import { ResultCard } from "./result-card";
 import { useRouter } from "next/navigation";
+import { useHeartsModal } from "@/data/store/use-hearts-modal";
+import { usePracticeModal } from "@/data/store/use-practice-modal";
 
 type Props = {
   initialPercentage: number;
@@ -45,6 +45,14 @@ export const Quiz = ({
   initialLessonId,
   userSubscription,
 }: Props) => {
+  const { open: openHeartsModal } = useHeartsModal();
+  const { open: openPracticeModal } = usePracticeModal();
+
+  useMount(() => {
+   if (initialPercentage === 100) {
+    openPracticeModal();
+   }
+  });
   const router = useRouter();
 
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true});
@@ -60,7 +68,9 @@ export const Quiz = ({
   ] = useAudio({ src: "/incorrect.wav" });
   const [lessonId] = useState(initialLessonId); 
   const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(initialPercentage);
+  const [percentage, setPercentage] = useState(() => {
+    return initialPercentage === 100 ? 0 : initialPercentage
+  });
   const [challenges] = useState(initialLessonChallenges);
   const [activeIndex, setActiveIndex] = useState(() => {
     const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed);
@@ -115,7 +125,10 @@ export const Quiz = ({
       startTransition(() => {
         upsertChallengeProgress(challenge.id)
           .then((response) => {
-            if (response?.error === "hearts") return;
+            if (response?.error === "hearts" || hearts <= 0) {
+              openHeartsModal();
+              return;
+            }
             correctControls.play();
             setStatus("correct");
             setPercentage((prev) => prev + 100 / challenges.length);
@@ -129,11 +142,16 @@ export const Quiz = ({
       startTransition(() => {
         reduceHearts(challenge.id)
           .then((response) => {
-            if (response?.error === "hearts") return;
+            if (response?.error === "hearts") {
+            openHeartsModal();
+            return;
+            }
             incorrectControls.play();
             setStatus("wrong");
+            if (!response?.error) {
             setHearts((prev) => Math.max(prev - 1, 0));
-          })
+            }
+       })
           .catch(() => toast.error("Something went wrong. Please try again."));
       });
     }

@@ -20,7 +20,7 @@ export const Footer = ({
   const isMobile = useMedia("(max-width: 1024px)");
   return (
     <footer className={cn(
-      "lg:h-[140px] h-[100px] border-t-2 ",
+      "lg:h-[140px] h-[100px] border-t-2 rounded-lg",
       status === "correct" && "bg-emerald-100 border-transparent",
       status === "wrong" && "bg-rose-100 border-transparent",
     )}>
