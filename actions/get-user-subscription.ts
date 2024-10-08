@@ -59,7 +59,7 @@ export const createStripeUrl = async () => {
   }
 
   const stripeSession = await stripe.checkout.sessions.create({
-    payment_method_types: ["card", "pix"],
+    payment_method_types: ["card"],
     customer_email: user.user.email,  
     line_items: [
       {
