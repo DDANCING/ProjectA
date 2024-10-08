@@ -11,17 +11,18 @@ export const getLesson = cache(async (id?: number) => {
   const exerciseProgress = await getExerciseProgress();
 
   const lessonId = id || exerciseProgress?.activeLessonId;
-  
+ 
+
   if(!user?.user.id) {
     return null;
   }
   if(!lessonId) {
     return null;
   }
-
+  const lessonIdInt = parseInt(String(lessonId), 10);
   const data = await db.lesson.findFirst({
     where: {
-      id: lessonId,
+      id: lessonIdInt,
     },
     include: {
       challenges: {

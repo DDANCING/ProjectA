@@ -247,6 +247,7 @@ model Challenge {
   type              ChallengeType
   question          String
   order             Int
+  correctFrequency  Float?
   lesson            Lesson              @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   challengeOptions  ChallengeOption[]
   challengeProgress ChallengeProgress[]
@@ -301,6 +302,7 @@ model StripeCustomer {
 enum ChallengeType {
   SELECT
   ASSIST
+  AUDIO
 }
 
 enum UserRole {

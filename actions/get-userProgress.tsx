@@ -11,8 +11,10 @@ import { error } from "console";
 
 
 
+
 export const getUserProgress = cache(async () => {
   const user = await auth();
+  
 
   if (!user?.user.id) {
     return null;
@@ -142,3 +144,40 @@ export const reduceHearts = async (challengeId: number) => {
  revalidatePath(`/activities/lesson/${lessonId}`);
 
 };
+
+export const refillHearts = async () => {
+  const currentUserProgress = await getUserProgress();
+  const POINTS_TO_REFILL = 50;
+  const user = await auth();
+
+  if (!user?.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  if (!currentUserProgress) {
+    throw new Error("User progress not found");
+  }
+
+  if (currentUserProgress.hearts === 5) {
+    throw new Error("Hearts are already full");
+  }
+
+  if (currentUserProgress.points < POINTS_TO_REFILL) {
+    throw new Error("Not enough points to refill hearts");
+  }
+
+  await db.userProgressExerciseModule.update({
+      where: {
+       userId: user.user.id
+     },
+     data: {
+       hearts: 5,
+       points: currentUserProgress.points - POINTS_TO_REFILL,
+     },
+   });
+ revalidatePath("/activities");
+ revalidatePath("/activities/learn");
+ revalidatePath("/activities/shop");
+ revalidatePath("/activities/quests");
+ revalidatePath("/activities/leaderboard");
+}

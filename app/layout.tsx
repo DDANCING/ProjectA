@@ -7,6 +7,8 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from 'nextjs-toploader';
 import { ExitModal } from "@/components/modals/exit-modal";
+import { HeartsModal } from "@/components/modals/hearts-modal";
+import { PracticeModal } from "@/components/modals/practice-modal";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -48,7 +50,10 @@ export default async function RootLayout({
            
             {children}
             <Toaster />
+            <PracticeModal/>
+            <HeartsModal/>
             <ExitModal/>
+            <HeartsModal/>
           </ThemeProvider>
         </body>
       </html>
