@@ -4,25 +4,28 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { UserProgress } from "../../_components/activities/user-progress";
 import { Items } from "../../_components/activities/shop/items";
+import { getUserSubscription } from "@/actions/get-user-subscription";
 
 const ShopPage = async () => {
 
  const userProgressData = getUserProgress();
+ const userSubscriptionData = getUserSubscription();
 
 
  const [
   userProgress,
+  userSubscription,
  ] = await Promise.all([
   userProgressData,
+  userSubscriptionData,
  ]);
 
  if (!userProgress || !userProgress.activeExercise) {
   redirect('/activities');
  }
-
+ const isPro = !!userSubscription?.isActive;
 
   return ( 
-
       
       
      <div className="flex flex-row-reverse gap-[48px] px-6">
@@ -32,7 +35,7 @@ const ShopPage = async () => {
           activeCourse={userProgress.activeExercise}
           hearts={userProgress.hearts}
           points={userProgress.points}
-          hasActiveSubscription={false}
+          hasActiveSubscription={isPro}
           />
           </div>
       </Card>
@@ -52,7 +55,7 @@ const ShopPage = async () => {
             Spend your points on cool stuff.
           </p>
           <Items
-           hasActiveSubscription={false}
+           hasActiveSubscription={isPro}
            hearts={userProgress.hearts}
            points={userProgress.points}
            />

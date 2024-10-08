@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+import { createStripeUrl } from "@/actions/get-user-subscription";
 import { refillHearts } from "@/actions/get-userProgress";
 import { Button } from "@/components/ui/button";
 import { on } from "events";
@@ -33,6 +34,18 @@ export const Items = ({
   });
  };
 
+ const onUpgrade = () => {
+  startTransition(() => {
+    createStripeUrl()
+    .then((Response) => {
+      if (Response.data) {
+        window.location.href = Response.data;
+      };
+    })
+    .catch(() => toast.error("Something went wrong"));
+  });
+ };
+
  return(
   <ul className="w-full">
     <div className="flex items-center w-full p-4 gap-x-4 border-t-2">
@@ -62,6 +75,24 @@ export const Items = ({
         </div>
        )}
       </Button>
+    </div>
+    <div className="flex items-center w-full p-4 pt-8 gap-x-4 border-t-2">
+       <Image 
+       src="/img/icons/super.svg"
+       alt="super"
+       width={60}
+       height={60}
+       />
+       <div className="flex-1">
+        <p className="text-foreground text-base lg:text-xl font-bold">
+          Unlimited hearts
+        </p>
+       </div>
+       <Button
+       onClick={onUpgrade}
+       disabled={pending || hasActiveSubscription}>
+        {hasActiveSubscription ? "active" : "upgrade"}
+       </Button>
     </div>
   </ul>
  )
