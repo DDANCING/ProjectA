@@ -79,7 +79,7 @@ export const createStripeUrl = async () => {
     ],
     mode: "subscription",  // mode should be inside params
     metadata: {
-      user_id: user.user.id,
+      userId: user.user.id,
     },
     success_url: returnUrl,
     cancel_url: returnUrl,
