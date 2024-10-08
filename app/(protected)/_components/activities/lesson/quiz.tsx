@@ -12,6 +12,10 @@ import { toast } from "sonner";
 import { reduceHearts } from "@/actions/get-userProgress";
 import { useAudio } from "react-use";
 import AudioChallenge from "./audio-challenge"; // Adicione a importação do AudioChallenge
+import { Car, Flag } from "lucide-react";
+import Image from "next/image";
+import { ResultCard } from "./result-card";
+import { useRouter } from "next/navigation";
 
 type Props = {
   initialPercentage: number;
@@ -41,6 +45,9 @@ export const Quiz = ({
   initialLessonId,
   userSubscription,
 }: Props) => {
+  const router = useRouter();
+
+  const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true});
   const [
     correctAudio,
     _c,
@@ -51,7 +58,7 @@ export const Quiz = ({
     _i,
     incorrectControls,
   ] = useAudio({ src: "/incorrect.wav" });
-
+  const [lessonId] = useState(initialLessonId); 
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
@@ -79,7 +86,7 @@ export const Quiz = ({
 
   const onContinue = () => {
     if (challenge.type === "AUDIO") {
-      // Não precisa mais desta função, pois estamos usando o componente AudioChallenge
+     
     } else {
       handleChallengeCompletion();
     }
@@ -150,9 +157,37 @@ export const Quiz = ({
 
      if (activeIndex >= challenges.length) {
   return (
-    <div>
-      Finished the challenge
+    <>
+    {finishAudio}
+    <Card className="flex flex-col w-full h-full justify-between">
+    <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center pt-7">
+    <div className="flex justify-center">
+    <Flag  className="text-primary w-[100px] h-[100px] hidden lg:block"/>
+    <Flag  className="text-primary w-[50px] h-[50px] block lg:hidden"/>
     </div>
+   <h1 className="text-xl lg:text-2xl font-bold">
+    Great job! <br /> you&apos;ve complete the lesson.
+   </h1>
+   <div className="flex items-center gap-x-4 w-full">
+     <ResultCard
+      variant="points"
+      value={challenges.length * 10}
+     />
+     <ResultCard
+      variant="hearts"
+      value={hearts}
+     />
+   </div>
+   
+    </div>
+    <Footer
+          lessonsId={lessonId}
+          status="completed"
+          onCheck={() => router.push("/learn")}
+        />
+    </Card>
+    
+    </>
   );
 }
 
