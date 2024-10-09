@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { error } from "console";
+import { getUserSubscription } from "./get-user-subscription";
+import { POINTS_TO_REFILL } from "@/constants";
 
 
 
@@ -46,12 +48,12 @@ export const upsertUserProgress = async (activitieId: number) => {
     throw new Error("Activity not found");
   }
   
-
- // if (!activitie.units.length || !activitie.units[0].lessons.length) {
-  //  throw new Error("Activity is empty");
-  //}
+  if (!activitie.units.length || !activitie.units[0].lessons.length) {
+    throw new Error("Activity has no lessons");
+  }
 
   const existingUserProgress = await getUserProgress();
+  const userSubscription = await getUserSubscription();
 
   if (existingUserProgress) {
     await db.userProgressExerciseModule.update({
@@ -92,6 +94,7 @@ export const reduceHearts = async (challengeId: number) => {
   }
 
   const currentUserProgress = await getUserProgress();
+  const userSubscription = await getUserSubscription();
 
   const challenge = await db.challenge.findFirst({
     where: {
@@ -120,9 +123,16 @@ export const reduceHearts = async (challengeId: number) => {
   if (!currentUserProgress) {
     throw new Error("User progress not found");
   }
+
+  if (userSubscription?.isActive) {
+    return { error: "subscription" };
+  }
+
   const lessonId = challenge.lessonId;
 
-  if (currentUserProgress.hearts === 0) {
+
+
+  if (currentUserProgress?.hearts === 0 && !isPratice) {
     return { error: "hearts" };
   }
 
@@ -147,7 +157,7 @@ export const reduceHearts = async (challengeId: number) => {
 
 export const refillHearts = async () => {
   const currentUserProgress = await getUserProgress();
-  const POINTS_TO_REFILL = 50;
+
   const user = await auth();
 
   if (!user?.user.id) {

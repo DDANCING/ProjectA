@@ -23,8 +23,14 @@ export const getUnits = cache(async () => {
     },
     include: {
       lessons: {
+        orderBy: {
+          order: "asc"
+        },
         include: {
           challenges: {
+            orderBy: {
+              order: "asc"
+            },
             include: {
               challengeProgress: {
                 where: {
