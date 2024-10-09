@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { UserProgress } from "../../_components/activities/user-progress";
 import { Items } from "../../_components/activities/shop/items";
 import { getUserSubscription } from "@/actions/get-user-subscription";
+import { Promo } from "../../_components/activities/shop/promo";
 
 const ShopPage = async () => {
 
@@ -37,7 +38,11 @@ const ShopPage = async () => {
           points={userProgress.points}
           hasActiveSubscription={isPro}
           />
+           {!isPro && (
+          <Promo />
+        )}
           </div>
+         
       </Card>
       
       <Card className=" overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none ">

@@ -11,29 +11,10 @@ import { UserProgress } from "../../_components/activities/user-progress";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { title } from "process";
+import { Promo } from "../../_components/activities/shop/promo";
+import { Quests } from "../../_components/activities/quests";
+import { quests } from "@/constants";
 
-const quests = [
-  {
-    title: "Earn 20 XP",
-    value: 20,
-  },
-  {
-    title: "Earn 50 XP",
-    value: 50,
-  },
-  {
-    title: "Earn 100 XP",
-    value: 100,
-  },
-  {
-    title: "Earn 500 XP",
-    value: 500,
-  },
-  {
-    title: "Earn 1000 XP",
-    value: 1000,
-  },
-];
 
 const QuestsPage = async () => {
   const userProgressData = getUserProgress();
@@ -63,12 +44,14 @@ const QuestsPage = async () => {
             points={userProgress.points}
             hasActiveSubscription={!!userSubscription?.isActive}
           />
+           {!isPro && (
+          <Promo />
+        )} 
+        <Quests
+        points={userProgress.points}
+        />
         </div>
-        {!isPro && (
-          <div>
-
-          </div>
-        )}
+       
     </Card>
     <Card className=" overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
         <div className="w-full flex flex-col items-start p-6">
