@@ -49,7 +49,7 @@ export const Items = ({
 
  return(
   <ul className="w-full">
-    <div className="flex items-center w-full p-4 gap-x-4 border-t-2">
+    <div className="flex items-center w-full p-4 gap-x-4 border-t-2 border-muted">
       <Image
       src="/img/icons/heart.svg"
       alt="heart"
@@ -77,7 +77,7 @@ export const Items = ({
        )}
       </Button>
     </div>
-    <div className="flex items-center w-full p-4 pt-8 gap-x-4 border-t-2">
+    <div className="flex items-center w-full p-4 pt-8 gap-x-4 border-t-2 border-muted">
        <Image 
        src="/img/icons/super.svg"
        alt="super"

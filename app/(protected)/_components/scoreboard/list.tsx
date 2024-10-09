@@ -1,11 +1,12 @@
-import Image from "next/image";
+
+
 import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { getUserProgress } from "@/actions/get-userProgress";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { getTopHundredUsers } from "@/actions/get-user";
-import { UserProgress } from "../activities/user-progress";
+
 
 // Certifique-se que 'LeaderboardList' não tenha 'use client' no topo
 const LeaderboardList = async () => {
