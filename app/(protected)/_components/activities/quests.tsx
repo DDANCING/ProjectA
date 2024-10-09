@@ -51,7 +51,7 @@ export const Quests = ({ points } : Props ) => {
           value: "text-3xl font-semibold text-white",
         }}
         value={progressValue}
-        strokeWidth={2}
+        strokeWidth={3}
 
       />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -61,8 +61,8 @@ export const Quests = ({ points } : Props ) => {
                 <Image
                  src={userRank?.icon || "/path/to/default/icon.png"} 
                 alt="rank"
-                height={50}
-                width={50}
+                height={30}
+                width={30}
                 />
                  <h1 className="text-xs">
                 {userRank?.tier}

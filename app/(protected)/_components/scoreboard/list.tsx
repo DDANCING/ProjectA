@@ -6,15 +6,10 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { getUserProgress } from "@/actions/get-userProgress";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { getTopHundredUsers } from "@/actions/get-user";
-import { ELO_TIERS } from "@/constants";
-import Image from "next/image";
 
-type Props = {
-  points: number;
-}
 
 // Certifique-se que 'LeaderboardList' não tenha 'use client' no topo
-const LeaderboardList = async ({ points } : Props ) => {
+const LeaderboardList = async () => {
   const userProgressData = getUserProgress();
   const userSubscriptionData = getUserSubscription();
   const leaderboardData = getTopHundredUsers();
@@ -28,18 +23,8 @@ const LeaderboardList = async ({ points } : Props ) => {
   if (!userProgress || !userProgress.activeExercise) {
     redirect("/courses");
   }
-  const getUserRank = (points: number) => {
-    return ELO_TIERS.find((tier) => points >= tier.minValue && points <= tier.maxValue);
-  };
 
-  // Pega o rank do usuário
-  const userRank = getUserRank(points);
-
-  // Cálculo do progresso dentro do rank atual
-  const progressValue = userRank
-    ? ((points - userRank.minValue) / (userRank.maxValue - userRank.minValue)) * 100
-    : 0;
-
+  const isPro = !!userSubscription?.isActive;
 
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
@@ -68,12 +53,6 @@ const LeaderboardList = async ({ points } : Props ) => {
             <p className="font-bold text-neutral-800 flex-1">
               {userProgress.userName}
             </p>
-            <Image
-                 src={userRank?.icon || "/path/to/default/icon.png"} 
-                alt="rank"
-                height={50}
-                width={50}
-                />
             <p className="text-muted-foreground">{userProgress.points} XP</p>
           </div>
         ))}
