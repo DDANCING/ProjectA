@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { getUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { getUserSubscription } from "./get-user-subscription";
 
 export const upsertChallengeProgress = async (challengeId: number) => {
   const user = await auth();
@@ -38,8 +39,9 @@ export const upsertChallengeProgress = async (challengeId: number) => {
   });
 
   const isPractice = !!existingChallengeProgress;
+  const userSubscription = await getUserSubscription();
 
-  if (currentUserProgress.hearts === 0 && !isPractice) {
+  if (currentUserProgress.hearts === 0 && !isPractice && !userSubscription?.isActive) {
     return { error: "hearts" };
   }
 

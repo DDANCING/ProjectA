@@ -17,6 +17,20 @@ export const getActivitiesById = cache(async (exerciseModuleId: number) => {
     where: {
       id: exerciseModuleId,
     },
+    include: {
+      units: {
+        orderBy: {
+          order: "asc"
+        },
+        include: {
+          lessons: {
+            orderBy: {
+              order: "asc"
+            }
+          }
+        }
+      }
+    }
   });
   return data;
 });

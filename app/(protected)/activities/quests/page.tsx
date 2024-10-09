@@ -1,38 +1,112 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import { UserProgress } from "../../_components/activities/user-progress";
+
+
 
 import { Progress } from "@/components/ui/progress";
+import { getUserProgress } from "@/actions/get-userProgress";
+import { getUserSubscription } from "@/actions/get-user-subscription";
+import { UserProgress } from "../../_components/activities/user-progress";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { title } from "process";
 
-
+const quests = [
+  {
+    title: "Earn 20 XP",
+    value: 20,
+  },
+  {
+    title: "Earn 50 XP",
+    value: 50,
+  },
+  {
+    title: "Earn 100 XP",
+    value: 100,
+  },
+  {
+    title: "Earn 500 XP",
+    value: 500,
+  },
+  {
+    title: "Earn 1000 XP",
+    value: 1000,
+  },
+];
 
 const QuestsPage = async () => {
+  const userProgressData = getUserProgress();
+  const userSubscriptionData = getUserSubscription();
 
+  const [
+    userProgress,
+    userSubscription,
+  ] = await Promise.all([
+    userProgressData,
+    userSubscriptionData,
+  ]);
+
+  if (!userProgress || !userProgress.activeExercise) {
+    redirect("/courses");
+  }
+
+  const isPro = !!userSubscription?.isActive;
 
   return ( 
-    <div className="flex flex-row-reverse gap-[48px] px-6">
-    
-        
-        <div className="w-full flex flex-col items-center">
-          <Image
-            src="/quests.svg"
-            alt="Quests"
-            height={90}
-            width={90}
+    <div className="flex flex-row-reverse gap-[48px] ">
+     <Card className="hidden lg:block w-[368px] stick self-end">
+     <div className="min-h-[calc(94vh-40px)] sticky top-6 flex flex-col gap-y-4">
+          <UserProgress
+            activeCourse={ userProgress.activeExercise }
+            hearts={ userProgress.hearts }
+            points={userProgress.points}
+            hasActiveSubscription={!!userSubscription?.isActive}
           />
-          <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
+        </div>
+        {!isPro && (
+          <div>
+
+          </div>
+        )}
+    </Card>
+    <Card className=" overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+        <div className="w-full flex flex-col items-start p-6">
+          <h1 className="text-center font-bold text-foreground text-2xl my-6">
             Quests
           </h1>
           <p className="text-muted-foreground text-center text-lg mb-6">
             Complete quests by earning points.
           </p>
+        
           <ul className="w-full">
-            
-             
+            {quests.map((quest) => {
+              const progress = (userProgress.points / quest.value) * 100;
+
+              return (
+                <div className="flex items-center w-full p-4 gap-x-4 border-t-2" key={quest.title}>
+                  <Image
+                  src="/img/icons/XP.svg"
+                  alt="points"
+                  width={60}
+                  height={60}
+                  />
+                  <div className="flex flex-col gap-y-2 w-full">
+                     <p className="text-foreground text-xl font-bold">
+                       {quest.title}
+                     </p>
+                     <Progress
+                     value={progress}
+                     className="h-3"
+                     />
+                  </div>
+                </div>
+              )
+            })}
           </ul>
         </div>
-     
+        </Card>
+      
     </div>
   );
 };

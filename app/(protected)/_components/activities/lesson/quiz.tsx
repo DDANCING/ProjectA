@@ -201,7 +201,7 @@ export const Quiz = ({
     <Footer
           lessonsId={lessonId}
           status="completed"
-          onCheck={() => router.push("/learn")}
+          onCheck={() => router.push("/activities/learn")}
         />
     </Card>
     
