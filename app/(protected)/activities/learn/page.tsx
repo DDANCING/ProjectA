@@ -73,7 +73,7 @@ const learnPage = async () => {
           <Quests points={userProgress?.points || 0} /> 
         </div>
       </Card>
-      <Card className="bg-background/30 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+      <Card className="bg-background overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
         <Header title={userProgress.activeExercise.title} />
         {units.map((unit) => (
           <div key={unit.id} className="mb-10">
