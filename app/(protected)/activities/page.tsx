@@ -42,11 +42,14 @@ const CoursesPage = async () => {
       points={userProgress.points}
       hasActiveSubscription={isPro}
       />
+      
        {!isPro && (
       <Promo />
       
     )}
+     <Rank points={userProgress?.points || 0} />
     <Quests points={userProgress?.points || 0} />
+   
       </div>
      
   </Card>
