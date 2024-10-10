@@ -1,74 +1,55 @@
-import { Button } from "@/components/ui/button";
-import { quests } from "@/constants";
-import { CircularProgress } from "@nextui-org/progress";
-import { ELO_TIERS } from "@/constants"; // Importar os níveis de elo
 import Link from "next/link";
 import Image from "next/image";
 
+import { quests } from "@/constants";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+
 type Props = {
   points: number;
-}
+};
 
-export const Quests = ({ points } : Props ) => {
-  // Função para encontrar o elo com base nos pontos
-  const getUserRank = (points: number) => {
-    return ELO_TIERS.find((tier) => points >= tier.minValue && points <= tier.maxValue);
-  };
-
-  // Pega o rank do usuário
-  const userRank = getUserRank(points);
-
-  // Cálculo do progresso dentro do rank atual
-  const progressValue = userRank
-    ? ((points - userRank.minValue) / (userRank.maxValue - userRank.minValue)) * 100
-    : 0;
-
+export const Quests = ({ points }: Props) => {
   return (
-    <div className="m-2 border-2 border-muted rounded-xl p-4 space-y-4">
+    <div className="m-2 border-2 border-muted rounded-xl p-4 space-y-4 overflow-y-auto h-[27.5vh] relative top-0 pb-10 scrollbar-none">
       <div className="flex items-center justify-between w-full space-y-2">
         <h3 className="font-bold text-lg">
-        ACTIVITIES
+          Quests
         </h3>
         <Link href="/activities/quests">
-          <Button 
+          <Button
             size="sm"
             variant="default"
           >
-            View all Quests
+            View all
           </Button>
         </Link>
       </div>
+      <ul className="w-full space-y-4">
+        {quests.map((quest) => {
+          const progress = (points / quest.value) * 100;
 
-      <div className="flex items-center space-x-4">
-      RANK
-      </div>
-
-      <CircularProgress
-        classNames={{
-          svg: "w-[150px] h-[150px] drop-shadow-md",
-          indicator: "stroke-primary",
-          track: "stroke-foreground/30",
-          value: "text-3xl font-semibold text-white",
-        }}
-        value={progressValue}
-        strokeWidth={3}
-
-      />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <h1 className="text-xs">
-                {points}
-              </h1>
-                <Image
-                 src={userRank?.icon || "/path/to/default/icon.png"} 
-                alt="rank"
-                height={30}
-                width={30}
-                />
-                 <h1 className="text-xs">
-                {userRank?.tier}
-              </h1>
+          return (
+            <div
+              className="flex items-center w-full pb-4 gap-x-3"
+              key={quest.title}
+            >
+              <Image
+                src="/img/icons/XP.svg"
+                alt="Points"
+                width={40}
+                height={40}
+              />
+              <div className="flex flex-col gap-y-2 w-full">
+                <p className="text-neutral-700 text-sm font-bold">
+                  {quest.title}
+                </p>
+                <Progress value={progress} className="h-2" />
               </div>
-          </div>
-   
+            </div>
+          )
+        })}
+      </ul>
+    </div>
   );
-}
+};

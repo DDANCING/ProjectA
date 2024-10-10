@@ -12,8 +12,9 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { title } from "process";
 import { Promo } from "../../_components/activities/shop/promo";
-import { Quests } from "../../_components/activities/quests";
+import { Rank } from "../../_components/activities/rank";
 import { quests } from "@/constants";
+import { Quests } from "../../_components/activities/quests";
 
 
 const QuestsPage = async () => {
@@ -47,6 +48,9 @@ const QuestsPage = async () => {
            {!isPro && (
           <Promo />
         )} 
+        <Rank
+        points={userProgress.points}
+        />
         <Quests
         points={userProgress.points}
         />
@@ -67,7 +71,7 @@ const QuestsPage = async () => {
               const progress = (userProgress.points / quest.value) * 100;
 
               return (
-                <div className="flex items-center w-full p-4 gap-x-4 border-t-2" key={quest.title}>
+                <div className="flex items-center w-full p-4 gap-x-4 border-t-2 border-muted" key={quest.title}>
                   <Image
                   src="/img/icons/XP.svg"
                   alt="points"
