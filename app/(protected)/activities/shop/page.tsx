@@ -6,6 +6,8 @@ import { UserProgress } from "../../_components/activities/user-progress";
 import { Items } from "../../_components/activities/shop/items";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { Promo } from "../../_components/activities/shop/promo";
+import { Rank } from "../../_components/activities/rank";
+import { Quests } from "../../_components/activities/quests";
 
 const ShopPage = async () => {
 
@@ -40,7 +42,10 @@ const ShopPage = async () => {
           />
            {!isPro && (
           <Promo />
+          
         )}
+        <Rank points={userProgress?.points || 0} />
+        <Quests points={userProgress?.points || 0} />
           </div>
          
       </Card>
