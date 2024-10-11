@@ -1,4 +1,4 @@
-import { getUserProgress } from "@/actions/get-userProgress";
+import {  getActivitiesUserProgress } from "@/actions/get-userProgress";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -11,7 +11,7 @@ import { Quests } from "../../_components/activities/quests";
 
 const ShopPage = async () => {
 
- const userProgressData = getUserProgress();
+ const userProgressData =  getActivitiesUserProgress();
  const userSubscriptionData = getUserSubscription();
 
 

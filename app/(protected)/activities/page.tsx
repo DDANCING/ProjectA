@@ -1,16 +1,16 @@
 import { getActivities } from "@/actions/get-activities";
 import { List } from "../_components/activities/list";
 import { Card } from "@/components/ui/card";
-import { getUserProgress } from "@/actions/get-userProgress";
+import { getActivitiesUserProgress } from "@/actions/get-userProgress";
 import { Rank } from "../_components/activities/rank";
 import { Promo } from "../_components/activities/shop/promo";
 import { UserProgress } from "../_components/activities/user-progress";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { Quests } from "../_components/activities/quests";
 
-const CoursesPage = async () => {
+const ActivitiesPage = async () => {
   const activitieData = getActivities();
-  const userProgressData = getUserProgress(); 
+  const userProgressData = getActivitiesUserProgress(); 
   const userSubscriptionData = getUserSubscription();
 
   const [
@@ -58,4 +58,4 @@ const CoursesPage = async () => {
   );
 };
 
-export default CoursesPage;
+export default ActivitiesPage;

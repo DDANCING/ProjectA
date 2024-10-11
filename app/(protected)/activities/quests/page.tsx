@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 
 import { Progress } from "@/components/ui/progress";
-import { getUserProgress } from "@/actions/get-userProgress";
+import {  getActivitiesUserProgress } from "@/actions/get-userProgress";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { UserProgress } from "../../_components/activities/user-progress";
 import { Card } from "@/components/ui/card";
@@ -18,7 +18,7 @@ import { Quests } from "../../_components/activities/quests";
 
 
 const QuestsPage = async () => {
-  const userProgressData = getUserProgress();
+  const userProgressData =  getActivitiesUserProgress();
   const userSubscriptionData = getUserSubscription();
 
   const [
@@ -51,9 +51,7 @@ const QuestsPage = async () => {
         <Rank
         points={userProgress.points}
         />
-        <Quests
-        points={userProgress.points}
-        />
+      
         </div>
        
     </Card>

@@ -1,7 +1,7 @@
 "use server";
-
+//name changed
 import { auth } from "@/auth";
-import { getUserProgress } from "./get-userProgress";
+import {  getActivitiesUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { getUserSubscription } from "./get-user-subscription";
@@ -9,11 +9,12 @@ import { getUserSubscription } from "./get-user-subscription";
 export const upsertChallengeProgress = async (challengeId: number) => {
   const user = await auth();
 
+  
   if (!user?.user.id) {
     throw new Error('User is not authenticated');
   }
 
-  const currentUserProgress = await getUserProgress();
+  const currentUserProgress = await  getActivitiesUserProgress();
 
   if (!currentUserProgress) {
     throw new Error('User progress not found');

@@ -2,8 +2,7 @@ import Header from "@/app/(protected)/_components/header/header-form";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Sidebar } from "@/app/(protected)/_components/sidebar/sidebar";
-import Captador from "./_components/pickup/pickup";
-import AfinadorComponente from "./_components/pickup/tunercomponent";
+
 
 
 const AuthLayout =  async ({ children }: { children: React.ReactNode}) => {

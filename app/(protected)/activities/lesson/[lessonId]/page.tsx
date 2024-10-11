@@ -1,5 +1,5 @@
 import { getLesson } from "@/actions/get-lesson";
-import { getUserProgress } from "@/actions/get-userProgress";
+import {  getActivitiesUserProgress } from "@/actions/get-userProgress";
 import { redirect } from "next/navigation";
 import { Quiz } from "@/app/(protected)/_components/activities/lesson/quiz";
 import { getUserSubscription } from "@/actions/get-user-subscription";
@@ -15,7 +15,7 @@ const LessonIdPage = async ({
   params,
 } : Props) => {
   const lessonData = getLesson(params.lessonId);
-  const userProgressData = getUserProgress();
+  const userProgressData =  getActivitiesUserProgress();
   const userSubscriptionData = getUserSubscription();
 
   const [

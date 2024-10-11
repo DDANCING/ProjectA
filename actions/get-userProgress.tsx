@@ -10,11 +10,31 @@ import { auth } from "@/auth";
 import { error } from "console";
 import { getUserSubscription } from "./get-user-subscription";
 import { POINTS_TO_REFILL } from "@/constants";
+import { number } from "zod";
 
 
+export const getCourseUserProgress = cache(async () => {
+  const user = await auth();
+  
+
+  if (!user?.user.id) {
+    return null;
+  }
+
+  const data = await db.progressCourseModule.findFirst({
+    where: {
+      userId: user.user.id,
+    },
+    select: {
+      points: true,
+    },
+  });
+  
+  return data;
+});
 
 
-export const getUserProgress = cache(async () => {
+export const getActivitiesUserProgress = cache(async () => {
   const user = await auth();
   
 
@@ -27,11 +47,11 @@ export const getUserProgress = cache(async () => {
       userId: user.user.id,
     },
     include: {
-      activeExercise: true,  // Inclui a atividade ativa
+      activeExercise: true, 
     },
   });
 
-  // Retorna o id da atividade ativa
+  
   return data;
 });
 
@@ -52,7 +72,7 @@ export const upsertUserProgress = async (activitieId: number) => {
     throw new Error("Activity has no lessons");
   }
 
-  const existingUserProgress = await getUserProgress();
+  const existingUserProgress = await getActivitiesUserProgress();
   const userSubscription = await getUserSubscription();
 
   if (existingUserProgress) {
@@ -93,7 +113,7 @@ export const reduceHearts = async (challengeId: number) => {
     throw new Error("Unauthorized");
   }
 
-  const currentUserProgress = await getUserProgress();
+  const currentUserProgress = await getActivitiesUserProgress();
   const userSubscription = await getUserSubscription();
 
   const challenge = await db.challenge.findFirst({
@@ -156,7 +176,7 @@ export const reduceHearts = async (challengeId: number) => {
 };
 
 export const refillHearts = async () => {
-  const currentUserProgress = await getUserProgress();
+  const currentUserProgress = await getActivitiesUserProgress();
 
   const user = await auth();
 

@@ -1,30 +1,28 @@
 import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { getUserProgress } from "@/actions/get-userProgress";
-import { getUserSubscription } from "@/actions/get-user-subscription";
-import { getTopHundredUsers } from "@/actions/get-user";
+import { getCourseUserProgress } from "@/actions/get-userProgress";
+
+
 
 import { ELO_TIERS } from "@/constants";
 import { CircularProgress } from "@nextui-org/progress";
 import Image from "next/image";
+import { getTopHundredCourseUsers } from "@/actions/get-user";
 
-const LeaderboardList = async () => {
-  const userProgressData = getUserProgress();
-  const userSubscriptionData = getUserSubscription();
-  const leaderboardData = getTopHundredUsers();
+const CourseLeaderboardList = async () => {
+  const userProgressData = getCourseUserProgress();
+ 
+  const leaderboardData = getTopHundredCourseUsers();
 
-  const [userProgress, userSubscription, leaderboard] = await Promise.all([
+  const [userProgress, leaderboard] = await Promise.all([
     userProgressData,
-    userSubscriptionData,
     leaderboardData,
   ]);
 
-  if (!userProgress || !userProgress.activeExercise) {
-    redirect("/activities");
+  if (!userProgress) {
+    redirect("/courses/dashboard");
   }
-
-  const points = userProgress.points;
 
   const getUserRank = (points: number) => {
     return ELO_TIERS.find(
@@ -156,4 +154,4 @@ const LeaderboardList = async () => {
   );
 };
 
-export default LeaderboardList;
+export default CourseLeaderboardList;

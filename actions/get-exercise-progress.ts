@@ -1,7 +1,7 @@
 "use server"
 
 import { cache } from "react";
-import { getUserProgress } from "./get-userProgress";
+import {  getActivitiesUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 
@@ -9,7 +9,7 @@ export const getExerciseProgress = cache(async () => {
   const user = await auth();
   
 
-  const userProgress = await getUserProgress();
+  const userProgress = await  getActivitiesUserProgress();
   
 
   if (!user?.user.id || !userProgress?.activeExerciseId) {

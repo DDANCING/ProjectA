@@ -311,17 +311,19 @@ model ProgressGameMusic {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
+
 model ProgressCourseModule {
   id             Int      @id @default(autoincrement())
   userId         String
-  courseId       String
-  chapterId      String
+  userName       String
+  userImageSrc   String
   isCompleted    Boolean  @default(false)
   points         Int      @default(0)
   progressStatus String   @default("in_progress") // Ex: in_progress, completed
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
+
 model UserOverallProgress {
   id              String   @id @default(uuid())
   userId          String   @unique

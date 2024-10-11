@@ -16,7 +16,7 @@ import { redirect } from "next/navigation";
 const ChapterIdPage = async ({
   params
  } : {
-  params: {courseId: string; chapterId: string }
+  params: {courseId: string; chapterId: string } //NAME CHANGED
  }
 ) => {
   const user = await auth();
