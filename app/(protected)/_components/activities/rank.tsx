@@ -33,11 +33,11 @@ export const Rank = ({ points }: Props) => {
           classNames={{
             svg: "w-[150px] h-[150px] drop-shadow-md",
             indicator: "stroke-primary",
-            track: "stroke-foreground/30",
+            track: "stroke-foreground/10",
             value: "text-3xl font-semibold text-white",
           }}
           value={progressValue}
-          strokeWidth={3}
+          strokeWidth={2}
         />
         
       
@@ -46,8 +46,8 @@ export const Rank = ({ points }: Props) => {
           <Image
             src={userRank?.icon || "/path/to/default/icon.png"}
             alt="rank"
-            height={50}
-            width={50}
+            height={70}
+            width={70}
           />
           <h1 className="text-xs">{userRank?.tier}</h1>
         </div>

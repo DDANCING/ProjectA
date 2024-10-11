@@ -44,6 +44,7 @@ model User {
   twoFactorConfirmation    TwoFactorConfirmation?
   accounts                 Account[]
   Scoreboard               Scoreboard?
+  UserOverallProgress      UserOverallProgress[]
 
   @@map("users")
 }
@@ -297,6 +298,43 @@ model StripeCustomer {
   stripeCustomerId String   @unique
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+model ProgressGameMusic {
+  id                Int      @id @default(autoincrement())
+  userId            String
+  gameMusicModuleId Int
+  musicId           Int
+  hearts            Int      @default(5)
+  points            Int      @default(0)
+  progressStatus    String   @default("in_progress") // Ex: in_progress, completed
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+model ProgressCourseModule {
+  id             Int      @id @default(autoincrement())
+  userId         String
+  courseId       String
+  chapterId      String
+  isCompleted    Boolean  @default(false)
+  points         Int      @default(0)
+  progressStatus String   @default("in_progress") // Ex: in_progress, completed
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+model UserOverallProgress {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  exercisePoints  Int      @default(0) // Pontos acumulados no módulo de exercício
+  videoPoints     Int      @default(0) // Pontos acumulados no módulo de vídeo
+  gameMusicPoints Int      @default(0) // Pontos acumulados no módulo de música
+  averagePoints   Float    @default(0) // Média dos três módulos
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_overall_progress")
 }
 
 enum ChallengeType {

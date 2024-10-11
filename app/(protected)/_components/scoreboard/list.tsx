@@ -49,9 +49,9 @@ const LeaderboardList = async () => {
 
   return (
     <div className="flex flex-col items-center gap-[48px] px-6">
-      {/* Top 3 users */}
+   
       <div className="flex justify-around items-end w-full">
-        {/* Second Place */}
+
         <div className="relative flex flex-col items-center space-y-2">
           <CircularProgress
             value={secondUserProgressValue}
@@ -72,7 +72,7 @@ const LeaderboardList = async () => {
             alt="Rank Icon"
             width={50}
             height={50}
-            className="absolute top-[-5px] right-[-10px] "
+            className="absolute top-[-20px] right-[-20px] "
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[1]?.userName}</div>
           <div className="text-md font-medium">Score {topThreeUsers[1]?.points}</div>
@@ -128,7 +128,7 @@ const LeaderboardList = async () => {
             alt="Rank Icon"
             width={30}
             height={30}
-            className="absolute top-[-5px] right-[20px]"
+            className="absolute top-[-10px] right-[30px]"
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[2]?.userName}</div>
           <div className="text-md font-medium">Score {topThreeUsers[2]?.points}</div>
