@@ -6,6 +6,9 @@ import { CourseSidebarItem } from "@/app/(protected)/_components/course/courses/
 import { auth } from "@/auth";
 import { Separator } from "@/components/ui/separator";
 import { CourseProgress } from "@/app/(protected)/_components/course/progress/course-progress";
+import { FcLeft } from "react-icons/fc";
+import { MoveLeft } from "lucide-react";
+import Link from "next/link";
 
 
 interface CourseSidebarProps {
@@ -41,8 +44,10 @@ export const CourseSidebar = async ({
       <div className="p-2 flex flex-col text-center font-semibold">
        
        {purchase && (
-         <div className="">
-          
+         <div >
+          <Link href="/courses/dashboard">
+          <MoveLeft className="w-5 h-5"/>
+          </Link>
            {course.chapters.length === 1 ? ("Chapter") : ("Chapters") }
            <CourseProgress
               variant={progressCount === 100 ? "success" : "default"}

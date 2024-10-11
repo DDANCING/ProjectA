@@ -24,6 +24,7 @@ export const CourseProgress = ({
 }: CourseProgressProps) => {
   return (
     <div>
+      
       <Progress
         className="h-2"
         value={value}
