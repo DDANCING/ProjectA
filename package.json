@@ -38,6 +38,7 @@
     "@tanstack/react-table": "^8.17.3",
     "@types/three": "^0.164.0",
     "@uploadthing/react": "^6.6.0",
+    "@vercel/speed-insights": "^1.0.12",
     "audio-context": "^1.0.3",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",

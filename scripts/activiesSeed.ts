@@ -58,9 +58,9 @@ const main = async () => {
     await prisma.challengeOption.createMany({
       data: [
         // C major challenge options
-        { challengeId: 1, correct: true, text: 'C major' },
-        { challengeId: 1, correct: false, text: 'D major' },
-        { challengeId: 1, correct: false, text: 'E minor' },
+        { challengeId: 1, correct: true, text: 'C major', audioSrc: '/c_major.mp3'},
+        { challengeId: 1, correct: false, text: 'D major', audioSrc: '/d_major.mp3' },
+        { challengeId: 1, correct: false, text: 'E minor', audioSrc: '/e_minor.mp3' },
 
         // A minor challenge options
         { challengeId: 2, correct: true, text: 'A minor' },
