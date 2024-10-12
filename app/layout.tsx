@@ -9,7 +9,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { ExitModal } from "@/components/modals/exit-modal";
 import { HeartsModal } from "@/components/modals/hearts-modal";
 import { PracticeModal } from "@/components/modals/practice-modal";
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,8 +47,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-           
             {children}
+            <SpeedInsights />
             <Toaster />
             <PracticeModal/>
             <HeartsModal/>
