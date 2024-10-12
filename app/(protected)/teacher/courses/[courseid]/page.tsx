@@ -24,8 +24,9 @@ import { Banner } from "@/components/banner";
 import { Actions } from "@/app/(protected)/_components/course/courseid/actions";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
+  const { courseId } = params;
+  console.log("Course ID:", courseId); 
   const user = await auth();
-  const courseId = params.courseId;
 
   if (!user?.user.id) {
     return redirect("/courses/dashboard");
