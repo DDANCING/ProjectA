@@ -4,6 +4,7 @@ import Mux from "@mux/mux-node";
 import { useUserId } from "@/data/hooks/use-current-id";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
+//rename
 
 const { Video } = new Mux(
   process.env.MUX_TOKEN_ID!,
