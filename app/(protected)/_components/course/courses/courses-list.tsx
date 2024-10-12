@@ -16,7 +16,7 @@ export const CoursesList = ({
   items
 }: CoursesListProps) => {
   return (
-   <div className="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+   <div className="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3">
      {items.map((item) => (
       <CourseCard 
       key={item.id}

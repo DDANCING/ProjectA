@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import axios from "axios";
+import { postProgressCourse } from "@/actions/course-progress";
 
 interface VideoPlayerProps {
+  userId: string;
   playbackId: string;
   courseId: string;
   chapterId: string;
@@ -21,6 +23,7 @@ interface VideoPlayerProps {
 };
 
 export const VideoPlayer = ({
+  userId,
   playbackId,
   courseId,
   chapterId,
@@ -35,9 +38,12 @@ export const VideoPlayer = ({
   const onEnd = async () => {
     try {
       if (completeOnEnd) {
+       
         await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
           isCompleted: true,
+          
         });
+        await postProgressCourse(userId, courseId);
         toast.success("Progress updated");
       }
     } catch {

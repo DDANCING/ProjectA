@@ -51,7 +51,6 @@ const CourseLayout =  async ({
 
   return(
     <div className="flex flex-col h-screen bg-background">
-     <FcLeft/>
       <main className=" flex rounded-sm h-full w-full justify-between ">
       <div className="hidden md:flex flex-col justify-between gap-4">
         <div className="w-60 flex-1 border-r-2 border-primary/20">
