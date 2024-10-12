@@ -30,6 +30,10 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   if (!userId) {
     return redirect("/courses/dashboard");
   }
+  if (!params.courseId) {
+    console.log("Course ID is missing, redirecting...");
+    return redirect("/courses/dashboard");
+  }
 
   const course = await db.course.findUnique({
     where: {
