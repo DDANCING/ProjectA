@@ -23,25 +23,23 @@ import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Banner } from "@/components/banner";
 import { Actions } from "@/app/(protected)/_components/course/courseid/actions";
 
-const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
-  const { courseId } = params;
-  console.log("Course ID:", courseId); 
+const CourseIdPage = async ({
+  params
+ } : {
+  params: {courseId: string;} 
+ }) => {
+ 
   const user = await auth();
 
   if (!user?.user.id) {
-    return redirect("/courses/dashboard");
-  }
-
-  if (!courseId) {
-    console.log("Course ID not found", params.courseId);
-
     return redirect("/courses/dashboard");
   }
   
 
   const course = await db.course.findUnique({
     where: {
-      id: courseId,
+      userId: user.user.id,
+      id: params.courseId,
     },
     include: {
       chapters: {
