@@ -84,7 +84,7 @@ export async function POST(
       cancel_url: `${process.env.API_BASE_URL}/courses/${course.id}?canceled=1`,
       metadata: {
         courseId: course.id,
-        userid: user.userId,
+        userId: user.userId,
       }
     });
 

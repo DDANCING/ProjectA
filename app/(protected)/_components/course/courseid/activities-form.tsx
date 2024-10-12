@@ -125,7 +125,7 @@ const onDelete = async (id: string) => {
                 </div>
               )}
               {deletingId !== activitie.id && (
-                <button 
+                <button aria-label="buttontrash"
                 onClick={() => onDelete(activitie.id)}
                 className="ml-auto hover:opacity-30"
                 >

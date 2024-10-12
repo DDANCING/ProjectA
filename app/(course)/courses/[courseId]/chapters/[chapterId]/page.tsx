@@ -17,10 +17,10 @@ const ChapterIdPage = async ({ params }: { params: { courseId: string; chapterId
      return redirect("/dashboard");
     } 
 
-    const courseId = params.courseId; // Adicionei essa linha para armazenar o courseId em uma variável
+    const courseId = params.courseId; 
     const chapterId = params.chapterId;
 
-    if (!courseId) { // Adicionei essa condição para verificar se o courseId é indefinido
+    if (!courseId) { 
       return redirect("/dashboard");
     }
 
