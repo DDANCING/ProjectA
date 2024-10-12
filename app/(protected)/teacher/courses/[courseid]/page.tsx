@@ -25,19 +25,22 @@ import { Actions } from "@/app/(protected)/_components/course/courseid/actions";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const user = await auth();
+  const courseId = params.courseId;
 
   if (!user?.user.id) {
     return redirect("/courses/dashboard");
   }
 
-  if (!params.courseId) {
+  if (!courseId) {
+    console.log("Course ID not found", params.courseId);
+
     return redirect("/courses/dashboard");
   }
   
 
   const course = await db.course.findUnique({
     where: {
-      id: params.courseId,
+      id: courseId,
     },
     include: {
       chapters: {
@@ -60,9 +63,9 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   });
 
   if (!course) {
+    console.log("Course not found, redirecting...");
     return redirect("/courses/dashboard");
   }
-
 
   const requiredFields = [
     course.title,
