@@ -30,9 +30,24 @@ export const postProgressCourse = async (
       },
     });
 
-    // Calcular a porcentagem de progresso
     const progressPercentage =
       (validCompletedChapters / publishedChaptersIds.length) * 100;
+
+    // Buscar o registro atual para capturar a última porcentagem
+    const existingProgress = await db.progressCourseModule.findUnique({
+      where: {
+        userId_courseId: {
+          userId: userId,
+          courseId: courseId,
+        },
+      },
+      select: {
+        percentage: true,
+      },
+    });
+
+    // Se o registro existir, salvar a última porcentagem, senão definir como 0
+    const lastPercentageWin = existingProgress?.percentage || 0;
 
     // Salvar o progresso na tabela ProgressCourseModule
     await db.progressCourseModule.upsert({
@@ -43,18 +58,22 @@ export const postProgressCourse = async (
         },
       },
       update: {
-        points: progressPercentage,
+        lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem
+        points: +10,
+        percentage: progressPercentage,
         progressStatus: validCompletedChapters === publishedChaptersIds.length
           ? "completed"
           : "in_progress",
         updatedAt: new Date(),
       },
       create: {
+        lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem ao criar
         userId: userId!,
         courseId: courseId,
         userName: user?.user.name || "Name", // Você pode substituir por um nome real
         userImageSrc: user?.user.image || "TODO: svg", // Você pode substituir por um URL real
-        points: progressPercentage,
+        percentage: progressPercentage,
+        points: + 10,
         progressStatus: validCompletedChapters === publishedChaptersIds.length
           ? "completed"
           : "in_progress",
@@ -72,19 +91,30 @@ export const postProgressCourse = async (
 
 export const getUserPercentageCourse = async (
   userId: string,
-): Promise<number> => {
+): Promise<{ points: number, percentage: number, lastPercentageWin: number }> => {
   try {
-  const getUserPercentage = await db.progressCourseModule.findFirst({
-    where: {
-      userId: userId,
-    },
-    select: {
-      points: true,
-    }
-  })
-  return getUserPercentage?.points || 0;
-} catch (error) {
-  console.log("[GET_PERCENTAGE]", error);
-  return 0;
-}
+    const getUserPercentage = await db.progressCourseModule.findFirst({
+      where: {
+        userId: userId,
+      },
+      select: {
+        points: true,
+        percentage: true,
+        lastPercentageWin: true,
+      },
+    });
+
+    return {
+      points: getUserPercentage?.points || 0,
+      percentage: getUserPercentage?.percentage || 0,
+      lastPercentageWin: getUserPercentage?.lastPercentageWin || 0,
+    };
+  } catch (error) {
+    console.log("[GET_PERCENTAGE]", error);
+    return {
+      points: 0,
+      percentage: 0,
+      lastPercentageWin: 0,
+    };
+  }
 };
