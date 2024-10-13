@@ -43,11 +43,12 @@ const SeachPage = async ({
   return (
     
       <div className="flex-1 pr-2">
+         <Card className="bg-background/30 backdrop-blur-md  shadow-none p-4">
           <div>
             <SearchImput/>
             <Categories items={categories} />
           </div>
-          <Card className="bg-background/30 backdrop-blur-md mt-2 shadow-none">
+         
             <CoursesList 
             items={courses}
             />

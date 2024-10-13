@@ -42,7 +42,13 @@ const ActivitiesPage = async () => {
           
           {!isPro && <Promo />}
           
-          {userProgress && <Rank points={userProgress?.points || 0} />}
+          {userProgress && 
+           <div className="border-2 border-muted m-2 rounded-xl">
+           <Rank 
+           link="/activities/leaderboard"
+           points={userProgress?.points || 0} />
+           </div>
+          }
           {userProgress && <Quests points={userProgress?.points || 0} />}
         </div>
       </Card>

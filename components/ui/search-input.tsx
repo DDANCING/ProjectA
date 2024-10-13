@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "@/data/hooks/use-debounce";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import qs from "query-string";
-import { Categories } from "@/app/(protected)/_components/search/categories";
-import { title } from "process";
 
 export const SearchImput = () => {
   const [value, setValue] = useState("");
@@ -40,7 +38,7 @@ export const SearchImput = () => {
        <Input
        onChange={(e) => setValue(e.target.value)}
        value={value}
-       className="pl-9 bg-background/30 backdrop-blur-md rounded-full focus:border-primary w-[50%]"
+       className="pl-9 bg-background/30 backdrop-blur-md rounded-full focus:border-primary w-[30%]"
        />
        <Search 
        className="h-4 w-4 absolute top-3 left-3 text-primary "

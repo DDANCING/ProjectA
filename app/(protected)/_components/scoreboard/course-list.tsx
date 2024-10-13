@@ -20,8 +20,8 @@ const CourseLeaderboardList = async () => {
     leaderboardData,
   ]);
 
-  if (!userProgress) {
-    redirect("/courses/dashboard");
+  if (!userProgress?.points) {
+    return null
   }
 
   const getUserRank = (points: number) => {

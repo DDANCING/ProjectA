@@ -48,9 +48,13 @@ const QuestsPage = async () => {
            {!isPro && (
           <Promo />
         )} 
-        <Rank
-        points={userProgress.points}
-        />
+         {userProgress && 
+           <div className="border-2 border-muted m-2 rounded-xl">
+           <Rank 
+           link="/activities/leaderboard"
+           points={userProgress?.points || 0} />
+           </div>
+          }
       
         </div>
        
