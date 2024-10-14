@@ -126,7 +126,7 @@ const CourseLeaderboardList = async () => {
             alt="Rank Icon"
             width={30}
             height={30}
-            className="absolute top-[-10px] right-[30px]"
+            className="absolute top-[-10px] right-[-5px]"
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[2]?.userName}</div>
           <div className="text-md font-medium">Score {topThreeUsers[2]?.points}</div>

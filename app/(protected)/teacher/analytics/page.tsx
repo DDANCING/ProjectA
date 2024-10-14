@@ -21,7 +21,7 @@ const {
 
   return ( 
     
-    <div className="bg-background/30 backdrop-blur-md flex-1 p-6">
+    <div className="bg-background/30 backdrop-blur-md flex-1 p-6 ">
      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
      <DataCard
       label="Total Revenue"
