@@ -68,7 +68,7 @@ const ActivitiesLeaderboardList = async () => {
             alt="Rank Icon"
             width={50}
             height={50}
-            className="absolute top-[-20px] right-[-20px] "
+            className="absolute top-[-20px] right-[15px] "
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[1]?.userName}</div>
           <div className="text-md font-medium">Score {topThreeUsers[1]?.points}</div>

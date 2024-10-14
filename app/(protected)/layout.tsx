@@ -10,7 +10,7 @@ const AuthLayout =  async ({ children }: { children: React.ReactNode}) => {
   const session = await auth()
   return(
     <SessionProvider session={session}>
-    <div className="flex flex-col bg-background">
+    <div className="flex flex-col h-screen bg-background max-h-screen">
      
     <Header/>
     <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
