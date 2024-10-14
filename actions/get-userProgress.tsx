@@ -12,6 +12,27 @@ import { getUserSubscription } from "./get-user-subscription";
 import { POINTS_TO_REFILL } from "@/constants";
 import { number } from "zod";
 
+export const getGameUserProgress = cache(async () => {
+  const user = await auth();
+  
+
+  if (!user?.user.id) {
+    return null;
+  }
+
+  const data = await db.progressGameMusic.findFirst({
+    where: {
+      userId: user.user.id,
+    },
+    select: {
+      points: true,
+    },
+  });
+  
+  return data;
+});
+
+
 
 export const getCourseUserProgress = cache(async () => {
   const user = await auth();
