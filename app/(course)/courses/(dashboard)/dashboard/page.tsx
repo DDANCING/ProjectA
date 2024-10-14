@@ -45,7 +45,7 @@ const dashboardPage = async () => {
    
    
     
-      
+    <Card className="p-4 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
         <Card className="shadow-none border-2 border-muted-foreground ">
@@ -58,7 +58,7 @@ const dashboardPage = async () => {
    
      </div>
      <div>
-      <Card className="shadow-none border-2 border-muted-foreground  flex h-full justify-around">
+      <Card className="shadow-none border-2 border-muted-foreground  flex h-full">
       <div className="flex flex-col ">
       <h1 className="text-2xl font-bold p-2 px-6"> Raise your score </h1>
       <h2 className="text-sm text-muted-foreground px-6"> take more courses and raise your score </h2>
@@ -75,10 +75,10 @@ const dashboardPage = async () => {
         </div>
         
       </div>
-      <div className="relative flex justify-center items-center">
+      <div className="relative flex justify-center items-center ml-auto mx-16">
       <CircularProgress
           classNames={{
-            svg: "w-36 h-36 drop-shadow-md",
+            svg: "w-[24vh] h-[24vh] drop-shadow-md",
             indicator: "stroke-primary",
             value: "text-2xl font-semibold text-white",
           }}
@@ -130,7 +130,7 @@ const dashboardPage = async () => {
      </div>
     </div>
     
-  
+  </Card>
 
   )
 }

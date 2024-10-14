@@ -304,8 +304,10 @@ model StripeCustomer {
 
 model ProgressGameMusic {
   id                Int      @id @default(autoincrement())
-  userId            String
+  userId            String   @unique
   gameMusicModuleId Int
+  userName          String
+  userImageSrc      String
   musicId           Int
   hearts            Int      @default(5)
   points            Int      @default(0)
@@ -317,7 +319,7 @@ model ProgressGameMusic {
 
 model ProgressCourseModule {
   id                Int      @id @default(autoincrement())
-  userId            String
+  userId            String   @unique
   courseId          String
   userName          String
   userImageSrc      String

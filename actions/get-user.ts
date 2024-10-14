@@ -33,3 +33,19 @@ export const getTopHundredCourseUsers = cache(async () => {
   });
   return data;
 });
+
+export const getTopHundredGameUsers = cache(async () => {
+  const data = await db.progressGameMusic.findMany({
+    orderBy: {
+      points: "desc",
+    },
+    take: 100,
+    select: {
+      userId: true,
+      userName: true,
+      userImageSrc: true,
+      points: true,
+    },
+  });
+  return data;
+});
