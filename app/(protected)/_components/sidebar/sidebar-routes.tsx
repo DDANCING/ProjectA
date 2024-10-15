@@ -8,7 +8,7 @@ const guestRoutes = [
   {
     icon: Gamepad2,
     label: "Game",
-    href: "/game"
+    href: "/game/dashboard"
   },
   {
     icon: Video  ,
@@ -99,11 +99,6 @@ const gameRoutes = [
     icon: Search,
     label: "Browse music",
     href: "/game/search"
-  },
-  {
-    icon: Guitar,
-    label: "Game",
-    href: "/game"
   },
   {
     icon: Crown,
