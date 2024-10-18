@@ -40,7 +40,6 @@ model User {
   stripe_subscription_item String?
   api_key                  String?
   twoFactorConfirmationId  String?
-  Performace               Performace[]
   twoFactorConfirmation    TwoFactorConfirmation?
   accounts                 Account[]
   Scoreboard               Scoreboard?
@@ -50,31 +49,19 @@ model User {
 }
 
 model Music {
-  id             Int              @id @default(autoincrement())
-  title          String
-  artist         String
-  youtubeLink    String
-  tabs           String
-  coverAlbum     String
-  tuning         String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  timeMinutes    Int
-  timeSeconds    Int
-  ExerciseModule ExerciseModule[]
-  performace     Performace[]
-}
-
-model Performace {
-  id        Int      @id @default(autoincrement())
-  userId    String
-  musicId   Int
-  average   Int
-  updatedAt DateTime @updatedAt
-  music     Music    @relation(fields: [musicId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
-
-  @@unique([userId, musicId])
+  id                Int                 @id @default(autoincrement())
+  title             String
+  artist            String
+  youtubeLink       String
+  tabs              String
+  coverAlbum        String
+  tuning            String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  timeMinutes       Int
+  timeSeconds       Int
+  ExerciseModule    ExerciseModule[]
+  ProgressGameMusic ProgressGameMusic[]
 }
 
 model Scoreboard {
@@ -302,19 +289,33 @@ model StripeCustomer {
   updatedAt        DateTime @updatedAt
 }
 
+model ProgressGame {
+  id                     String              @id @default(uuid())
+  userId                 String              @unique
+  userName               String              @default("Name")
+  userImageSrc           String              @default("/TODO.svg")
+  hearts                 Int                 @default(5)
+  points                 Int                 @default(0)
+  totalPercentage        Int                 @default(0)
+  totalLastPercentageWin Int                 @default(0)
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  ProgressGameMusic      ProgressGameMusic[]
+}
+
 model ProgressGameMusic {
-  id                Int      @id @default(autoincrement())
-  userId            String   @unique
-  gameMusicModuleId Int
-  userName          String
-  userImageSrc      String
-  musicId           Int
-  hearts            Int      @default(5)
-  points            Int      @default(0)
-  percentage        Int      @default(0)
-  lastPercentageWin Int      @default(0)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                String       @id @default(uuid())
+  userId            String
+  musicId           Int          @unique
+  percentage        Int          @default(0)
+  lastPercentageWin Int          @default(0)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  music             Music        @relation(fields: [musicId], references: [id])
+  progressGame      ProgressGame @relation(fields: [progressGameId], references: [id])
+  progressGameId    String
+
+  @@unique([userId, musicId]) // Define a chave composta
 }
 
 model ProgressCourseModule {
