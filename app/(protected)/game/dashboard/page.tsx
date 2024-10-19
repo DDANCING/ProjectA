@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { CircularProgress } from "@nextui-org/progress";
 import { cn } from "@/lib/utils";
 import { Rank } from "@/app/(protected)/_components/activities/rank";
-import { getMusics } from "@/actions/get-musics";
+import { getMusics, getNewMusics } from "@/actions/get-musics";
 import { MusicList } from "../../_components/game/music/music-list";
 import { getProgressMusic } from "@/actions/game-progress";
 
@@ -16,7 +16,8 @@ const dashboardPage = async () => {
   if (!userId) {
     return redirect("/");
   }
-
+  
+  const newMusics = await getNewMusics("");
   const musics = await getMusics(userId);
   const UserPercentageData = getProgressMusic( userId );
 
@@ -36,11 +37,11 @@ const dashboardPage = async () => {
    
    
     
-    <Card className="p-4 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+    <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto   scrollbar-none">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
      
         <div>
-        <Card className="shadow-none border-2 border-muted-foreground flex justify-between">
+        <Card className="shadow-none border-2 border-muted-foreground overflow-y-auto h-[40vh] flex-1 relative top-0 pb-10 scrollbar-none">
        <div className="flex flex-col">
        <h1 className="text-2xl font-bold p-2 px-6"> Keep going </h1>
        <h2 className="text-sm text-muted-foreground px-6"> Continue where you left off </h2>
@@ -93,17 +94,19 @@ const dashboardPage = async () => {
      </div>
      <div>
       
-     <Card className="shadow-none border-2 border-muted-foreground">
+     <Card className="shadow-none border-2 border-muted-foreground overflow-y-auto h-[44vh] flex-1 relative top-0 pb-10 scrollbar-none">
      <h1 className="text-2xl font-bold p-2 px-6"> New musics </h1>
-     <h2 className="text-sm text-muted-foreground px-6"> buy new courses </h2>
-     
+     <h2 className="text-sm text-muted-foreground px-6"> see new songs </h2>
+     <MusicList
+      items={[...newMusics]}
+      />
      </Card>
     
      </div>
      <div>
-     <Card className="shadow-none border-2 border-muted-foreground ">
+     <Card className="shadow-none border-2 border-muted-foreground h-[44vh]">
      <Rank
-     link="/courses/leaderboard"
+     link="/game/dashboard"
      points={points} />
      </Card>
   

@@ -5,14 +5,8 @@ type MusicWithPerformance = {
   id: number;
   title: string;
   artist: string;
-  youtubeLink: string;
-  tabs: string;
   coverAlbum: string;
-  tuning: string;
-  createdAt: Date;
-  updatedAt: Date;
-  timeMinutes: number;
-  timeSeconds: number;
+  
 };
 
 interface MusicListProps {
@@ -30,7 +24,7 @@ export const MusicList = ({
       key={item.id}
       id={item.id}
       title={item.title}
-      imageUrl={item.coverAlbum}  // Atualize para coverAlbum ou outra propriedade de imagem
+      imageUrl={item.coverAlbum} 
       />
      ))}
     {items.length === 0 && (
