@@ -74,7 +74,31 @@ export const getActivitiesUserProgress = cache(async () => {
 
   
   return data;
+  
 });
+export const getProgressActivities = async (userId: string): Promise<{ totalPercentage: number; totalLastPercentageWin: number; }> => {
+  try {
+    // Buscar todas as músicas disponíveis no site
+    const getActivitiesPercentages = await db.userProgressExerciseModule.findFirst({
+      where: {
+        userId,
+      },
+      select: {
+        percentage: true,
+        lastPercentageWin: true,
+      }
+    });
+
+    // Retorna um objeto com os valores, usando 0 como fallback se undefined
+    return {
+      totalPercentage: getActivitiesPercentages?.percentage ?? 0,
+      totalLastPercentageWin: getActivitiesPercentages?.lastPercentageWin ?? 0,
+    };
+  } catch (error) {
+    console.log("[GET_PROGRESS_USER]", error);
+    return { totalPercentage: 0, totalLastPercentageWin: 0};
+  }
+};
 
 export const upsertUserProgress = async (activitieId: number) => {
   const user = await currentUser();

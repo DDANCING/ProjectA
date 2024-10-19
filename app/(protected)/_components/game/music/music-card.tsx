@@ -10,6 +10,7 @@ interface CourseCardProps {
   title: string;
   artist: string;
   imageUrl: string;
+
 }
 
 export const MusicCard = ({
@@ -17,15 +18,15 @@ export const MusicCard = ({
   title,
   imageUrl,
   artist,
+
 }: CourseCardProps) => {
   return (
     <Link className="relative flex items-center" href={`/game/${id}`}>
-      {/* Imagem de fundo desfocada */}
       <div className=" w-72 h-20 rounded-xl overflow-hidden ">
         <Image
           fill
           
-          className="object-cover opacity-40"
+          className="object-cover opacity-40 rounded-xl transition-all hover:blur-sm"
           alt={title}
           src={imageUrl}
         >
@@ -53,7 +54,7 @@ export const MusicCard = ({
           {artist}
         </div>
         <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">
-        
+   
         </div>
       
       </div>

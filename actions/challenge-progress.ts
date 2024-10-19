@@ -1,7 +1,6 @@
 "use server";
-//name changed
 import { auth } from "@/auth";
-import {  getActivitiesUserProgress } from "./get-userProgress";
+import { getActivitiesUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { getUserSubscription } from "./get-user-subscription";
@@ -9,12 +8,11 @@ import { getUserSubscription } from "./get-user-subscription";
 export const upsertChallengeProgress = async (challengeId: number) => {
   const user = await auth();
 
-  
   if (!user?.user.id) {
     throw new Error('User is not authenticated');
   }
 
-  const currentUserProgress = await  getActivitiesUserProgress();
+  const currentUserProgress = await getActivitiesUserProgress();
 
   if (!currentUserProgress) {
     throw new Error('User progress not found');
@@ -57,8 +55,8 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     });
 
     await db.userProgressExerciseModule.update({
-       where: {
-        userId: user.user.id
+      where: {
+        userId: user.user.id,
       },
       data: {
         hearts: Math.min(currentUserProgress.hearts + 1, 5),
@@ -81,7 +79,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
       completed: true,
     },
   });
-
+  
   await db.userProgressExerciseModule.update({
     where: {
       userId: user.user.id,
@@ -89,6 +87,47 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     data: {
       points: currentUserProgress.points + 10,
     },
+  });
+
+  const allChallenge = await db.challenge.findMany({
+    select: {
+      id: true,
+    }
+  });
+
+  const completedChallenge = await db.challenge.findMany({
+    where: {
+      challengeProgress: {
+        some: {
+          userId: user.user.id,
+        }
+      }
+    }
+  });
+
+  const challengePercentage = (completedChallenge.length / allChallenge.length) * 100;
+
+  // Buscar a última porcentagem antes de atualizar
+  const userProgress = await db.userProgressExerciseModule.findFirst({
+    where: {
+      userId: user.user.id,
+    },
+    select: {
+      lastPercentageWin: true,  // Obter a última porcentagem
+    }
+  });
+
+  const lastPercentageWin = userProgress?.lastPercentageWin || 0; // Define 0 se não existir
+
+  // Atualizar o progresso do módulo de exercício do usuário
+  await db.userProgressExerciseModule.update({
+    where: {
+      userId: user.user.id,
+    },
+    data: {
+      lastPercentageWin: lastPercentageWin, // Salva a última porcentagem antes de atualizar
+      percentage: challengePercentage,
+    }
   });
 
   revalidatePath("/activities/learn");
