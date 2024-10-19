@@ -35,7 +35,7 @@ export const getTopHundredCourseUsers = cache(async () => {
 });
 
 export const getTopHundredGameUsers = cache(async () => {
-  const data = await db.progressGameMusic.findMany({
+  const data = await db.progressGame.findMany({
     orderBy: {
       points: "desc",
     },

@@ -3,8 +3,8 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
-export const postProgressMusic = async (userId: string): Promise<number> => {
-  const user = await auth()
+export const postProgressMusic = async (userId: string, musicId: number, percentage: number): Promise<number> => {
+  const user = await auth();
   try {
     // Buscar todas as músicas disponíveis no site
     const allMusics = await db.music.findMany({
@@ -16,7 +16,7 @@ export const postProgressMusic = async (userId: string): Promise<number> => {
     const allMusicIds = allMusics.map((music) => music.id);
 
     // Contar o número de músicas que o usuário tocou (tem progresso)
-    const completedMusics = await db.performace.findMany({
+    const completedMusics = await db.progressGameMusic.findMany({
       where: {
         userId: userId,
         musicId: {
@@ -25,91 +25,141 @@ export const postProgressMusic = async (userId: string): Promise<number> => {
       },
       select: {
         musicId: true,
-        average: true,
+        percentage: true,
       },
     });
 
-    // Criar um array com todas as porcentagens (0 para músicas não tocadas)
-    const musicPercentages = allMusicIds.map((musicId) => {
-      const musicProgress = completedMusics.find(
-        (performance) => performance.musicId === musicId
-      );
-      return musicProgress ? musicProgress.average : 0;
+    // Calcular a média apenas das músicas tocadas
+    const playedMusicPercentages = completedMusics.map((music) => music.percentage);
+    const progressPercentage = playedMusicPercentages.length > 0
+      ? playedMusicPercentages.reduce((acc, percentage) => acc + percentage, 0) / playedMusicPercentages.length
+      : 0;
+
+    // Verificar se o ProgressGame já existe para o usuário
+    const progressGame = await db.progressGame.findUnique({
+      where: { userId },
     });
 
-    // Calcular a média de todas as porcentagens
-    const progressPercentage =
-      musicPercentages.reduce((acc, percentage) => acc + percentage, 0) / allMusicIds.length;
+    let progressGameId: string;
 
-    const existingProgress = await db.progressGameMusic.findUnique({
+    if (!progressGame) {
+      // Criar um novo ProgressGame se não existir
+      const newProgressGame = await db.progressGame.create({
+        data: {
+          userId,
+          hearts: 5,
+          points: 10,
+          totalPercentage: progressPercentage,
+          totalLastPercentageWin: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+      progressGameId = newProgressGame.id;
+    } else {
+      progressGameId = progressGame.id;
+    }
+
+    // Atualizar o progresso da música específica
+    const existingMusicProgress = await db.progressGameMusic.findUnique({
       where: {
-        userId: userId,
+        userId_musicId: { userId, musicId }, // combinando userId e musicId
       },
       select: {
         percentage: true,
       },
     });
 
-    const lastPercentageWin = existingProgress?.percentage || 0;
+    if (!existingMusicProgress || existingMusicProgress.percentage < percentage) {
+      const lastPercentageWin = existingMusicProgress?.percentage || 0;
 
-    await db.progressGameMusic.upsert({
-      where: {
-         userId: userId,
-      },
-      update: {
-        lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem
-        points: { increment: 10 }, // Incrementar os pontos
-        percentage: progressPercentage,
-        updatedAt: new Date(),
-      },
-      create: {
-        lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem ao criar
-        userId,
-        musicId: 0, // Defina se necessário
-        hearts: 5, // Exemplo, ajuste se necessário
-        points: 10,
-        percentage: progressPercentage,
-        gameMusicModuleId: 1,
-        userName: user?.user.name || "name",
-        userImageSrc: user?.user.image || "TODO: IMAGE",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    });
+      // Atualizar o progresso total do jogo
+      const totalMusicProgress = await db.progressGameMusic.findMany({
+        where: {
+          userId: userId,
+          percentage: { gt: 0 },  // Considerar apenas músicas com progresso
+        },
+        select: {
+          percentage: true,
+        },
+      });
+
+      const totalProgressPercentage = totalMusicProgress.length > 0
+        ? totalMusicProgress.reduce((acc, progress) => acc + progress.percentage, 0) / totalMusicProgress.length
+        : 0;
+
+      await db.progressGame.upsert({
+        where: {
+          userId,
+        },
+        update: {
+          points: { increment: 50 }, // Incrementar 50 pontos
+          totalPercentage: totalProgressPercentage, // média de todas as porcentagens jogadas
+          totalLastPercentageWin: lastPercentageWin, // salve a última porcentagem antes de ser alterada
+          updatedAt: new Date(),
+        },
+        create: {
+          userId,
+          hearts: 5,
+          points: 50,
+          totalPercentage: totalProgressPercentage,
+          totalLastPercentageWin: lastPercentageWin,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+
+      // Atualizar ou criar o progresso da música específica
+      await db.progressGameMusic.upsert({
+        where: {
+          userId_musicId: { userId, musicId }, // combinando userId e musicId
+        },
+        update: {
+          lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem
+          percentage: percentage, // Atualizar para a nova porcentagem
+          updatedAt: new Date(),
+        },
+        create: {
+          userId,
+          musicId,
+          lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem ao criar
+          percentage: percentage,
+          progressGameId: progressGameId, // Incluindo progressGameId
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+    }
 
     return progressPercentage;
   } catch (error) {
-    console.log("[GET_PROGRESS_MUSIC]", error);
+    console.log("[POST_PROGRESS_MUSIC]", error);
     return 0;
   }
 };
 
-export const getUserPercentageMusic = async (
-  userId: string,
-): Promise<{ points: number, percentage: number, lastPercentageWin: number }> => {
+export const getProgressMusic = async (userId: string): Promise<{ totalPercentage: number; totalLastPercentageWin: number; points: number }> => {
   try {
-    const getUserPercentage = await db.progressGameMusic.findFirst({
+    // Buscar todas as músicas disponíveis no site
+    const getMusicPercentages = await db.progressGame.findFirst({
       where: {
-        userId: userId,
+        userId,
       },
       select: {
+        totalPercentage: true,
+        totalLastPercentageWin: true,
         points: true,
-        percentage: true,
-        lastPercentageWin: true,
-      },
+      }
     });
 
+    // Retorna um objeto com os valores, usando 0 como fallback se undefined
     return {
-      points: getUserPercentage?.points || 0,
-      percentage: getUserPercentage?.percentage || 0,
-      lastPercentageWin: getUserPercentage?.lastPercentageWin || 0,
+      totalPercentage: getMusicPercentages?.totalPercentage ?? 0,
+      totalLastPercentageWin: getMusicPercentages?.totalLastPercentageWin ?? 0,
+      points: getMusicPercentages?.points ?? 0,
     };
   } catch (error) {
-    console.log("[GET_PERCENTAGE_MUSIC]", error);
-    return {
-      points: 0,
-      percentage: 0,
-      lastPercentageWin: 0,
-    };
+    console.log("[GET_PROGRESS_USER]", error);
+    return { totalPercentage: 0, totalLastPercentageWin: 0, points: 0 };
   }
 };

@@ -20,7 +20,7 @@ export const getGameUserProgress = cache(async () => {
     return null;
   }
 
-  const data = await db.progressGameMusic.findFirst({
+  const data = await db.progressGame.findFirst({
     where: {
       userId: user.user.id,
     },
