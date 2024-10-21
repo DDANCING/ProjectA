@@ -339,10 +339,12 @@ model ProgressCourseModule {
 model UserOverallProgress {
   id              String   @id @default(uuid())
   userId          String   @unique
-  exercisePoints  Int      @default(0) // Pontos acumulados no módulo de exercício
-  videoPoints     Int      @default(0) // Pontos acumulados no módulo de vídeo
-  gameMusicPoints Int      @default(0) // Pontos acumulados no módulo de música
-  averagePoints   Float    @default(0) // Média dos três módulos
+  exercisePoints  Int      @default(0)
+  videoPoints     Int      @default(0)
+  gameMusicPoints Int      @default(0)
+  averagePoints   Float    @default(0)
+  frequency       Int      @default(0)
+  updateFrequency DateTime @default(now())
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -354,7 +356,7 @@ model UserOverallProgress {
 model MonthlyProgress {
   id              Int      @id @default(autoincrement())
   userId          String
-  month           Int // 1 para Janeiro, 2 para Fevereiro, etc.
+  month           Int
   year            Int
   averagePoints   Float
   exercisePoints  Float

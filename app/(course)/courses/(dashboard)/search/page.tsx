@@ -43,7 +43,7 @@ const SeachPage = async ({
   return (
     
       <div className="flex-1 pr-2">
-         <Card className="bg-background/30 backdrop-blur-md  shadow-none p-4">
+        <Card className="p-4 overflow-y-auto h-[90vh] flex-1 relative top-0 pb-10 scrollbar-none">
           <div>
             <SearchImput/>
             <Categories items={categories} />

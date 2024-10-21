@@ -32,7 +32,7 @@ interface ProgressGraphComponentProps {
 // Função para formatar o mês como abreviação
 const formatMonth = (month: number): string => {
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  return monthNames[month - 1]; // Ajuste para índice zero
+  return monthNames[month - 1]; 
 };
 
 export function ProgressGraphComponent({ monthlyProgress }: ProgressGraphComponentProps) {
@@ -56,8 +56,8 @@ export function ProgressGraphComponent({ monthlyProgress }: ProgressGraphCompone
   } satisfies ChartConfig;
 
   return (
-    <div className="w-full">
-      <Card className="shadow-none border-2 border-muted-foreground h-[30vh] w-full">
+    <div className="w-full hidden sm:block">
+      <Card className="shadow-none border-2 border-muted-foreground h-[30vh] mr-3">
         <CardHeader>
           <CardTitle>Leaderboard Graphics</CardTitle>
           <CardDescription>
@@ -65,7 +65,7 @@ export function ProgressGraphComponent({ monthlyProgress }: ProgressGraphCompone
           </CardDescription>
         </CardHeader>
         <CardContent className="w-full">
-          <ChartContainer config={chartConfig} style={{ height: '200px', width: '100%' }}>
+          <ChartContainer config={chartConfig} style={{ height: '20vh', width: '100%' }}>
             <AreaChart
               width={500}
               height={200}
@@ -95,38 +95,34 @@ export function ProgressGraphComponent({ monthlyProgress }: ProgressGraphCompone
                 cursor={false}
                 content={<ChartTooltipContent indicator="dot" />}
               />
-              <Area
-                dataKey="averagePoints"
-                type="natural"
-                fill={chartConfig.average.color}
-                fillOpacity={0.4}
-                stroke={chartConfig.average.color}
-                stackId="a"
-              />
-              <Area
-                dataKey="exercisePoints"
-                type="natural"
-                fill={chartConfig.exercise.color}
-                fillOpacity={0.4}
-                stroke={chartConfig.exercise.color}
-                stackId="a"
-              />
-              <Area
-                dataKey="videoPoints"
-                type="natural"
-                fill={chartConfig.video.color}
-                fillOpacity={0.4}
-                stroke={chartConfig.video.color}
-                stackId="a"
-              />
-              <Area
-                dataKey="gameMusicPoints"
-                type="natural"
-                fill={chartConfig.game.color}
-                fillOpacity={0.4}
-                stroke={chartConfig.game.color}
-                stackId="a"
-              />
+             <Area
+  dataKey="averagePoints"
+  type="natural"
+  fill={chartConfig.average.color}
+  fillOpacity={0.4}
+  stroke={chartConfig.average.color}
+/>
+<Area
+  dataKey="exercisePoints"
+  type="natural"
+  fill={chartConfig.exercise.color}
+  fillOpacity={0.4}
+  stroke={chartConfig.exercise.color}
+/>
+<Area
+  dataKey="videoPoints"
+  type="natural"
+  fill={chartConfig.video.color}
+  fillOpacity={0.4}
+  stroke={chartConfig.video.color}
+/>
+<Area
+  dataKey="gameMusicPoints"
+  type="natural"
+  fill={chartConfig.game.color}
+  fillOpacity={0.4}
+  stroke={chartConfig.game.color}
+/>
             </AreaChart>
           </ChartContainer>
         </CardContent>

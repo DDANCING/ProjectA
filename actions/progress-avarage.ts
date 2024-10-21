@@ -5,6 +5,7 @@ import { getProgressMusic } from "./game-progress";
 import { getProgressActivities } from "./get-userProgress";
 import dayjs from "dayjs";
 import { calculateAndStoreMonthlyProgress } from "./monthlyProgress";
+import { checkAndUpdateFrequency } from "./set-frequency";
 
 export const getUserPercentageAverage = async (
   userId: string,
@@ -44,8 +45,9 @@ export const getUserPercentageAverage = async (
       },
     });
 
-    // Cria ou atualiza o registro de progresso do usuário no banco de dados
+   
     if (!totalAverage?.createdAt) {
+      checkAndUpdateFrequency(userId)
       await db.userOverallProgress.create({
         data: {
           userId: userId,
@@ -96,7 +98,7 @@ export const getUserPercentageAverage = async (
     }
 
     calculateAndStoreMonthlyProgress(userId);
-    console.log("create")
+    
     return { percentage: average };
 
   } catch (error) {

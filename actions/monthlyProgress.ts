@@ -75,7 +75,7 @@ export const calculateAndStoreMonthlyProgress = async (
         userId,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
       take: 12,
       select: {
@@ -87,7 +87,7 @@ export const calculateAndStoreMonthlyProgress = async (
       },
     });
 
-    return monthlyProgress; // Retorna os dados do progresso mensal
+    return monthlyProgress; 
 
   } catch (error) {
     console.error("[CALCULATE_MONTHLY_PROGRESS]", error);

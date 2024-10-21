@@ -4,6 +4,7 @@ import { getActivitiesUserProgress } from "./get-userProgress";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { getUserSubscription } from "./get-user-subscription";
+import { checkAndUpdateFrequency } from "./set-frequency";
 
 export const upsertChallengeProgress = async (challengeId: number) => {
   const user = await auth();
@@ -17,7 +18,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
   if (!currentUserProgress) {
     throw new Error('User progress not found');
   }
-
+  checkAndUpdateFrequency(user.user.id)
   const challenge = await db.challenge.findFirst({
     where: {
       id: challengeId,
