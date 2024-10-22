@@ -1,85 +1,95 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { TrendingUp } from "lucide-react"
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+import { useEffect, useState } from "react";
+import { Frown, SmileIcon } from "lucide-react";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import { getUserFrequency } from "@/actions/set-frequency"
+} from "@/components/ui/chart";
+import { getUserFrequency } from "@/actions/set-frequency";
 
-export const description = "A radial chart with stacked sections"
+export const description = "A radial chart with frequency tracking";
 
-const chartConfig = {
+// Configuração do gráfico
+const chartConfig: ChartConfig = {
   frequency: {
     label: "Frequency",
-    color: "hsl(var(--primary))", // Primary color for frequency
+    color: "hsl(var(--primary))",
   },
-  total: {
-    label: "Total",
-    color: "hsl(var(--chart-1))", // Secondary color for total
-  },
-} satisfies ChartConfig
+};
 
 export function RadialGraphic({ userId }: { userId: string }) {
-  const [frequency, setFrequency] = useState(0)
-  const [total, setTotal] = useState(30) // Default total for the chart
+  const [frequency, setFrequency] = useState(0);
+  const [total, setTotal] = useState(30); // Total padrão para o gráfico
 
   useEffect(() => {
     async function fetchFrequency() {
       try {
-        const userFrequency = await getUserFrequency(userId) // Call API to get frequency
-        setFrequency(userFrequency)
+        const userFrequency = await getUserFrequency(userId);
+        setFrequency(userFrequency);
 
-        // Define the total based on the frequency
         if (userFrequency < 30) {
-          setTotal(30)
+          setTotal(30);
         } else if (userFrequency < 365) {
-          setTotal(365)
+          setTotal(365);
         } else {
-          setTotal(730) // Two years
+          setTotal(730); // Dois anos
         }
       } catch (error) {
-        console.error("Error fetching user frequency:", error)
+        console.error("Erro ao buscar a frequência do usuário:", error);
       }
     }
 
-    fetchFrequency()
-  }, [userId])
+    fetchFrequency();
+  }, [userId]);
+
+  const remaining = total - frequency;
 
   const chartData = [
-    { name: "Frequency", value: frequency },
-    { name: "Total", value: total - frequency }, // Remaining part
-  ]
+    { frequency: "Days", Remaining: remaining, Frequency: frequency },
+  ];
+
+  const chartConfig = {
+    Frequency: {
+      label: "Frequency",
+      color: "hsl(var(--primary))",
+    },
+    Remaining: {
+      label: "Remaining",
+      color: "hsl(var(--muted))",
+    },
+  } satisfies ChartConfig;
 
   return (
     <div className="w-full hidden sm:block">
-      <Card className="shadow-none border-2 border-muted-foreground h-[30vh] mr-3 ">
-        <CardHeader className="items-center pb-0">
-          <CardTitle>Radial Chart - Frequency</CardTitle>
-          <CardDescription>Tracking User Frequency</CardDescription>
+     
+        <CardHeader >
+          <CardTitle>Frequency</CardTitle>
+          <CardDescription className="hidden lg:block">
+            Your progression through the different modules
+          </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-1 items-center pb-0">
+        <CardContent className="flex flex-col items-center mt-[-5vh]">
           <ChartContainer
             config={chartConfig}
-            style={{ height: "20vh", width: "100%" }}
-            className="mx-auto aspect-square w-full max-w-[250px]"
+            className="mx-auto aspect-square w-full max-w-[30vh] h-auto"
           >
             <RadialBarChart
               data={chartData}
-              endAngle={180}
-              innerRadius={80}
-              outerRadius={130}
+              startAngle={-20}
+              endAngle={200}
+              innerRadius="60%"
+              outerRadius="90%"
             >
               <ChartTooltip
                 cursor={false}
@@ -103,26 +113,46 @@ export function RadialGraphic({ userId }: { userId: string }) {
                             y={(viewBox.cy || 0) + 4}
                             className="fill-muted-foreground"
                           >
-                            Days Active
+                            {frequency === 1 ? "Day" : "Days"}
                           </tspan>
                         </text>
-                      )
+                      );
                     }
+                    return null;
                   }}
                 />
               </PolarRadiusAxis>
               <RadialBar
-                dataKey="value"
-                name="Frequency"
+                dataKey="Remaining"
+                stackId="a"
                 cornerRadius={5}
-                fill="hsl(var(--primary))" // Use primary color for frequency
+                fill="var(--color-Remaining)"
                 className="stroke-transparent stroke-2"
-                maxBarSize={20} // Control the bar thickness
+              />
+              <RadialBar
+                dataKey="Frequency"
+                fill="var(--color-Frequency)"
+                stackId="a"
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
               />
             </RadialBarChart>
           </ChartContainer>
+          <div className="flex flex-col items-center mt-[-13vh]  w-full">
+            {frequency === 0 ? (
+              <Frown size={32} className="text-muted" />
+            ) : (
+              <SmileIcon size={32} className="text-primary" />
+            )}
+            {frequency === 0 ? (
+               <p className="text-muted-foreground">You are not having a good time!</p>
+              
+            ) : (
+              <p className="text-foreground">You are getting a nice frequency!</p>
+            )}
+          </div>
         </CardContent>
-      </Card>
+      
     </div>
-  )
+  );
 }

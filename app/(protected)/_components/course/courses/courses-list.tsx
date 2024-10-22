@@ -10,31 +10,29 @@ type CourseWithProgressWhithCategory = Course & {
 
 interface CoursesListProps {
   items: CourseWithProgressWhithCategory[];
+  classname: string;
 }
 
-export const CoursesList = ({
-  items
-}: CoursesListProps) => {
+export const CoursesList = ({ items, classname }: CoursesListProps) => {
   return (
-   <div className="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-4">
-     {items.map((item) => (
-      <CourseCard 
-      key={item.id}
-      id={item.id}
-      title={item.title}
-      imageUrl={item.imageUrl!}
-      chaptersLength={item.chapters.length}
-      price={item.price!}
-      progress={item.progress}
-      category={item?.category?.name!}
-      />
-     ))}
-    {items.length === 0 && (
-      <div className="text-center text-sm text-muted-foreground mt-10">
-        No courses found
-      </div>
-    )}
-   </div>
+    <div className={classname}>
+      {items.map((item) => (
+        <CourseCard 
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          imageUrl={item.imageUrl!}
+          chaptersLength={item.chapters.length}
+          price={item.price!}
+          progress={item.progress}
+          category={item?.category?.name!}
+        />
+      ))}
+      {items.length === 0 && (
+        <div className="text-center text-sm text-muted-foreground mt-10">
+          No courses found
+        </div>
+      )}
+    </div>
   )
 }
-

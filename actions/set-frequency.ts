@@ -25,18 +25,18 @@ export const checkAndUpdateFrequency = async (userId: string) => {
     const hoursSinceUpdate = now.diff(lastUpdated, 'hour');
 
     if (hoursSinceUpdate > 48) {
-      console.log("more 48")
+      
       await db.userOverallProgress.update({
         where: {
           userId: userId,
         },
         data: {
           frequency: 0,
-          updateFrequency: now.toDate(), // Atualiza `updateFrequency`
+          updateFrequency: now.toDate(),
         },
       });
     } else if (hoursSinceUpdate >= 24 && hoursSinceUpdate <= 48) {
-     console.log("less 48 more 24")
+    
       await db.userOverallProgress.update({
         where: {
           userId: userId,
@@ -70,7 +70,7 @@ export const getUserFrequency = async (userId: string): Promise<number> => {
       return 0; // Default to 0 if no progress is found
     }
 
-    
+   
     return userProgress.frequency;
   } catch (error) {
     console.error("[CHECK_FREQUENCY]: Detalhes do erro:", error);

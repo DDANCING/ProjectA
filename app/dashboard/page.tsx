@@ -59,75 +59,62 @@ const dashboardPage = async () => {
 
   return ( 
     <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none ">
-      
-      <div className="grid gap-4 " style={{ gridTemplateColumns: '34.5% 28% 34.5%' }}>
-    <div>
-      <Card className="shadow-none border-2 border-muted-foreground h-[30vh] ">
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold p-2 px-6">Keep going</h1>
-          <h2 className="text-sm text-muted-foreground px-6">Continue where you left off</h2>
-        </div>
+      {/* Define a grid que se ajusta com base no tamanho da tela */}
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         
-      </Card>
-    </div>
-
-    <div>
-      
-      <RadialGraphic
-      userId={userId}/>
-     
-    </div>
-        <ProgressGraphComponent
-        monthlyProgress={montly} />
-  </div>
-
-     
-      <div className="grid grid-cols-1 md:grid-cols-2  gap-4 mt-4">
-        <Card className="shadow-none border-2 border-muted-foreground h-[40vh]">
+        <div>
+          <Card className="shadow-none border-2 border-muted-foreground h-[30vh] overflow-y-auto">
+            <div className="flex flex-col">
+              <h1 className="text-md text-muted-foreground font-bold px-6 pt-6">Welcome back,</h1>
+              <h1 className="text-2xl font-bold px-6">{user.user.name} </h1>
+              <h2 className="text-sm text-muted-foreground px-6">great to see you again!</h2>
+            </div>
+          </Card>
+        </div>
+  
+        <div>
+          <Card className="shadow-none border-2 border-muted-foreground h-[30vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none ">
+            <RadialGraphic userId={userId} />
+          </Card>
+        </div>
+  
+        <div>
+          <Card className="flex flex-col  border-2 border-muted-foreground h-[30vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none ">
+            <ProgressGraphComponent monthlyProgress={montly} />
+          </Card>
+        </div>
+  
+      </div>
+  
+      {/* Restante do código permanece igual */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none overflow-x-auto ">
           <h1 className="text-2xl font-bold p-2 px-6">New Courses</h1>
           <h2 className="text-sm text-muted-foreground px-6">See the list of new courses </h2>
           <CoursesList
-     items={[...courses]}
-     />
+          classname="w-full gap-2 p-4 text-wrap text-center grid lg:grid-cols-2 xl:grid-cols-3"
+          items={[...courses]} />
         </Card>
-        <Card className="shadow-none border-2 border-muted-foreground h-[40vh]">
-        <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
-        <h2 className="text-sm text-muted-foreground px-6">See the list of new musics </h2>
+  
+        <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
+          <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
+          <h2 className="text-sm text-muted-foreground px-6">See the list of new musics</h2>
           <MusicList items={[...newMusics]} />
         </Card>
-        
-       
       </div>
-      <div className="grid md:hiden xl:grid-cols-4 lg:grid-cols-3 md:lg:grid-cols-2 gap-4 mt-4">
+  
+      <div className="grid  xl:grid-cols-3 lg:grid-cols-2  gap-4 mt-4">
+  
         <Card className="shadow-none border-2 border-muted-foreground h-[12vh]">
-        <PercentageBanner
-          title="Performance"
-          leaderBoardPage="/scoreboard"
-          percentage={AveragePercentage}
-          />
+          <PercentageBanner title="Music score" leaderBoardPage="/game/leaderboard" percentage={MusicPercentage} />
         </Card>
+  
         <Card className="shadow-none border-2 border-muted-foreground h-[12vh]">
-          <PercentageBanner
-          title="Music score"
-          leaderBoardPage="/game/leaderboard"
-          percentage={MusicPercentage}
-          />
+          <PercentageBanner title="Course score" leaderBoardPage="/courses/leaderboard" percentage={PercentageCourse} />
         </Card>
+  
         <Card className="shadow-none border-2 border-muted-foreground h-[12vh]">
-        <PercentageBanner
-          title="Course score"
-          leaderBoardPage="/courses/leaderboard"
-          percentage={PercentageCourse}
-          />
-          
-        </Card>
-        
-        <Card className="shadow-none border-2 border-muted-foreground h-[12vh]">
-        <PercentageBanner
-          title="Activities Score"
-          leaderBoardPage="/Activities/leaderboard"
-          percentage={ActivitiesPercentage}
-          />
+          <PercentageBanner title="Activities Score" leaderBoardPage="/Activities/leaderboard" percentage={ActivitiesPercentage} />
         </Card>
       </div>
     </Card>

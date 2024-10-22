@@ -56,16 +56,16 @@ export function ProgressGraphComponent({ monthlyProgress }: ProgressGraphCompone
   } satisfies ChartConfig;
 
   return (
-    <div className="w-full hidden sm:block">
-      <Card className="shadow-none border-2 border-muted-foreground h-[30vh] mr-3">
+    <div>
+      
         <CardHeader>
-          <CardTitle>Leaderboard Graphics</CardTitle>
-          <CardDescription>
+          <CardTitle>Progress Graphics</CardTitle>
+          <CardDescription >
             Your progression through the different modules
           </CardDescription>
         </CardHeader>
         <CardContent className="w-full">
-          <ChartContainer config={chartConfig} style={{ height: '20vh', width: '100%' }}>
+          <ChartContainer config={chartConfig} style={{ height: '19vh', width: '100%' }}>
             <AreaChart
               width={500}
               height={200}
@@ -126,7 +126,7 @@ export function ProgressGraphComponent({ monthlyProgress }: ProgressGraphCompone
             </AreaChart>
           </ChartContainer>
         </CardContent>
-      </Card>
+      
     </div>
   );
 }

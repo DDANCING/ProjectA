@@ -8,7 +8,6 @@ import { Preview } from "@/components/preview";
 import { Separator } from "@/components/ui/separator";
 import { File } from "lucide-react";
 import { redirect } from "next/navigation";
-import { NextPage } from 'next';
 
 const ChapterIdPage = async ({ params }: { params: { courseId: string; chapterId: string } }) => {
     const user = await auth();

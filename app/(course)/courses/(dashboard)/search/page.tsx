@@ -50,6 +50,7 @@ const SeachPage = async ({
           </div>
          
             <CoursesList 
+            classname="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3"
             items={courses}
             />
             </Card> 

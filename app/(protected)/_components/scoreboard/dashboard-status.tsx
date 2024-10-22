@@ -18,10 +18,10 @@ export const PercentageBanner = ({percentage, leaderBoardPage, title} : Props) =
   <div className="flex justify-between px-6 items-center h-full">
     <div>
       <h1 className="text-lg font-bold text-muted-foreground">{title}</h1>
-      <h2 className="text-3xl font-extrabold text-foreground"> {percentage}% </h2>
+      <h2 className="text-2xl font-extrabold text-foreground"> {percentage}% </h2>
       </div>
       <Link href={leaderBoardPage}>
-      <Button > Leaderboard </Button>
+      <Button  > Leaderboard </Button>
       </Link>
   </div>
  )

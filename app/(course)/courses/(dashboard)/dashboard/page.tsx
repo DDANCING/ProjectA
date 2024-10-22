@@ -45,13 +45,14 @@ const dashboardPage = async () => {
    
    
     
-    <Card className="p-4 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+    <Card className="shadow-none p-4 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
         <Card className="shadow-none border-2 border-muted-foreground ">
        <h1 className="text-2xl font-bold p-2 px-6"> Keep going </h1>
        <h2 className="text-sm text-muted-foreground px-6"> Continue where you left off </h2>
         <CoursesList
+    classname="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3"
      items={[...coursesInProgress, ...completedCourses]}
      />
      </Card>
@@ -111,6 +112,7 @@ const dashboardPage = async () => {
      <h1 className="text-2xl font-bold p-2 px-6"> New courses </h1>
      <h2 className="text-sm text-muted-foreground px-6"> buy new courses </h2>
      <CoursesList
+     classname="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3"
      items={[...courses]}
      />
     
