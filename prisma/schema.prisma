@@ -307,6 +307,8 @@ model ProgressGame {
 model ProgressGameMusic {
   id                String       @id @default(uuid())
   userId            String
+  userName          String       @default("User")
+  userImageSrc      String       @default("/mascot.svg")
   musicId           Int          @unique
   percentage        Int          @default(0)
   lastPercentageWin Int          @default(0)
@@ -337,16 +339,22 @@ model ProgressCourseModule {
 }
 
 model UserOverallProgress {
-  id              String   @id @default(uuid())
-  userId          String   @unique
-  exercisePoints  Int      @default(0)
-  videoPoints     Int      @default(0)
-  gameMusicPoints Int      @default(0)
-  averagePoints   Float    @default(0)
-  frequency       Int      @default(0)
-  updateFrequency DateTime @default(now())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  userName            String   @default("User")
+  userImageSrc        String   @default("/mascot.svg")
+  exercisePoints      Int      @default(0)
+  videoPoints         Int      @default(0)
+  gameMusicPoints     Int      @default(0)
+  averagePoints       Float    @default(0)
+  exercisePercentage  Int      @default(0)
+  videoPercentage     Int      @default(0)
+  gameMusicPercentage Int      @default(0)
+  averagePercentage   Float    @default(0)
+  frequency           Int      @default(0)
+  updateFrequency     DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id])
 

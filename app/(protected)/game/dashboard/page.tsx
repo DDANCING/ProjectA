@@ -37,7 +37,7 @@ const dashboardPage = async () => {
    
    
     
-    <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto   scrollbar-none">
+    <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto shadow-none  scrollbar-none">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
      
         <div>

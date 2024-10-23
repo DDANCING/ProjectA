@@ -49,3 +49,20 @@ export const getTopHundredGameUsers = cache(async () => {
   });
   return data;
 });
+
+export const getTopHundredAverageUsers = cache(async () => {
+  const data = await db.userOverallProgress.findMany({
+    orderBy: {
+      averagePoints: "desc",
+    },
+    take: 100,
+    select: {
+      userId: true,
+      user: true,
+      userName: true,
+      userImageSrc: true,
+      averagePoints: true,
+    },
+  });
+  return data;
+});

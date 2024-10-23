@@ -3,24 +3,32 @@
 import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { getActivitiesUserProgress } from "@/actions/get-userProgress";
-import { getTopHundredUsers } from "@/actions/get-user";
+import { getTopHundredAverageUsers} from "@/actions/get-user";
 
 import { ELO_TIERS } from "@/constants";
 import { CircularProgress } from "@nextui-org/progress";
 import Image from "next/image";
+import { auth } from "@/auth";
+import { getUserPointsAverage } from "@/actions/progress-avarage";
 
 const ScoreboardList = async () => {
-  const userProgressData = getActivitiesUserProgress();
+ const user = await auth();
+ const userId = user?.user.id;
+
+ if (!userId) {
+  redirect("/dashboard")
+ }
+
+  const userProgressData = getUserPointsAverage(userId);
  
-  const leaderboardData = getTopHundredUsers();
+  const leaderboardData = getTopHundredAverageUsers();
 
   const [userProgress, leaderboard] = await Promise.all([
     userProgressData,
     leaderboardData,
   ]);
 
-  if (!userProgress || !userProgress.activeExercise) {
+  if (!userProgress.points) {
     redirect("/dashboard");
   }
 
@@ -41,9 +49,9 @@ const ScoreboardList = async () => {
   const otherUsers = leaderboard.slice(3);
 
   // Calcula o progresso para cada um dos top 3 usuários
-  const firstUserProgressValue = calculateProgressValue(topThreeUsers[0]?.points);
-  const secondUserProgressValue = calculateProgressValue(topThreeUsers[1]?.points);
-  const thirdUserProgressValue = calculateProgressValue(topThreeUsers[2]?.points);
+  const firstUserProgressValue = calculateProgressValue(topThreeUsers[0]?.averagePoints);
+  const secondUserProgressValue = calculateProgressValue(topThreeUsers[1]?.averagePoints);
+  const thirdUserProgressValue = calculateProgressValue(topThreeUsers[2]?.averagePoints);
 
   return (
     <div className="flex flex-col items-center gap-[48px] px-6">
@@ -66,14 +74,14 @@ const ScoreboardList = async () => {
             </Avatar>
           </div>
           <Image
-            src={getUserRank(topThreeUsers[1]?.points)?.icon || ""}
+            src={getUserRank(topThreeUsers[1]?.averagePoints)?.icon || ""}
             alt="Rank Icon"
             width={50}
             height={50}
             className="absolute top-[-20px] right-[15px] "
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[1]?.userName}</div>
-          <div className="text-md font-medium">Score {topThreeUsers[1]?.points}</div>
+          <div className="text-md font-medium">Score {topThreeUsers[1]?.averagePoints}</div>
           <div className="text-sm">Rank #2</div>
         </div>
 
@@ -94,14 +102,14 @@ const ScoreboardList = async () => {
             </Avatar>
           </div>
           <Image
-            src={getUserRank(topThreeUsers[0]?.points)?.icon || ""}
+            src={getUserRank(topThreeUsers[0]?.averagePoints)?.icon || ""}
             alt="Rank Icon"
             width={50}
             height={50}
             className="absolute top-[-5px] right-[-10px] "
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[0]?.userName}</div>
-          <div className="text-md font-medium">Score {topThreeUsers[0]?.points}</div>
+          <div className="text-md font-medium">Score {topThreeUsers[0]?.averagePoints}</div>
           <div className="text-sm">Rank #1</div>
         </div>
 
@@ -122,14 +130,14 @@ const ScoreboardList = async () => {
             </Avatar>
           </div>
           <Image
-            src={getUserRank(topThreeUsers[2]?.points)?.icon || ""}
+            src={getUserRank(topThreeUsers[2]?.averagePoints)?.icon || ""}
             alt="Rank Icon"
             width={30}
             height={30}
             className="absolute top-[-10px] right-[30px]"
           />
           <div className="text-xl font-bold text-center">{topThreeUsers[2]?.userName}</div>
-          <div className="text-md font-medium">Score {topThreeUsers[2]?.points}</div>
+          <div className="text-md font-medium">Score {topThreeUsers[2]?.averagePoints}</div>
           <div className="text-sm">Rank #3</div>
         </div>
       </div>
@@ -146,7 +154,7 @@ const ScoreboardList = async () => {
               <AvatarImage className="object-cover" src={user.userImageSrc} />
             </Avatar>
             <p className="font-bold text-neutral-800 flex-1">{user.userName}</p>
-            <p className="text-muted-foreground">{user.points} XP</p>
+            <p className="text-muted-foreground">{user.averagePoints} XP</p>
           </div>
         ))}
       </div>

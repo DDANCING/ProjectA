@@ -24,11 +24,11 @@ const scoreboardPage = () => {
     </div>
     </div>
     <div className="w-full xl:w-[50%] p-4">
-      <Card className="h-full ">
+
       <Card className=" overflow-y-auto h-[86vh] flex-1 relative top-0 pb-10 scrollbar-none">
        <ScoreboardList/>
       </Card>
-      </Card>
+     
     </div>
     </div>
    );

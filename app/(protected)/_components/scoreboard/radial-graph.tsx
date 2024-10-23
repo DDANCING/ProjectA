@@ -138,7 +138,7 @@ export function RadialGraphic({ userId }: { userId: string }) {
               />
             </RadialBarChart>
           </ChartContainer>
-          <div className="flex flex-col items-center mt-[-13vh]  w-full">
+          <div className="flex flex-col items-center mt-[-130px]  w-full">
             {frequency === 0 ? (
               <Frown size={32} className="text-muted" />
             ) : (

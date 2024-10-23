@@ -82,10 +82,8 @@ class Afinador extends React.Component<AfinadorProps, State> {
 
     return (
       <Drawer>
-        <div className="bg-background p-2">
-          <Link href="/game">
-            <RefreshCcw className="size-4" />
-          </Link>
+        <div className="bg-background p-2 border-2 border-muted-foreground rounded-xl">
+          
           <div className="flex flex-col items-center">
             <p className={`text-primary text-4xl`}>{note}</p>
             <p className="text-muted">{frequency.toFixed(2)} Hz</p>

@@ -17,6 +17,9 @@ import { getUserPercentageAverage } from "@/actions/progress-avarage";
 import { ProgressGraphComponent } from "../(protected)/_components/scoreboard/graph";
 import { calculateAndStoreMonthlyProgress } from "@/actions/monthlyProgress";
 import { RadialGraphic } from "../(protected)/_components/scoreboard/radial-graph";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import dynamic from "next/dynamic";
+import { Explorer } from "@/components/3Dcomponents/yellow-explorer/model";
 
 const dashboardPage = async () => {
   const user = await auth();
@@ -30,6 +33,11 @@ const dashboardPage = async () => {
   const courses = await getCourses({
     userId
   });
+
+  
+const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar'), {
+  ssr: false
+})
 
   const montly = await calculateAndStoreMonthlyProgress( userId );
 
@@ -59,15 +67,23 @@ const dashboardPage = async () => {
 
   return ( 
     <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none ">
-      {/* Define a grid que se ajusta com base no tamanho da tela */}
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
         
         <div>
-          <Card className="shadow-none border-2 border-muted-foreground h-[30vh] overflow-y-auto">
-            <div className="flex flex-col">
+          <Card className="flex shadow-none border-2 border-muted-foreground h-[30vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none ">
+            <div className="flex flex-col ">
               <h1 className="text-md text-muted-foreground font-bold px-6 pt-6">Welcome back,</h1>
               <h1 className="text-2xl font-bold px-6">{user.user.name} </h1>
+         
               <h2 className="text-sm text-muted-foreground px-6">great to see you again!</h2>
+            </div>
+            <div className="">
+            <div className="items-center h-full absolute">
+            <SceneGuitar>
+            <Explorer/>
+          </SceneGuitar>
+         </div>
             </div>
           </Card>
         </div>
@@ -75,6 +91,7 @@ const dashboardPage = async () => {
         <div>
           <Card className="shadow-none border-2 border-muted-foreground h-[30vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none ">
             <RadialGraphic userId={userId} />
+            
           </Card>
         </div>
   

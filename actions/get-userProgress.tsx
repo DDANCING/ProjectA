@@ -7,10 +7,9 @@ import { getActivitiesById } from "./get-activities";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { error } from "console";
 import { getUserSubscription } from "./get-user-subscription";
 import { POINTS_TO_REFILL } from "@/constants";
-import { number } from "zod";
+
 
 export const getGameUserProgress = cache(async () => {
   const user = await auth();
@@ -76,7 +75,7 @@ export const getActivitiesUserProgress = cache(async () => {
   return data;
   
 });
-export const getProgressActivities = async (userId: string): Promise<{ totalPercentage: number; totalLastPercentageWin: number; }> => {
+export const getProgressActivities = async (userId: string): Promise<{ totalPercentage: number; totalLastPercentageWin: number; points: number }> => {
   try {
     // Buscar todas as músicas disponíveis no site
     const getActivitiesPercentages = await db.userProgressExerciseModule.findFirst({
@@ -86,6 +85,7 @@ export const getProgressActivities = async (userId: string): Promise<{ totalPerc
       select: {
         percentage: true,
         lastPercentageWin: true,
+        points: true,
       }
     });
 
@@ -93,10 +93,11 @@ export const getProgressActivities = async (userId: string): Promise<{ totalPerc
     return {
       totalPercentage: getActivitiesPercentages?.percentage ?? 0,
       totalLastPercentageWin: getActivitiesPercentages?.lastPercentageWin ?? 0,
+      points: getActivitiesPercentages?.points ?? 0,
     };
   } catch (error) {
     console.log("[GET_PROGRESS_USER]", error);
-    return { totalPercentage: 0, totalLastPercentageWin: 0};
+    return { totalPercentage: 0, totalLastPercentageWin: 0, points: 0 };
   }
 };
 

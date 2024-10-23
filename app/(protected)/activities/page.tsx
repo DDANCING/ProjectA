@@ -53,7 +53,7 @@ const ActivitiesPage = async () => {
         </div>
       </Card>
       
-      <Card className="p-5 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+      <Card className="shadow-none p-5 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
         
         <List
           activities={activitie}
