@@ -31,7 +31,7 @@ export const checkAndUpdateFrequency = async (userId: string) => {
           userId: userId,
         },
         data: {
-          frequency: 0,
+          frequency: 1,
           updateFrequency: now.toDate(),
         },
       });
@@ -67,7 +67,7 @@ export const getUserFrequency = async (userId: string): Promise<number> => {
 
     if (!userProgress) {
       
-      return 0; // Default to 0 if no progress is found
+      return 0; 
     }
 
    
