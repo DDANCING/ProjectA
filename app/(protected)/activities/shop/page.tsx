@@ -56,8 +56,8 @@ const ShopPage = async () => {
          
       </Card>
       
-      <Card className=" overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none ">
-      <div className="w-full flex flex-col items-center pt-5">
+      <Card className="shadow-none overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none ">
+      <div className="w-full flex flex-col items-start pt-5">
        <Image
             src="/img/icons/shop.svg"
             alt="Shop"

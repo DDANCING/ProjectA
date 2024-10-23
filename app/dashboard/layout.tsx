@@ -11,7 +11,7 @@ const AuthLayout =  async ({ children }: { children: React.ReactNode}) => {
     <div className="flex flex-col h-screen bg-background">
      
     <Header/>
-    <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] bg-background from-primary to-background">
+    <main className="p-4 flex gap-4 rounded-sm h-full w-s justify-between bg-background">
     <div className="hidden md:flex flex-col justify-between gap-4">
       <div className="w-72 flex-1 bg-background/30 backdrop-blur-md">
       <Sidebar/>

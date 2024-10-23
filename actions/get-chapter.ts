@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { Activitie, Chapter } from "@prisma/client";
+import { checkAndUpdateFrequency } from "./set-frequency";
 
 interface GetChapterProps {
   userId: string;

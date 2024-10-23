@@ -59,7 +59,7 @@ const QuestsPage = async () => {
         </div>
        
     </Card>
-    <Card className=" overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
+    <Card className="shadow-none overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
         <div className="w-full flex flex-col items-start p-6">
           <h1 className="text-center font-bold text-foreground text-2xl my-6">
             Quests

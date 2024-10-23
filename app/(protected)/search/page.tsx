@@ -48,7 +48,8 @@ const SeachPage = async ({
             <Categories items={categories} />
           </div>
           <Card className="bg-background/30 backdrop-blur-md mt-2 shadow-none">
-            <CoursesList 
+            <CoursesList
+            classname="w-full gap-2 p-4 text-wrap text-center grid sm:grid-cols-2 md:grid-cols-3" 
             items={courses}
             />
             </Card> 

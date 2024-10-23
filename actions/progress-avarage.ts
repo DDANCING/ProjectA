@@ -3,12 +3,14 @@ import { db } from "@/lib/db";
 import { getUserPercentageCourse } from "./course-progress";
 import { getProgressMusic } from "./game-progress";
 import { getProgressActivities } from "./get-userProgress";
-import dayjs from "dayjs";
-import { calculateAndStoreMonthlyProgress } from "./monthlyProgress";
+import { checkAndUpdateFrequency } from "./set-frequency";
+import { auth } from "@/auth";
+
 
 export const getUserPercentageAverage = async (
   userId: string,
 ): Promise<{ percentage: number }> => {
+  
   try {
     // Obtém os dados de progresso do usuário
     const UserPercentageCourseData = getUserPercentageCourse(userId);
@@ -44,15 +46,16 @@ export const getUserPercentageAverage = async (
       },
     });
 
-    // Cria ou atualiza o registro de progresso do usuário no banco de dados
+   
     if (!totalAverage?.createdAt) {
+      checkAndUpdateFrequency(userId)
       await db.userOverallProgress.create({
         data: {
           userId: userId,
-          averagePoints: average,
-          exercisePoints: ActivitiesPercentage,
-          gameMusicPoints: MusicPercentage,
-          videoPoints: CoursePercentage,
+          averagePercentage: average,
+          exercisePercentage: ActivitiesPercentage,
+          gameMusicPercentage: MusicPercentage,
+          videoPercentage: CoursePercentage,
         },
       });
     } else {
@@ -61,46 +64,97 @@ export const getUserPercentageAverage = async (
           userId: userId,
         },
         data: {
-          averagePoints: average,
-          exercisePoints: ActivitiesPercentage,
-          gameMusicPoints: MusicPercentage,
-          videoPoints: CoursePercentage,
+          averagePercentage: average,
+          exercisePercentage: ActivitiesPercentage,
+          gameMusicPercentage: MusicPercentage,
+          videoPercentage: CoursePercentage,
         },
       });
     }
-
-    // Salva o progresso mensal se já se passaram 30 dias desde o último salvamento
-    if (totalAverage) {
-      const thirtyDaysAgo = dayjs(totalAverage.createdAt).add(30, 'day');
-      if (dayjs().isAfter(thirtyDaysAgo)) {
-        const currentMonth = dayjs().month() + 1; // +1 pois o mês é zero-indexed
-        const currentYear = dayjs().year();
-
-        // Enviar dados para a API
-        await fetch("/api/monthlyProgress", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            month: currentMonth,
-            year: currentYear,
-            averagePoints: average,
-            exercisePoints: ActivitiesPercentage,
-            gameMusicPoints: MusicPercentage,
-            videoPoints: CoursePercentage,
-          }),
-        });
-      }
-    }
-
-    calculateAndStoreMonthlyProgress(userId);
-    console.log("create")
+    
     return { percentage: average };
 
   } catch (error) {
     console.error("[POST_AVERAGE]", error);
     throw new Error("Error calculating average user progress");
+  }
+};
+
+export const getUserPointsAverage = async (
+  userId: string,
+): Promise<{ points: number }> => {
+  try {
+    const user = await auth();
+    const UserPointsCourseData = getUserPercentageCourse(userId);
+    const UserPointsMusicData = getProgressMusic(userId);
+    const UserPointsActivitiesData = getProgressActivities(userId);
+
+    // Aguarda a resposta de todas as promessas
+    const [
+      UserMusicPoints,
+      UserActivitiesPoints,
+      UserPointsCourse,
+    ] = await Promise.all([
+      UserPointsMusicData,
+      UserPointsActivitiesData,
+      UserPointsCourseData,
+    ]);
+
+    // Calcula os pontos para cada categoria
+    const MusicPoints = UserMusicPoints.points || 0;
+    const ActivitiesPoints = UserActivitiesPoints.points || 0;
+    const CoursePoints = UserPointsCourse.points || 0;
+
+    // Calcula a média dos pontos e arredonda para 1 casa decimal
+    const averagePoints = Number(((MusicPoints + ActivitiesPoints + CoursePoints) / 3).toFixed(1));
+
+    // Verifica se o registro de progresso total já existe no banco de dados
+    const totalAverage = await db.userOverallProgress.findUnique({
+      where: {
+        userId: userId,
+      },
+      select: {
+        createdAt: true, 
+      },
+    });
+
+    if (!totalAverage?.createdAt) {
+      // Verifica e atualiza a frequência do usuário
+      checkAndUpdateFrequency(userId);
+      
+      // Cria o registro de progresso com base nos pontos
+      await db.userOverallProgress.create({
+        data: {
+          userId: userId,
+          averagePoints: averagePoints,
+          exercisePoints: ActivitiesPoints,
+          gameMusicPoints: MusicPoints,
+          videoPoints: CoursePoints,
+          userName: user?.user.name || "Name", 
+          userImageSrc: user?.user.image || "TODO: svg", 
+        },
+      });
+    } else {
+      // Atualiza o registro existente com os novos pontos
+      await db.userOverallProgress.update({
+        where: {
+          userId: userId,
+        },
+        data: {
+          averagePoints: averagePoints,
+          exercisePoints: ActivitiesPoints,
+          gameMusicPoints: MusicPoints,
+          videoPoints: CoursePoints,
+          userName: user?.user.name || "Name", 
+          userImageSrc: user?.user.image || "TODO: svg",
+        },
+      });
+    }
+    
+    return { points: averagePoints };
+
+  } catch (error) {
+    console.error("[POST_POINTS_AVERAGE]", error);
+    throw new Error("Error calculating average user points");
   }
 };

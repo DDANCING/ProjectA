@@ -1,10 +1,10 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { checkAndUpdateFrequency } from "./set-frequency";
 
 export const postProgressMusic = async (userId: string, musicId: number, percentage: number): Promise<number> => {
-  const user = await auth();
+  
   try {
     // Buscar todas as músicas disponíveis no site
     const allMusics = await db.music.findMany({
@@ -14,7 +14,7 @@ export const postProgressMusic = async (userId: string, musicId: number, percent
     });
 
     const allMusicIds = allMusics.map((music) => music.id);
-
+    checkAndUpdateFrequency(userId)
     // Contar o número de músicas que o usuário tocou (tem progresso)
     const completedMusics = await db.progressGameMusic.findMany({
       where: {
@@ -151,7 +151,7 @@ export const getProgressMusic = async (userId: string): Promise<{ totalPercentag
         points: true,
       }
     });
-
+    
     // Retorna um objeto com os valores, usando 0 como fallback se undefined
     return {
       totalPercentage: getMusicPercentages?.totalPercentage ?? 0,

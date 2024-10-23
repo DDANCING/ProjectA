@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { checkAndUpdateFrequency } from "./set-frequency";
 
 export const postProgressCourse = async (
   userId: string,
@@ -19,7 +20,7 @@ export const postProgressCourse = async (
     });
 
     const publishedChaptersIds = publishedChapters.map((chapter) => chapter.id);
-
+    checkAndUpdateFrequency(userId)
     const validCompletedChapters = await db.userProgress.count({
       where: {
         userId: userId,
@@ -48,7 +49,7 @@ export const postProgressCourse = async (
 
     // Se o registro existir, salvar a última porcentagem, senão definir como 0
     const lastPercentageWin = existingProgress?.percentage || 0;
-
+    
     // Salvar o progresso na tabela ProgressCourseModule
     await db.progressCourseModule.upsert({
       where: {
