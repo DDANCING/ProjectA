@@ -17,7 +17,6 @@ import { getUserPercentageAverage } from "@/actions/progress-avarage";
 import { ProgressGraphComponent } from "../(protected)/_components/scoreboard/graph";
 import { calculateAndStoreMonthlyProgress } from "@/actions/monthlyProgress";
 import { RadialGraphic } from "../(protected)/_components/scoreboard/radial-graph";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import dynamic from "next/dynamic";
 import { Explorer } from "@/components/3Dcomponents/yellow-explorer/model";
 
@@ -63,7 +62,7 @@ const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar
   const PercentageCourse = Number(UserPercentageCourse.percentage.toFixed(1)) || 0;
   const MusicPercentage = Number(UserMusicPercentage.totalPercentage.toFixed(1)) || 0;
   const ActivitiesPercentage = Number(UserActivitiesPercentage.totalPercentage.toFixed(1)) || 0;
-  const AveragePercentage = Number(UserPercentageAverage.percentage.toFixed(1)) || 0;
+  
 
   return ( 
     <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none ">
