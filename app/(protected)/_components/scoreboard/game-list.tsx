@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
+
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { getCourseUserProgress, getGameUserProgress } from "@/actions/get-userProgress";
+import { getGameUserProgress } from "@/actions/get-userProgress";
 
 
 

@@ -27,14 +27,14 @@ type GLTFResult = GLTF & {
     plate: THREE.Mesh
     Plane003: THREE.Mesh
     Plane006: THREE.Mesh
-    NurbsPath005_1: THREE.Mesh
-    NurbsPath005_2: THREE.Mesh
+    NurbsPath004: THREE.Mesh
+    NurbsPath004_1: THREE.Mesh
     pickup4: THREE.Mesh
     pickup3: THREE.Mesh
     pickup2: THREE.Mesh
     pickup1: THREE.Mesh
-    NurbsPath_1: THREE.Mesh
-    NurbsPath_2: THREE.Mesh
+    NurbsPath010: THREE.Mesh
+    NurbsPath010_1: THREE.Mesh
     magnetos3: THREE.Mesh
     magnetos2: THREE.Mesh
     magnetos1: THREE.Mesh
@@ -49,8 +49,8 @@ type GLTFResult = GLTF & {
     knob: THREE.Mesh
     handle2: THREE.Mesh
     handle: THREE.Mesh
-    NurbsPath002_1: THREE.Mesh
-    NurbsPath002_2: THREE.Mesh
+    NurbsPath011: THREE.Mesh
+    NurbsPath011_1: THREE.Mesh
     Plane011: THREE.Mesh
     Plane011_1: THREE.Mesh
     Plane011_2: THREE.Mesh
@@ -127,22 +127,6 @@ type GLTFResult = GLTF & {
     Circle002: THREE.Mesh
     Circle001: THREE.Mesh
     Circle: THREE.Mesh
-    Sphere016: THREE.Mesh
-    Roundcube003_1: THREE.Mesh
-    Roundcube003_2: THREE.Mesh
-    Roundcube003_3: THREE.Mesh
-    Roundcube003_4: THREE.Mesh
-    Roundcube003_5: THREE.Mesh
-    Roundcube003_6: THREE.Mesh
-    Roundcube003_7: THREE.Mesh
-    Roundcube003_8: THREE.Mesh
-    Roundcube003_9: THREE.Mesh
-    Roundcube003_10: THREE.Mesh
-    Roundcube001_1: THREE.Mesh
-    Roundcube001_2: THREE.Mesh
-    Roundcube001_3: THREE.Mesh
-    Roundcube001_4: THREE.Mesh
-    Roundcube001_5: THREE.Mesh
     Painting: THREE.Mesh
     Plane002: THREE.Mesh
     Cylinder014: THREE.Mesh
@@ -206,8 +190,8 @@ type GLTFResult = GLTF & {
     Cube032: THREE.Mesh
     Cube023: THREE.Mesh
     Cube001: THREE.Mesh
-    Cube: THREE.Mesh
     Cube002: THREE.Mesh
+    Cube029: THREE.Mesh
     Plane: THREE.Mesh
     Plane001: THREE.Mesh
   }
@@ -239,20 +223,7 @@ type GLTFResult = GLTF & {
     ['METALIC.026']: THREE.MeshStandardMaterial
     ['Material.036']: THREE.MeshStandardMaterial
     ['METALIC.027']: THREE.MeshStandardMaterial
-    ['Material.010']: THREE.MeshStandardMaterial
-    ['Marshall pic']: THREE.MeshStandardMaterial
-    ['Black leather']: THREE.MeshStandardMaterial
-    ['Corner metal']: THREE.MeshBasicMaterial
     ['Material.021']: THREE.MeshStandardMaterial
-    ['Material.022']: THREE.MeshStandardMaterial
-    ['Material.024']: THREE.MeshStandardMaterial
-    ['Material.025']: THREE.MeshStandardMaterial
-    ['Material.019']: THREE.MeshStandardMaterial
-    ['Material.027']: THREE.MeshStandardMaterial
-    ['Material.023']: THREE.MeshStandardMaterial
-    ['Material.031']: THREE.MeshStandardMaterial
-    ['Material.039']: THREE.MeshStandardMaterial
-    ['Back ']: THREE.MeshBasicMaterial
     ['Material.007']: THREE.MeshStandardMaterial
     Pot_02: THREE.MeshStandardMaterial
     Soil: THREE.MeshPhysicalMaterial
@@ -265,11 +236,11 @@ type GLTFResult = GLTF & {
     Epipremium_01: THREE.MeshStandardMaterial
     Epipremium_02: THREE.MeshStandardMaterial
     ['Material.040']: THREE.MeshStandardMaterial
-    Material: THREE.MeshStandardMaterial
+    ['Material.002']: THREE.MeshStandardMaterial
     Metalic: THREE.MeshStandardMaterial
     ['Material.012']: THREE.MeshStandardMaterial
-    ['Material.002']: THREE.MeshStandardMaterial
     ['Material.003']: THREE.MeshStandardMaterial
+    ['Material.009']: THREE.MeshStandardMaterial
     ['Material.014']: THREE.MeshStandardMaterial
     ['Material.013']: THREE.MeshStandardMaterial
     ['Material.017']: THREE.MeshStandardMaterial
@@ -281,14 +252,14 @@ type GLTFResult = GLTF & {
     ['Material.034']: THREE.MeshStandardMaterial
     Nightstand: THREE.MeshStandardMaterial
     Vase: THREE.MeshStandardMaterial
-    ['Material.009']: THREE.MeshPhysicalMaterial
+    ['Material.028']: THREE.MeshPhysicalMaterial
     ['Material.032']: THREE.MeshStandardMaterial
   }
 }
 
 export function Room(props: JSX.IntrinsicElements['group']) {
   const { viewport } = useThree();
-  const { nodes, materials } = useGLTF('/room1.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/room.glb') as GLTFResult
   return (
     <group scale={viewport.width / 30} {...props} dispose={null}>
       <mesh
@@ -466,13 +437,13 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NurbsPath005_1.geometry}
+          geometry={nodes.NurbsPath004.geometry}
           material={materials['white plastic.001']}
         />
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NurbsPath005_2.geometry}
+          geometry={nodes.NurbsPath004_1.geometry}
           material={materials['Black plastic.001']}
         />
       </group>
@@ -516,13 +487,13 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NurbsPath_1.geometry}
+          geometry={nodes.NurbsPath010.geometry}
           material={materials['Material.030']}
         />
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NurbsPath_2.geometry}
+          geometry={nodes.NurbsPath010_1.geometry}
           material={materials['Black plastic.001']}
         />
       </group>
@@ -656,13 +627,13 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NurbsPath002_1.geometry}
+          geometry={nodes.NurbsPath011.geometry}
           material={materials.WOOD2}
         />
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NurbsPath002_2.geometry}
+          geometry={nodes.NurbsPath011_1.geometry}
           material={materials['Black plastic.001']}
         />
       </group>
@@ -1349,115 +1320,6 @@ export function Room(props: JSX.IntrinsicElements['group']) {
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Sphere016.geometry}
-        material={materials['Material.010']}
-        position={[-4.029, 1.572, -0.263]}
-        rotation={[-1.219, 0, 1.175]}
-        scale={-0.024}
-      />
-      <group
-        position={[-4.485, 1.667, 0.28]}
-        rotation={[0.348, -0.387, -0.002]}
-        scale={[0.237, 0.2, 0.699]}>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_1.geometry}
-          material={materials['Marshall pic']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_2.geometry}
-          material={materials['Black leather']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_3.geometry}
-          material={materials['Corner metal']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_4.geometry}
-          material={materials['Material.021']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_5.geometry}
-          material={materials['Material.022']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_6.geometry}
-          material={materials['Material.024']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_7.geometry}
-          material={materials['Material.025']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_8.geometry}
-          material={materials['Material.019']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_9.geometry}
-          material={materials['Material.027']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube003_10.geometry}
-          material={materials['Material.010']}
-        />
-      </group>
-      <group
-        position={[-4.482, 0.775, -0.05]}
-        rotation={[0.352, -0.396, 0]}
-        scale={[0.256, 0.75, 0.706]}>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube001_1.geometry}
-          material={materials['Material.023']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube001_2.geometry}
-          material={materials['Material.031']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube001_3.geometry}
-          material={materials['Corner metal']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube001_4.geometry}
-          material={materials['Material.039']}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Roundcube001_5.geometry}
-          material={materials['Back ']}
-        />
-      </group>
-      <mesh
-        castShadow
-        receiveShadow
         geometry={nodes.Painting.geometry}
         material={materials['Material.021']}
         position={[-1.103, 4.346, -3.006]}
@@ -1519,7 +1381,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
           material={materials.Stalk}
         />
       </group>
-      <group position={[6.283, 2.889, 1.586]} rotation={[-2.79, -0.509, Math.PI]}>
+      <group position={[6.283, 2.889, 1.586]} rotation={[-2.79, -0.509, -Math.PI]}>
         <mesh
           castShadow
           receiveShadow
@@ -1590,7 +1452,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Cloth.geometry}
-        material={materials.Material}
+        material={materials['Material.002']}
         position={[-0.285, 1.796, -1.759]}
         rotation={[0.352, 0.751, 0]}
         scale={[2.561, 2.008, 2.008]}
@@ -1625,7 +1487,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Pillow_left.geometry}
-        material={materials['Material.002']}
+        material={materials['Material.003']}
         position={[0.497, 2.822, -3.655]}
         rotation={[0.352, 1.051, 0]}
         scale={[0.433, 0.826, 0.776]}
@@ -1634,7 +1496,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Pillow_right.geometry}
-        material={materials['Material.002']}
+        material={materials['Material.003']}
         position={[2.143, 2.632, -2.822]}
         rotation={[0.352, 0.751, 0.685]}
         scale={[0.415, 0.845, 0.776]}
@@ -1643,7 +1505,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Cube004.geometry}
-        material={materials['Material.003']}
+        material={materials['Material.009']}
         position={[6.202, 2.537, 2.87]}
         rotation={[0.352, 0.751, 0]}
         scale={0.178}
@@ -1652,7 +1514,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Cube005.geometry}
-        material={materials['Material.003']}
+        material={materials['Material.009']}
         position={[5.22, 2.021, 1.56]}
         rotation={[0.352, 0.751, 0]}
         scale={0.178}
@@ -1661,7 +1523,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Cube006.geometry}
-        material={materials['Material.003']}
+        material={materials['Material.009']}
         position={[6.171, 0.848, 2.214]}
         rotation={[0.352, 0.751, 0]}
         scale={0.178}
@@ -1939,7 +1801,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
             castShadow
             receiveShadow
             geometry={nodes.Vase_2.geometry}
-            material={materials['Material.009']}
+            material={materials['Material.028']}
           />
         </group>
       </group>
@@ -1973,23 +1835,23 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Cube001.geometry}
-        material={materials['Material.002']}
+        material={materials['Material.003']}
         position={[-3.31, 2.263, -3.725]}
         rotation={[-2.79, 0.82, -Math.PI]}
       />
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Cube.geometry}
-        material={materials['Material.002']}
+        geometry={nodes.Cube002.geometry}
+        material={materials['Material.003']}
         position={[-2.547, -0.115, 2.753]}
         rotation={[0.352, 0.751, 0]}
       />
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Cube002.geometry}
-        material={materials['Material.002']}
+        geometry={nodes.Cube029.geometry}
+        material={materials['Material.003']}
         position={[3.172, 1.699, -2.19]}
         rotation={[-2.79, -0.751, -Math.PI]}
       />
@@ -1997,7 +1859,7 @@ export function Room(props: JSX.IntrinsicElements['group']) {
         castShadow
         receiveShadow
         geometry={nodes.Plane.geometry}
-        material={materials['Material.002']}
+        material={materials['Material.003']}
         position={[0.339, -0.128, -0.12]}
         rotation={[0.352, 0.751, 0]}
       />
@@ -2014,4 +1876,4 @@ export function Room(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/room1.glb')
+useGLTF.preload('/room.glb')
