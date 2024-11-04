@@ -8,6 +8,7 @@ export async function  DELETE(
 { params }: { params: { courseId: string, activitiesId: string } }
 ) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const userId = await useUserId(req);
     if (!userId) {
       return new NextResponse("Unauthorized ", { status: 401});

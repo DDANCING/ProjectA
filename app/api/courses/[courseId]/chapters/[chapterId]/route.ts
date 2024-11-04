@@ -15,6 +15,7 @@ export async function DELETE(
   { params }: { params: { courseId: string; chapterId: string } }
 ) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const userId = await useUserId(req);
 
     if (!userId) {
@@ -96,6 +97,7 @@ export async function PATCH(
   { params }: { params: { courseId: string; chapterId: string } }
 ) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const userId = await useUserId(req);
     const { isPublished, ...values } = await req.json();
 

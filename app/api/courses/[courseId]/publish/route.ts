@@ -9,6 +9,7 @@ export async function PATCH(
   { params }: { params: { courseId: string } }
 ) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const userId = await useUserId(req);
 
     if (!userId) {
