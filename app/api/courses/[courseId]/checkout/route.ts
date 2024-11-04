@@ -12,6 +12,7 @@ export async function POST(
   { params }: { params: { courseId: string } }
 ) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const user = await useUser(req)
 
     if (!user || !user.id || !user.email) {

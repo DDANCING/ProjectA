@@ -4,6 +4,7 @@ import { useUserId } from "@/data/hooks/use-current-id";
 
 export async function POST(req: Request) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const userId = await useUserId(req);
     const { title } = await req.json();
 
