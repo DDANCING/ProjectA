@@ -61,6 +61,7 @@ model Music {
   updatedAt         DateTime            @updatedAt
   timeMinutes       Int
   timeSeconds       Int
+  audioCompareId    Int                 @default(1)
   ExerciseModule    ExerciseModule[]
   ProgressGameMusic ProgressGameMusic[]
 }
