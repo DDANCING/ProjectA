@@ -1,87 +1,77 @@
-"use client";
+"use client"
+import React, { useState } from "react";
 
-import { useState, useEffect } from 'react';
-import MicRecorder from 'mic-recorder';
-import { Button } from '@/components/ui/button';
+const CompareAudio: React.FC = () => {
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [targetSongId, setTargetSongId] = useState<number>(1); // Definido para 1, mas pode ser alterado
+  const [response, setResponse] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
-export default function AudioRecorderClient() {
-  const [isRecording, setIsRecording] = useState(false);
-  const [recorder, setRecorder] = useState<MicRecorder | null>(null);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-  const [similarityResult, setSimilarityResult] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const newRecorder = new MicRecorder({
-        bitRate: 128,
-        encoder: 'wav',
-        sampleRate: 44100,
-      });
-      setRecorder(newRecorder);
-    }
-  }, []);
-
-  const startRecording = async () => {
-    if (recorder) {
-      await recorder.start();
-      setIsRecording(true);
-    }
+  const handleAudioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setAudioFile(file || null);
   };
 
-  const stopRecording = async () => {
-    if (recorder) {
-      const [buffer, blob] = await recorder.stop().getAudio();
-      const file = new File(buffer, `audio_${Date.now()}.wav`, { type: blob.type });
-      setAudioBlob(blob);
-      setIsRecording(false);
-
-      const result = await uploadAudioFile(file, 2); // Pass targetSongId
-      if (result) {
-        setSimilarityResult(`Similarity: ${result.similarity_percentage}% with song: ${result.song_name}`);
-      }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!audioFile || !targetSongId) {
+      setError("Por favor, selecione um arquivo de áudio e insira um target_song_id.");
+      return;
     }
-  };
 
-  const uploadAudioFile = async (file: File, targetSongId: number) => {
+    const formData = new FormData();
+    formData.append("audio", audioFile);
+    formData.append("target_song_id", targetSongId.toString());
+
     try {
-      const formData = new FormData();
-      formData.append('target_song_id', targetSongId.toString());
-      formData.append('audio', file);
-  
-      const response = await fetch('/api/audio', {
-        method: 'POST', // Verifique se o método é 'POST'
+      const res = await fetch("/api/compare-audio", {
+        method: "POST",
         body: formData,
       });
-  
-      if (!response.ok) {
-        console.error('API responded with an error:', response.status);
-        throw new Error('Failed to compare audio');
+
+      const data = await res.json();
+      if (res.ok) {
+        setResponse(data);
+        setError(null);
+      } else {
+        setResponse(null);
+        setError(data.error || "Erro desconhecido.");
       }
-  
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error('Upload error:', error);
-      alert(`Upload error: ${error}`);
-      return null;
+    } catch (err) {
+      setError("Erro na comunicação com o servidor.");
+      setResponse(null);
     }
   };
-  
+
   return (
     <div>
-      <Button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </Button>
-      {similarityResult && <p>{similarityResult}</p>}
-      {audioBlob && (
+      <h2>Comparar Áudio</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Selecione o arquivo de áudio:
+          <input type="file" accept="audio/*" onChange={handleAudioChange} />
+        </label>
+        <label>
+          Target Song ID:
+          <input
+            type="number"
+            value={targetSongId}
+            onChange={(e) => setTargetSongId(Number(e.target.value))}
+          />
+        </label>
+        <button type="submit">Enviar</button>
+      </form>
+      {response && (
         <div>
-          <h3>Preview:</h3>
-          <audio controls>
-            <source src={URL.createObjectURL(audioBlob)} type="audio/wav" />
-            Your browser does not support the audio tag.
-          </audio>
+          <h3>Resultado:</h3>
+          <p>Porcentagem de similaridade: {response.similarity_percentage}%</p>
+          <p>Nome da música: {response.song_name}</p>
+          <pre>{JSON.stringify(response.details, null, 2)}</pre>
         </div>
       )}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
-}
+};
+
+export default CompareAudio;
