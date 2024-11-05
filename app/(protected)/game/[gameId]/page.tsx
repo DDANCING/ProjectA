@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation"
-import AudioRecorder from "../../_components/game/audio/audio-recorder";
+import CompareAudio from "../../_components/game/audio/audio-recorder";
 
 type Props = {
   params: {
@@ -18,7 +18,10 @@ const GameIdPage = async ({ params }: Props) => {
 
   return (
    <div>
-    <AudioRecorder/>
+    <CompareAudio
+    recordingDuration={10}
+    targetSongId={1}
+    />
    </div>
   );
 };
