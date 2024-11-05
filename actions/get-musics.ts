@@ -118,6 +118,7 @@ export const getMusic = cache(async (gameId: number) => {
     tuning: data.tuning,
     timeMinutes: data.timeMinutes,
     timeSeconds: data.timeSeconds,
+    targetCompare: data.audioCompareId,
     userProgress: {
       percentage: userProgress.percentage,
       completed,

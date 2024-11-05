@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation"
 import CompareAudio from "../../_components/game/audio/audio-recorder";
+import { getMusic } from "@/actions/get-musics";
+import { getUserSubscription } from "@/actions/get-user-subscription";
+import { getGameUserProgress } from "@/actions/get-userProgress";
 
 type Props = {
   params: {
@@ -10,19 +13,43 @@ type Props = {
 
 const GameIdPage = async ({ params }: Props) => {
   const user = await auth();
+  
+  
+  const musicData = await getMusic(params.gameId);
+  const userSubscriptionData = getUserSubscription();
+  const userProgressData =  getGameUserProgress();
 
-  // Redireciona para o login se o usuário não estiver autenticado
+  const [
+    music,
+    userSubscription,
+    userProgress,
+  ] = await Promise.all([
+    musicData,
+    userSubscriptionData,
+    userProgressData
+  ]);
+
   if (!user?.user.id) {
-    return redirect("/");
+    return redirect("/game/dashboard");
   }
-
+  if(!music || !userProgress) {
+    redirect('/game/dashboard');
+    
+   }
+  
+  const musicDuration = (music?.timeMinutes * 60) + music.timeSeconds
   return (
-   <div>
+ 
     <CompareAudio
-    recordingDuration={10}
-    targetSongId={1}
+    hearts={userProgress?.hearts}
+    userSubscription={userSubscription}
+    musicTitle={music.title}
+    musicArtist={music.artist}
+    youtubeLink={music.youtubeLink}
+    recordingDuration={musicDuration}
+    targetSongId={music?.targetCompare}
     />
-   </div>
+  
   );
 };
 

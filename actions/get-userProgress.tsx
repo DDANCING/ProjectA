@@ -25,6 +25,7 @@ export const getGameUserProgress = cache(async () => {
     },
     select: {
       points: true,
+      hearts: true,
     },
   });
   
