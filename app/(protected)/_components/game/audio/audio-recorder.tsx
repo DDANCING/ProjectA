@@ -1,75 +1,105 @@
-"use client"
-import React, { useState } from "react";
+"use client";
 
-const CompareAudio: React.FC = () => {
-  const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [targetSongId, setTargetSongId] = useState<number>(1); // Definido para 1, mas pode ser alterado
-  const [response, setResponse] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
+import { useState, useEffect } from "react";
+import MicRecorder from "mic-recorder";
+import { Button } from "@/components/ui/button";
+import { Audio } from 'react-loader-spinner'
 
-  const handleAudioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setAudioFile(file || null);
+interface CompareAudioProps {
+  targetSongId: number;
+  recordingDuration: number; // Duração da gravação em segundos
+}
+
+const CompareAudio: React.FC<CompareAudioProps> = ({ targetSongId, recordingDuration }) => {
+  const [isRecording, setIsRecording] = useState(false);
+  const [recorder, setRecorder] = useState<MicRecorder | null>(null);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [similarityResult, setSimilarityResult] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const newRecorder = new MicRecorder({
+        bitRate: 128,
+        encoder: "wav",
+        sampleRate: 44100,
+      });
+      setRecorder(newRecorder);
+    }
+  }, []);
+
+  const startRecording = async () => {
+    if (recorder) {
+      await recorder.start();
+      setIsRecording(true);
+
+      // Parar gravação automaticamente após a duração especificada
+      setTimeout(async () => {
+        if (recorder) {
+          const [buffer, blob] = await recorder.stop().getAudio();
+          const file = new File(buffer, `audio_${Date.now()}.wav`, { type: blob.type });
+          setAudioBlob(blob);
+          setIsRecording(false);
+
+          // Enviar o áudio e exibir o resultado
+          await uploadAudioFile(file);
+        }
+      }, recordingDuration * 1000); // Convertendo para milissegundos
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!audioFile || !targetSongId) {
-      setError("Por favor, selecione um arquivo de áudio e insira um target_song_id.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("audio", audioFile);
-    formData.append("target_song_id", targetSongId.toString());
-
+  const uploadAudioFile = async (file: File) => {
     try {
-      const res = await fetch("/api/compare-audio", {
+      setLoading(true); // Ativar o indicador de carregamento
+      const formData = new FormData();
+      formData.append("target_song_id", targetSongId.toString());
+      formData.append("audio", file);
+
+      const response = await fetch("/api/compare-audio", {
         method: "POST",
         body: formData,
       });
 
-      const data = await res.json();
-      if (res.ok) {
-        setResponse(data);
-        setError(null);
-      } else {
-        setResponse(null);
-        setError(data.error || "Erro desconhecido.");
+      if (!response.ok) {
+        console.error("API responded with an error:", response.status);
+        throw new Error("Falha ao comparar o áudio");
       }
-    } catch (err) {
-      setError("Erro na comunicação com o servidor.");
-      setResponse(null);
+
+      const result = await response.json();
+      setSimilarityResult(`Similaridade: ${result.similarity_percentage}% com a música: ${result.song_name}`);
+    } catch (error) {
+      console.error("Erro no upload:", error);
+      alert(`Erro no upload: ${error}`);
+    } finally {
+      setLoading(false); // Desativar o indicador de carregamento
     }
   };
 
   return (
     <div>
       <h2>Comparar Áudio</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Selecione o arquivo de áudio:
-          <input type="file" accept="audio/*" onChange={handleAudioChange} />
-        </label>
-        <label>
-          Target Song ID:
-          <input
-            type="number"
-            value={targetSongId}
-            onChange={(e) => setTargetSongId(Number(e.target.value))}
-          />
-        </label>
-        <button type="submit">Enviar</button>
-      </form>
-      {response && (
+      <Button onClick={startRecording} disabled={isRecording}>
+        {isRecording ? "Gravando..." : "Iniciar Gravação"}
+      </Button>
+      {loading && <div>
+        <Audio
+  height="80"
+  width="80"
+  color="green"
+  ariaLabel="loading"
+
+/>
+        </div>}
+      {similarityResult && <p>{similarityResult}</p>}
+      {audioBlob && (
         <div>
-          <h3>Resultado:</h3>
-          <p>Porcentagem de similaridade: {response.similarity_percentage}%</p>
-          <p>Nome da música: {response.song_name}</p>
-          <pre>{JSON.stringify(response.details, null, 2)}</pre>
+          <h3>Pré-visualização:</h3>
+          <audio controls>
+            <source src={URL.createObjectURL(audioBlob)} type="audio/wav" />
+            Seu navegador não suporta o elemento de áudio.
+          </audio>
         </div>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };
