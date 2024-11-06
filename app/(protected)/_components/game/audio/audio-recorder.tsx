@@ -6,8 +6,10 @@ import ProgressBar from "./progressbar";
 import Footer from "./footer";
 import { Card } from "@/components/ui/card";
 import { useAudio } from "react-use";
-import YouTube from "react-youtube";
+
 import SimilarityResultDialog from "./audio-compare-result";
+import SideBar from "../sidebar";
+import { GuitarTab } from "../tablature/tabs";
 
 interface CompareAudioProps {
   targetSongId: number;
@@ -60,16 +62,8 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       if (player) {
         player.playVideo();
       }
-
-      let elapsedTime = 0;
-      const interval = setInterval(() => {
-        elapsedTime += 1;
-        setProgress((elapsedTime / recordingDuration) * 100);
-        if (elapsedTime >= recordingDuration) {
-          clearInterval(interval);
-        }
-      }, 1000);
-
+  
+     
       setTimeout(async () => {
         if (recorder) {
           const [buffer, blob] = await recorder.stop().getAudio();
@@ -77,6 +71,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
           setIsRecording(false);
           if (player) player.stopVideo();
           await uploadAudioFile(file);
+          setProgress(0); // Reseta o progresso após o upload
         }
       }, recordingDuration * 1000);
     }
@@ -96,12 +91,12 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       if (!response.ok) throw new Error("Erro na comparação de áudio");
 
       const result = await response.json();
+      
       setSimilarityDetails(result.details);
       const similarity = result.similarity_percentage;
-      const songName = result.song_name;
 
-      setSimilarityResult(`Similaridade: ${similarity}% com a música: ${songName}`);
-      setSimilarityPercentage(similarity);
+      setSimilarityResult(`Similaridade: ${similarity}%`);
+      setSimilarityPercentage(Math.round(similarity * 100) / 100);
 
       setStatus(similarity < 50 ? "wrong" : "correct");
     } catch (error) {
@@ -112,57 +107,71 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
     }
   };
 
+  const startRecordingWithDelay = () => {
+    startControls.play();
+    setTimeout(() => {
+      startRecording(); 
+
+      let elapsedTime = 0;
+      const interval = setInterval(() => {
+        elapsedTime += 1;
+        setProgress((elapsedTime / recordingDuration) * 100);
+        if (elapsedTime >= recordingDuration) {
+          clearInterval(interval);
+        }
+      }, 1000);
+
+      const newProgress = (elapsedTime / recordingDuration) * 100;
+      setProgress(newProgress); 
+    }, 3000); 
+  };
+
   const onPlayerReady = (event: any) => {
     setPlayer(event.target);
   };
 
   const onPlayerPlay = () => {
-    startRecording();
+    startRecordingWithDelay();
   };
+
 
   return (
     <>
+      {startAudio}
       {incorrectAudio}
       {correctAudio}
-      <Card className="h-full flex flex-col shadow-none border-2 border-muted-foreground">
+      <div className="flex w-full h-full gap-4 justify-between">
+      <Card className="h-full flex flex-col shadow-none border-2 border-muted-foreground w-full">
         <ProgressBar
           hasActiveSubscription={!!userSubscription?.isActive}
           hearts={hearts}
           progress={progress} />
         <div className="h-full flex items-center justify-center">
-          <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
-            <h1 className="text-lg lg:text-2xl text-center lg:text-start font-bold text-muted-foreground">
-              {musicTitle} - {musicArtist}
-            </h1>
-            <div>
-              <YouTube
-                videoId={youtubeLink}
-                opts={{
-                  height: "200",
-                  width: "400",
-                  playerVars: {
-                    autoplay: 0,
-                    controls: 0,
-                    rel: 0,
-                  },
-                }}
-                onReady={onPlayerReady}
-                onPlay={onPlayerPlay}
-              />
-            </div>
+          <div >
+          <GuitarTab jsonUrl="https://utfs.io/f/k0NLSQp2ETZAoUTNFZnvBS7sqnJQXOlhM5cE3IiCuWbGDfad" />
           </div>
         </div>
         <Footer 
-          onStart={startRecording}
+          onStart={startRecordingWithDelay}
           isRecording={isRecording}
           status={status}
+          artist={musicArtist}
+          musicName={musicTitle}
         />
       </Card>
+      <SideBar
+      onPlayerPlay={onPlayerPlay}
+      onPlayerReady={onPlayerReady}
+      youtubeLink={youtubeLink}
+      artist={musicArtist}
+      musicName={musicTitle}
+      />
+      </div>
       <SimilarityResultDialog
         isOpen={dialogOpen}
         onClose={() => setDialogOpen(false)}
         loading={loading}
-        similarityResult={similarityResult}
+        similarityResult={similarityPercentage}
         similarityDetails={similarityDetails}
       />
     </>
