@@ -8,12 +8,10 @@ import { Audio } from 'react-loader-spinner'
 interface FooterProps {
   isRecording: boolean;
   onStart: () => void;
-  similarityResult: string | null;
   status: "correct" | "wrong" | "none" | "completed";
-  percentage: number;
 }
 
-const Footer: React.FC<FooterProps> = ({ isRecording, onStart, similarityResult, status, percentage }) => {
+const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status }) => {
   const isMobile = useMedia("(max-width: 1024px)");
 
   return (
@@ -45,18 +43,12 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, similarityResult,
           <div className=" text-emerald-500 font-bold text-base lg:text-2xl flex items-center">
             <CheckCircle className="h-6 w-6 lg:h-10 mr-4" />
             Nicely done!
-            <h1>
-            {percentage} %
-            </h1>
           </div>
         ) : status === "wrong" ? (
           <div className="text-rose-500 font-bold text-base lg:text-2xl flex items-center">
             <XCircle className="h-6 w-6 lg:h-10 mr-4" />
             Try again.
             <div>
-            <h1 className="flex ml-16 font-extrabold text-3xl">
-            {percentage}%
-            </h1>
             </div>
           </div>
         ) : (

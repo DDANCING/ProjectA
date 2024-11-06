@@ -7,6 +7,7 @@ import Footer from "./footer";
 import { Card } from "@/components/ui/card";
 import { useAudio } from "react-use";
 import YouTube from "react-youtube";
+import SimilarityResultDialog from "./audio-compare-result";
 
 interface CompareAudioProps {
   targetSongId: number;
@@ -33,9 +34,12 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
   const [progress, setProgress] = useState(0);
   const [similarityResult, setSimilarityResult] = useState<string | null>(null);
-  const [similarityPercentage, setSimilarityPercentage] = useState<number | null>(null); // Adicionado estado para a porcentagem de similaridade
+  const [similarityPercentage, setSimilarityPercentage] = useState<number | null>(null);
   const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
+  const [loading, setLoading] = useState(false);
   const [player, setPlayer] = useState<any>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [similarityDetails, setSimilarityDetails] = useState<any>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -44,16 +48,17 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
     }
   }, []);
 
-  const [correctAudio, , correctControls] = useAudio({ src: "/correct.wav" });
-  const [incorrectAudio, , incorrectControls] = useAudio({ src: "/incorrect.wav" });
+  const [correctAudio, _c , correctControls] = useAudio({ src: "/correct.wav" });
+  const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.wav" });
+  const [startAudio, _s, startControls] = useAudio({ src: "/drumsticksoundeffect.wav" });
 
   const startRecording = async () => {
     if (recorder) {
       await recorder.start();
       setIsRecording(true);
-      // Inicia o vídeo aqui, para garantir que tudo comece junto
+      setLoading(true);
       if (player) {
-        player.playVideo(); // Inicia o vídeo
+        player.playVideo();
       }
 
       let elapsedTime = 0;
@@ -70,7 +75,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
           const [buffer, blob] = await recorder.stop().getAudio();
           const file = new File(buffer, `audio_${Date.now()}.wav`, { type: blob.type });
           setIsRecording(false);
-          if (player) player.stopVideo(); // Para o vídeo
+          if (player) player.stopVideo();
           await uploadAudioFile(file);
         }
       }, recordingDuration * 1000);
@@ -82,7 +87,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       const formData = new FormData();
       formData.append("target_song_id", targetSongId.toString());
       formData.append("audio", file);
-
+      setDialogOpen(true);
       const response = await fetch("/api/compare-audio", {
         method: "POST",
         body: formData,
@@ -91,26 +96,27 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       if (!response.ok) throw new Error("Erro na comparação de áudio");
 
       const result = await response.json();
-      const similarity = result.similarity_percentage; // Armazena a porcentagem de similaridade
+      setSimilarityDetails(result.details);
+      const similarity = result.similarity_percentage;
       const songName = result.song_name;
 
       setSimilarityResult(`Similaridade: ${similarity}% com a música: ${songName}`);
-      setSimilarityPercentage(similarity); // Atualiza o estado da porcentagem de similaridade
+      setSimilarityPercentage(similarity);
 
-      // Atualiza o status com base na similaridade
       setStatus(similarity < 50 ? "wrong" : "correct");
     } catch (error) {
       console.error("Erro no upload:", error);
       alert(`Erro no upload: ${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   const onPlayerReady = (event: any) => {
-    setPlayer(event.target); // Define o player do YouTube
+    setPlayer(event.target);
   };
 
   const onPlayerPlay = () => {
-    // Sincroniza a gravação com a reprodução do vídeo
     startRecording();
   };
 
@@ -118,7 +124,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
     <>
       {incorrectAudio}
       {correctAudio}
-      <Card className="h-full flex flex-col">
+      <Card className="h-full flex flex-col shadow-none border-2 border-muted-foreground">
         <ProgressBar
           hasActiveSubscription={!!userSubscription?.isActive}
           hearts={hearts}
@@ -141,19 +147,24 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
                   },
                 }}
                 onReady={onPlayerReady}
-                onPlay={onPlayerPlay} // Chama startRecording quando o vídeo começa a tocar
+                onPlay={onPlayerPlay}
               />
             </div>
           </div>
         </div>
-        <Footer
-          percentage={similarityPercentage || 0} // Passa a porcentagem de similaridade para o footer
+        <Footer 
           onStart={startRecording}
           isRecording={isRecording}
-          similarityResult={similarityResult}
           status={status}
         />
       </Card>
+      <SimilarityResultDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        loading={loading}
+        similarityResult={similarityResult}
+        similarityDetails={similarityDetails}
+      />
     </>
   );
 };
