@@ -9,7 +9,7 @@ import { useAudio } from "react-use";
 
 import SimilarityResultDialog from "./audio-compare-result";
 import SideBar from "../sidebar";
-import { GuitarTab } from "../tablature/tabs";
+import Tablature from "../tablature/tabs";
 
 interface CompareAudioProps {
   targetSongId: number;
@@ -134,7 +134,6 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
     startRecordingWithDelay();
   };
 
-
   return (
     <>
       {startAudio}
@@ -148,7 +147,9 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
           progress={progress} />
         <div className="h-full flex items-center justify-center">
           <div >
-          <GuitarTab jsonUrl="https://utfs.io/f/k0NLSQp2ETZAoUTNFZnvBS7sqnJQXOlhM5cE3IiCuWbGDfad" />
+            <Tablature
+            musicDuration={recordingDuration}
+            startPlayback={isRecording}  jsonUrl="https://utfs.io/f/k0NLSQp2ETZAWm6mskSUgxGeTNSdsKkBZwfEqzL9mPX4h70o"/>
           </div>
         </div>
         <Footer 
