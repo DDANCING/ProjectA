@@ -1,4 +1,3 @@
-// app/api/compare-audio/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -23,12 +22,36 @@ export async function POST(req: NextRequest) {
       body: requestFormData,
     });
 
+    const contentType = response.headers.get("content-type") || "";
+    if (!response.ok || !contentType.includes("application/json")) {
+      console.error("Resposta inesperada da API externa", response.status, response.statusText);
+      return NextResponse.json(
+        { error: "Erro na comparação de áudio: resposta inesperada da API externa." },
+        { status: 500 }
+      );
+    }
+
+    // Extrai e registra o conteúdo da resposta
     const data = await response.json();
+    console.log("Resposta da API externa:", data);
+
+    if (typeof data.similarity_percentage === "undefined") {
+      console.error("Formato de resposta inválido", data);
+      return NextResponse.json(
+        { error: "Erro na comparação de áudio: resposta inválida da API externa." },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Falha ao se conectar com o serviço de comparação de áudio." },
-      { status: 500 }
-    );
+    console.error("[API_COMPARE_AUDIO_ERROR]", error);
+
+    const errorMessage =
+      error instanceof Error && error.name === "AbortError"
+        ? "Timeout: A requisição foi cancelada devido ao tempo limite excedido."
+        : "Erro ao se conectar com o serviço de comparação de áudio.";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

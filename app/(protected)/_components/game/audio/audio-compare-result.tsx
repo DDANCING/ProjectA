@@ -36,7 +36,7 @@ const SimilarityResultDialog: React.FC<SimilarityResultDialogProps> = ({
             {loading ? "Loading result..." : "Comparison Result"}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {loading ? (
+            {loading ? ( 
               <div className='flex w-full justify-center '>
                 <ColorRing
                   visible={true}
@@ -51,7 +51,7 @@ const SimilarityResultDialog: React.FC<SimilarityResultDialogProps> = ({
             ) : (
               <>
                 <div>
-                  <h1 className='font-bold text-muted-foreground'>Percentage: {similarityResult}</h1>
+                  <h1 className='font-bold text-muted-foreground'>Percentage: {similarityResult}%</h1>
                   <p>Total Hashes: {similarityDetails?.input_total_hashes}</p>
                   <p>Matching Hashes: {similarityDetails?.hashes_matched_in_input}</p>
                 </div>

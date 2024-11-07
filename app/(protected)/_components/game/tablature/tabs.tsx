@@ -11,85 +11,118 @@ interface TablatureProps {
 
 const Tablature: React.FC<TablatureProps> = ({ jsonUrl, startPlayback, musicDuration }) => {
   const [abcContent, setAbcContent] = useState<string | null>(null);
-  const [progress, setProgress] = useState<number>(0); // For tracking progress in percentage
-  const visualObjRef = useRef<any>(null); // To store the visual object returned by abcjs
-  const progressLineRef = useRef<HTMLDivElement | null>(null); // To store the line progress element
   const tablatureContainerRef = useRef<HTMLDivElement | null>(null); // To store the container for scrolling
+  const visualObjRef = useRef<any>(null); // Store the visual object returned by abcjs
+  const cursorRef = useRef<any>(null); // Store the cursor controller
+
+  // Cursor controller class
+  class CursorControl {
+    cursor: SVGLineElement | null = null;
+    rootSelector: string;
+
+    constructor(rootSelector: string) {
+      this.rootSelector = rootSelector;
+    }
+
+    onStart = () => {
+      const svg = document.querySelector(this.rootSelector + " svg");
+      this.cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      this.cursor.setAttribute("class", "abcjs-cursor");
+      this.cursor.setAttributeNS(null, 'x1', "0");
+      this.cursor.setAttributeNS(null, 'y1', "0");
+      this.cursor.setAttributeNS(null, 'x2', "0");
+      this.cursor.setAttributeNS(null, 'y2', "0");
+      svg?.appendChild(this.cursor);
+    };
+
+    removeSelection = () => {
+      const lastSelection = document.querySelectorAll(this.rootSelector + " .abcjs-highlight");
+      lastSelection.forEach(selection => selection.classList.remove("abcjs-highlight"));
+    };
+
+    onEvent = (ev: any) => {
+      if (ev.measureStart && ev.left === null) return;
+      this.removeSelection();
+
+      ev.elements.forEach((noteGroup: any) => {
+        noteGroup.forEach((note: any) => note.classList.add("abcjs-highlight"));
+      });
+
+      if (this.cursor) {
+        this.cursor.setAttribute("x1", `${ev.left - 2}`);
+        this.cursor.setAttribute("x2", `${ev.left - 2}`);
+        this.cursor.setAttribute("y1", `${ev.top}`);
+        this.cursor.setAttribute("y2", `${ev.top + ev.height}`);
+      }
+    };
+
+    onFinished = () => {
+      this.removeSelection();
+      if (this.cursor) {
+        this.cursor.setAttribute("x1", "0");
+        this.cursor.setAttribute("x2", "0");
+        this.cursor.setAttribute("y1", "0");
+        this.cursor.setAttribute("y2", "0");
+      }
+    };
+  }
 
   useEffect(() => {
-    // Fetch the JSON containing the ABC notation
     const fetchTablatureData = async () => {
       try {
         const response = await fetch(jsonUrl);
         const data = await response.json();
-        setAbcContent(data.abc); // Assuming the JSON has a field `abc` containing the ABC notation
+        setAbcContent(data.abc);
       } catch (error) {
         console.error('Error fetching tablature data:', error);
       }
     };
-
     fetchTablatureData();
   }, [jsonUrl]);
 
   useEffect(() => {
     if (abcContent) {
-      // Render the ABC content as tablature using abcjs
       const visualObjArray = abcjs.renderAbc('tab-container', abcContent, {
         tablature: [
           {
             instrument: 'guitar',
             label: 'Guitar',
-            tuning: ['E,', 'A,', 'D', 'G', 'B', 'e'], // default tuning for guitar
+            tuning: ['E,', 'A,', 'D', 'G', 'B', 'e'],
           },
         ],
       });
 
-      const visualObj = visualObjArray[0];
-      visualObjRef.current = visualObj; // Save the visual object for later use
+      visualObjRef.current = visualObjArray[0];
+      cursorRef.current = new CursorControl("#tab-container");
 
       if (startPlayback) {
-        const timingCallbacks = new abcjs.TimingCallbacks(visualObj, {
-          qpm: 120, // Adjust the BPM as needed
+        cursorRef.current.onStart();
+        const timingCallbacks = new abcjs.TimingCallbacks(visualObjRef.current, {
+          eventCallback: cursorRef.current.onEvent,
         });
-
-        // Function to update the progress and scroll the tablature horizontally
-        const interval = setInterval(() => {
-          const currentTime = timingCallbacks.currentMillisecond();
-          const totalDuration = visualObj.getTotalTime(); // Get the total duration of the music
-
-          // Calculate progress as a percentage of the total duration
-          const progressPercentage = (currentTime / totalDuration) * 100;
-          setProgress(progressPercentage);
-
-          // Calculate how far to scroll based on the music duration and total tablature length
-          if (tablatureContainerRef.current) {
-            const scrollLength = (tablatureContainerRef.current.scrollWidth - tablatureContainerRef.current.clientWidth);
-            const scrollPosition = (scrollLength * (progressPercentage / 100));
-            tablatureContainerRef.current.scrollLeft = scrollPosition;
-          }
-
-          // Stop the interval when we reach the end
-          if (currentTime >= totalDuration) {
-            clearInterval(interval);
-          }
-        }, 50); // Adjust the update frequency as needed
-
-        timingCallbacks.start(); // Start playback and timing callbacks
-        return () => clearInterval(interval); // Clean up the interval when the component unmounts
+        timingCallbacks.start();
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [abcContent, startPlayback]);
 
   return (
-    <div className='border-2 border-primary'>
-     
+    <div className="border-2 border-primary">
       <div
         ref={tablatureContainerRef}
         className="hidden lg:block stick self-end bottom-6 max-h-[calc(94vh-40px)] overflow-y-auto h-[60vh] relative top-0 pb-10 scrollbar-none"
         style={{ whiteSpace: 'nowrap', fontFamily: 'Arial', fontSize: '16px' }}
       >
-        <div className=" inline-block" id="tab-container" />
+        <div className="inline-block" id="tab-container" />
       </div>
+      <style jsx>{`
+        .abcjs-highlight {
+          fill: #0a9ecc;
+        }
+        .abcjs-cursor {
+          stroke: red;
+        }
+      `}</style>
     </div>
   );
 };
