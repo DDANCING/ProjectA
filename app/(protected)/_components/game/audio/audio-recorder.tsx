@@ -63,13 +63,14 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
         player.playVideo();
       }
   
+     
       setTimeout(async () => {
         if (recorder) {
           const [buffer, blob] = await recorder.stop().getAudio();
           const file = new File(buffer, `audio_${Date.now()}.wav`, { type: blob.type });
           setIsRecording(false);
           if (player) player.stopVideo();
-          await uploadAudioFile(file); // Aguarde o upload ser concluído
+          await uploadAudioFile(file);
           setProgress(0); // Reseta o progresso após o upload
         }
       }, recordingDuration * 1000);
@@ -82,36 +83,25 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       formData.append("target_song_id", targetSongId.toString());
       formData.append("audio", file);
       setDialogOpen(true);
-  
       const response = await fetch("/api/compare-audio", {
         method: "POST",
         body: formData,
       });
-  
-      // Verificação de status de resposta
-      if (!response.ok) {
-        console.error("Erro na API externa:", response.statusText);
-        throw new Error("Erro na comparação de áudio");
-      }
-  
+
+      if (!response.ok) throw new Error("Erro na comparação de áudio");
+
       const result = await response.json();
-  
-      // Verifica se a resposta contém o campo esperado
-      if (!result.similarity_percentage) {
-        console.error("Campo similarity_percentage não encontrado na resposta:", result);
-        throw new Error("Resposta inválida da API de comparação de áudio");
-      }
-  
+      
       setSimilarityDetails(result.details);
       const similarity = result.similarity_percentage;
-  
+
       setSimilarityResult(`Similaridade: ${similarity}%`);
       setSimilarityPercentage(Math.round(similarity * 100) / 100);
+
       setStatus(similarity < 50 ? "wrong" : "correct");
-  
     } catch (error) {
       console.error("Erro no upload:", error);
-      alert(`Erro no upload: ${error instanceof Error ? error.message : String(error)}`);
+      alert(`Erro no upload: ${error}`);
     } finally {
       setLoading(false);
     }
