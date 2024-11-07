@@ -17,18 +17,40 @@ export async function POST(req: NextRequest) {
   requestFormData.append("target_song_id", target_song_id.toString());
   requestFormData.append("audio", audio);
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos
+
   try {
     const response = await fetch("https://generous-recreation-production-e712.up.railway.app/compare-audio/", {
       method: "POST",
       body: requestFormData,
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: `Erro na API externa: ${response.statusText}` },
+        { status: response.status }
+      );
+    }
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Falha ao se conectar com o serviço de comparação de áudio." },
-      { status: 500 }
-    );
+    if (error instanceof Error) {
+      // Tratamento específico para erro do tipo Error
+      return NextResponse.json(
+        { error: `Falha ao se conectar com o serviço de comparação de áudio: ${error.message}` },
+        { status: 500 }
+      );
+    } else {
+      // Caso o erro não seja do tipo Error, transforme em string
+      return NextResponse.json(
+        { error: `Falha ao se conectar com o serviço de comparação de áudio: ${String(error)}` },
+        { status: 500 }
+      );
+    }
   }
 }
