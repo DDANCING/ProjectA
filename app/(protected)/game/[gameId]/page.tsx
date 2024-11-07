@@ -48,6 +48,7 @@ const GameIdPage = async ({ params }: Props) => {
     youtubeLink={music.youtubeLink}
     recordingDuration={musicDuration}
     targetSongId={music?.targetCompare}
+    musicTablature={music?.tabs}
     />
   
   );

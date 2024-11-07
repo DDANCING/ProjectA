@@ -11,7 +11,7 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeLink, musicName, artist }) => {
   return (
-    <Card className="p-4 items-center hidden xl:block w-[368px] stick self-end bottom-6 max-h-[calc(94vh-40px)] overflow-y-auto h-[90vh] relative top-0 pb-10 scrollbar-none shadow-none border-2 border-muted-foreground">
+    <Card className="p-4 items-center hidden xl:block w-[368px] stick self-end bottom-6 max-h-[calc(98vh-40px)] overflow-y-auto h-[91vh] relative top-0 pb-10 scrollbar-none shadow-none border-2 border-muted-foreground">
       <div style={{ pointerEvents: "none" }}>
         <YouTube
           videoId={youtubeLink}

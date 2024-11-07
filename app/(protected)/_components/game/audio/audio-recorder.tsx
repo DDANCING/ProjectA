@@ -17,6 +17,7 @@ interface CompareAudioProps {
   musicTitle: string;
   musicArtist: string;
   youtubeLink: string;
+  musicTablature?: string;
   hearts: number;
   userSubscription: {
     isActive: boolean;
@@ -31,6 +32,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
   youtubeLink,
   userSubscription,
   hearts,
+  musicTablature,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
@@ -112,7 +114,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
     setTimeout(() => {
       startRecording(); 
 
-      let elapsedTime = 0;
+      let elapsedTime = -3;
       const interval = setInterval(() => {
         elapsedTime += 1;
         setProgress((elapsedTime / recordingDuration) * 100);
@@ -149,7 +151,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
           <div >
             <Tablature
             musicDuration={recordingDuration}
-            startPlayback={isRecording}  jsonUrl="https://utfs.io/f/k0NLSQp2ETZAWm6mskSUgxGeTNSdsKkBZwfEqzL9mPX4h70o"/>
+            startPlayback={isRecording}  jsonUrl={musicTablature || "no content"}/>
           </div>
         </div>
         <Footer 
