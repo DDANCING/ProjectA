@@ -6,27 +6,27 @@ async function main() {
   // Criando dados para a tabela Music
   const music1 = await prisma.music.create({
     data: {
-      title: 'Bohemian Rhapsody',
-      artist: 'Queen',
-      youtubeLink: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
-      tabs: 'Tab content for Bohemian Rhapsody',
-      coverAlbum: 'https://i.imgur.com/ATVpXrg.jpeg',
+      title: 'The Day That Never Comes',
+      artist: 'Metallica',
+      youtubeLink: 'K6AJuRK2NE4',
+      tabs: 'Tab content for Metallica',
+      coverAlbum: 'https://i.imgur.com/UntSSrc.jpeg',
       tuning: 'E A D G B E',
-      timeMinutes: 6,
-      timeSeconds: 0,
+      timeMinutes: 8,
+      timeSeconds: 25,
     },
   });
 
   const music2 = await prisma.music.create({
     data: {
-      title: 'Stairway to Heaven',
-      artist: 'Led Zeppelin',
-      youtubeLink: 'https://www.youtube.com/watch?v=QkF3oxziUI4',
-      tabs: 'Tab content for Stairway to Heaven',
-      coverAlbum: 'https://i.imgur.com/91JRcMP.jpeg',
+      title: 'So Called Life',
+      artist: 'Three Days Grace',
+      youtubeLink: '7ViIny2YZH0',
+      tabs: 'Tab content for Three Days Grace - So Called Life',
+      coverAlbum: 'https://i.imgur.com/Ldzop1M.jpeg',
       tuning: 'E A D G B E',
-      timeMinutes: 8,
-      timeSeconds: 2,
+      timeMinutes: 3,
+      timeSeconds: 24,
     },
   });
 

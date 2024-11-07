@@ -41,6 +41,7 @@
     "@types/three": "^0.164.0",
     "@uploadthing/react": "^6.8.0",
     "@vercel/speed-insights": "^1.0.12",
+    "abcjs": "^6.4.4",
     "audio-context": "^1.0.3",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.7.2",

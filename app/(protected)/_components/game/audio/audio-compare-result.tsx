@@ -1,4 +1,4 @@
-import { Audio } from 'react-loader-spinner'
+import { ColorRing } from 'react-loader-spinner'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,7 +14,7 @@ interface SimilarityResultDialogProps {
   isOpen: boolean;
   onClose: () => void;
   loading: boolean;
-  similarityResult: string | null;
+  similarityResult: number | null;
   similarityDetails: {
     input_total_hashes: number;
     hashes_matched_in_input: number;
@@ -33,36 +33,40 @@ const SimilarityResultDialog: React.FC<SimilarityResultDialogProps> = ({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {loading ? "Carregando resultado..." : "Resultado da Comparação"}
+            {loading ? "Loading result..." : "Comparison Result"}
           </AlertDialogTitle>
           <AlertDialogDescription>
             {loading ? (
-              <div>
-              <Audio
-                 height="80"
-                 width="80"
-                 color="0x6d28d9"
-                 ariaLabel="loading"
-              />
-               
-                </div>
+              <div className='flex w-full justify-center '>
+                <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={['#6d28d9', '#192331', '#6d28d9', '#192331', '#6d28d9']}
+                />
+              </div>
             ) : (
               <>
-                <p>{similarityResult}</p>
-                <p>Total de Hashes: {similarityDetails?.input_total_hashes}</p>
-                <p>Hashes Correspondentes: {similarityDetails?.hashes_matched_in_input}</p>
+                <div>
+                  <h1 className='font-bold text-muted-foreground'>Percentage: {similarityResult}</h1>
+                  <p>Total Hashes: {similarityDetails?.input_total_hashes}</p>
+                  <p>Matching Hashes: {similarityDetails?.hashes_matched_in_input}</p>
+                </div>
               </>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-        <Link href="/game/dashboard">
-          <AlertDialogAction onClick={onClose} className='bg-transparent border border-muted w-20 hover:bg-muted/25'>
-            Sair
-          </AlertDialogAction>
+        <AlertDialogFooter className='w-full gap-4 flex items-center'>
+          <Link href="/game/dashboard">
+            <AlertDialogAction onClick={onClose} className='bg-transparent border border-muted hover:bg-muted/25 '>
+              Exit
+            </AlertDialogAction>
           </Link>
           <AlertDialogAction onClick={onClose} className=''>
-            Fechar
+            Close
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
