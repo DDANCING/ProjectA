@@ -1,4 +1,5 @@
-import { ColorRing } from 'react-loader-spinner'
+
+import { ColorRing } from 'react-loader-spinner';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -15,7 +16,7 @@ interface SimilarityResultDialogProps {
   onClose: () => void;
   loading: boolean;
   similarityResult: number | null;
-  similarityDetails: {
+  similarityDetails?: {
     input_total_hashes: number;
     hashes_matched_in_input: number;
   } | null;
@@ -51,9 +52,17 @@ const SimilarityResultDialog: React.FC<SimilarityResultDialogProps> = ({
             ) : (
               <>
                 <div>
-                  <h1 className='font-bold text-muted-foreground'>Percentage: {similarityResult}%</h1>
-                  <p>Total Hashes: {similarityDetails?.input_total_hashes}</p>
-                  <p>Matching Hashes: {similarityDetails?.hashes_matched_in_input}</p>
+                  <h1 className='font-bold text-muted-foreground'>
+                    Percentage: {similarityResult !== null ? `${similarityResult}%` : 'No match found'}
+                  </h1>
+                  {similarityDetails ? (
+                    <div>
+                      <p>Total Hashes: {similarityDetails.input_total_hashes}</p>
+                      <p>Matching Hashes: {similarityDetails.hashes_matched_in_input}</p>
+                    </div>
+                  ) : (
+                    <p>No similarity details available.</p>
+                  )}
                 </div>
               </>
             )}

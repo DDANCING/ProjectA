@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   requestFormData.append("audio", audio);
 
   try {
-    const response = await fetch("https://generous-recreation-production-e712.up.railway.app/compare-audio/", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_COMPARE_AUDIO_IA_URL}/compare-audio/`, {
       method: "POST",
       body: requestFormData,
     });

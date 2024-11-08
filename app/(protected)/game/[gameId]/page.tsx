@@ -1,9 +1,10 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation"
-import CompareAudio from "../../_components/game/audio/audio-recorder";
 import { getMusic } from "@/actions/get-musics";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { getGameUserProgress } from "@/actions/get-userProgress";
+import { GameComponent } from "../../_components/game/game-component";
+
 
 type Props = {
   params: {
@@ -40,7 +41,7 @@ const GameIdPage = async ({ params }: Props) => {
   const musicDuration = (music?.timeMinutes * 60) + music.timeSeconds
   return (
  
-    <CompareAudio
+    <GameComponent
     hearts={userProgress?.hearts}
     userSubscription={userSubscription}
     musicTitle={music.title}
@@ -48,7 +49,7 @@ const GameIdPage = async ({ params }: Props) => {
     youtubeLink={music.youtubeLink}
     recordingDuration={musicDuration}
     targetSongId={music?.targetCompare}
-    musicTablature={music?.tabs}
+    musicTablature={music.tabs}
     />
   
   );
