@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useAudio, useMedia } from "react-use";
 import { cn } from "@/lib/utils";
 import { CheckCircle, Pause, Play, XCircle } from "lucide-react";
-import { Audio } from 'react-loader-spinner';
+
 
 interface FooterProps {
   isRecording: boolean;

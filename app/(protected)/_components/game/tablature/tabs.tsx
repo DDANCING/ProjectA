@@ -4,16 +4,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import abcjs from 'abcjs';
 
 interface TablatureProps {
-  jsonUrl: string; // URL to fetch the JSON data
+  jsonUrl: string; // URL to fetch the ABCJS data
   startPlayback: boolean; // Property to start playback
   musicDuration: number; // Music duration in seconds (received as a prop)
 }
 
 const Tablature: React.FC<TablatureProps> = ({ jsonUrl, startPlayback, musicDuration }) => {
   const [abcContent, setAbcContent] = useState<string | null>(null);
-  const tablatureContainerRef = useRef<HTMLDivElement | null>(null); // To store the container for scrolling
-  const visualObjRef = useRef<any>(null); // Store the visual object returned by abcjs
-  const cursorRef = useRef<any>(null); // Store the cursor controller
+  const tablatureContainerRef = useRef<HTMLDivElement | null>(null);
+  const visualObjRef = useRef<any>(null);
+  const cursorRef = useRef<any>(null);
 
   // Cursor controller class
   class CursorControl {
@@ -41,13 +41,13 @@ const Tablature: React.FC<TablatureProps> = ({ jsonUrl, startPlayback, musicDura
     };
 
     onEvent = (ev: any) => {
-      if (ev.measureStart && ev.left === null) return;
+      if (!ev || (ev.measureStart && ev.left === null)) return;
       this.removeSelection();
-
+    
       ev.elements.forEach((noteGroup: any) => {
         noteGroup.forEach((note: any) => note.classList.add("abcjs-highlight"));
       });
-
+    
       if (this.cursor) {
         this.cursor.setAttribute("x1", `${ev.left - 2}`);
         this.cursor.setAttribute("x2", `${ev.left - 2}`);
@@ -71,8 +71,8 @@ const Tablature: React.FC<TablatureProps> = ({ jsonUrl, startPlayback, musicDura
     const fetchTablatureData = async () => {
       try {
         const response = await fetch(jsonUrl);
-        const data = await response.json();
-        setAbcContent(data.abc);
+        const data = await response.text();
+        setAbcContent(data);
       } catch (error) {
         console.error('Error fetching tablature data:', error);
       }

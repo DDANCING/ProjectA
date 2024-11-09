@@ -1,49 +1,38 @@
-"use client";
+"use client"
 
 import { useState, useEffect } from "react";
 import MicRecorder from "mic-recorder";
-import ProgressBar from "./progressbar";
-import Footer from "./footer";
-import { Card } from "@/components/ui/card";
-import { useAudio } from "react-use";
+import { toast } from "sonner";
 
-import SimilarityResultDialog from "./audio-compare-result";
-import SideBar from "../sidebar";
-import Tablature from "../tablature/tabs";
-
-interface CompareAudioProps {
-  targetSongId: number;
+interface AudioRecorderProps {
   recordingDuration: number;
-  musicTitle: string;
-  musicArtist: string;
-  youtubeLink: string;
-  musicTablature?: string;
-  hearts: number;
-  userSubscription: {
-    isActive: boolean;
-  } | null;
+  targetSongId: number;
+  startRecording: boolean;
+  setProgress: (value: number) => void;
+  setSimilarityPercentage: (value: number | null) => void;
+  setLoading: (value: boolean) => void;
+  setStatus: (value: "correct" | "wrong" | "none") => void;
+  setSimilarityDetails: (value: any) => void;
+  setDialogOpen: (value: boolean) => void;
+  player: any;
+  setIsRecording: (value: boolean) => void;
 }
 
-const CompareAudio: React.FC<CompareAudioProps> = ({
-  targetSongId,
+const AudioRecorder: React.FC<AudioRecorderProps> = ({
   recordingDuration,
-  musicArtist,
-  musicTitle,
-  youtubeLink,
-  userSubscription,
-  hearts,
-  musicTablature,
+  targetSongId,
+  startRecording,
+  setProgress,
+  setSimilarityPercentage,
+  setLoading,
+  setStatus,
+  setSimilarityDetails,
+  setDialogOpen,
+  player,
+  setIsRecording
 }) => {
-  const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
-  const [progress, setProgress] = useState(0);
-  const [similarityResult, setSimilarityResult] = useState<string | null>(null);
-  const [similarityPercentage, setSimilarityPercentage] = useState<number | null>(null);
-  const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
-  const [loading, setLoading] = useState(false);
-  const [player, setPlayer] = useState<any>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [similarityDetails, setSimilarityDetails] = useState<any>(null);
+ 
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -52,28 +41,34 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
     }
   }, []);
 
-  const [correctAudio, _c , correctControls] = useAudio({ src: "/correct.wav" });
-  const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.wav" });
-  const [startAudio, _s, startControls] = useAudio({ src: "/drumsticksoundeffect.wav" });
+  useEffect(() => {
+    if (startRecording && recorder) {
+      startRecordingProcess();
+    }
+  }, [startRecording]);
 
-  const startRecording = async () => {
+  const startRecordingProcess = async () => {
     if (recorder) {
       await recorder.start();
       setIsRecording(true);
       setLoading(true);
-      if (player) {
-        player.playVideo();
-      }
-  
-     
+      if (player) player.playVideo();
+
+      let elapsedTime = 0;
+      const interval = setInterval(() => {
+        elapsedTime += 1;
+        setProgress((elapsedTime / recordingDuration) * 100);
+        if (elapsedTime >= recordingDuration) clearInterval(interval);
+      }, 1000);
+
       setTimeout(async () => {
         if (recorder) {
           const [buffer, blob] = await recorder.stop().getAudio();
-          const file = new File(buffer, `audio_${Date.now()}.wav`, { type: blob.type });
+          const file = new File(buffer, `audio.wav`, { type: blob.type });
           setIsRecording(false);
           if (player) player.stopVideo();
           await uploadAudioFile(file);
-          setProgress(0); // Reseta o progresso após o upload
+          setProgress(0); 
         }
       }, recordingDuration * 1000);
     }
@@ -85,6 +80,7 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       formData.append("target_song_id", targetSongId.toString());
       formData.append("audio", file);
       setDialogOpen(true);
+      
       const response = await fetch("/api/compare-audio", {
         method: "POST",
         body: formData,
@@ -93,92 +89,21 @@ const CompareAudio: React.FC<CompareAudioProps> = ({
       if (!response.ok) throw new Error("Erro na comparação de áudio");
 
       const result = await response.json();
-      
-      setSimilarityDetails(result.details);
-      const similarity = result.similarity_percentage;
-
-      setSimilarityResult(`Similaridade: ${similarity}%`);
-      setSimilarityPercentage(Math.round(similarity * 100) / 100);
-
-      setStatus(similarity < 50 ? "wrong" : "correct");
+      if (result) {
+        const similarity = result.similarity_percentage;
+        const details = result.details;
+        setSimilarityPercentage(similarity);
+        setLoading(false);
+        setStatus(similarity < 50 ? "wrong" : "correct");
+        setSimilarityDetails(details);
+      }
     } catch (error) {
       console.error("Erro no upload:", error);
-      alert(`Erro no upload: ${error}`);
-    } finally {
-      setLoading(false);
+      toast(`Erro no upload: ${error}`);
     }
   };
 
-  const startRecordingWithDelay = () => {
-    startControls.play();
-    setTimeout(() => {
-      startRecording(); 
-
-      let elapsedTime = -3;
-      const interval = setInterval(() => {
-        elapsedTime += 1;
-        setProgress((elapsedTime / recordingDuration) * 100);
-        if (elapsedTime >= recordingDuration) {
-          clearInterval(interval);
-        }
-      }, 1000);
-
-      const newProgress = (elapsedTime / recordingDuration) * 100;
-      setProgress(newProgress); 
-    }, 3000); 
-  };
-
-  const onPlayerReady = (event: any) => {
-    setPlayer(event.target);
-  };
-
-  const onPlayerPlay = () => {
-    startRecordingWithDelay();
-  };
-
-  return (
-    <>
-      {startAudio}
-      {incorrectAudio}
-      {correctAudio}
-      <div className="flex w-full h-full gap-4 justify-between">
-      <Card className="h-full flex flex-col shadow-none border-2 border-muted-foreground w-full">
-        <ProgressBar
-          hasActiveSubscription={!!userSubscription?.isActive}
-          hearts={hearts}
-          progress={progress} />
-        <div className="h-full flex items-center justify-center">
-          <div >
-            <Tablature
-            musicDuration={recordingDuration}
-            startPlayback={isRecording}  jsonUrl={musicTablature || "no content"}/>
-          </div>
-        </div>
-        <Footer 
-          onStart={startRecordingWithDelay}
-          isRecording={isRecording}
-          status={status}
-          artist={musicArtist}
-          musicName={musicTitle}
-        />
-      </Card>
-      <SideBar
-      onPlayerPlay={onPlayerPlay}
-      onPlayerReady={onPlayerReady}
-      youtubeLink={youtubeLink}
-      artist={musicArtist}
-      musicName={musicTitle}
-      />
-      </div>
-      <SimilarityResultDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        loading={loading}
-        similarityResult={similarityPercentage}
-        similarityDetails={similarityDetails}
-      />
-    </>
-  );
+  return null;
 };
 
-export default CompareAudio;
+export default AudioRecorder;
