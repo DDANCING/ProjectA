@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAudio, useMedia } from "react-use";
 import { cn } from "@/lib/utils";
-import { CheckCircle, Pause, Play, XCircle } from "lucide-react";
+import { CheckCircle, Mic, Pause, Play, XCircle } from "lucide-react";
+import { SyncLoader } from "react-spinners";
 
 
 interface FooterProps {
@@ -50,10 +51,10 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, artist, m
         <div className="max-w-[1140px] h-full mx-auto flex items-center justify-between px-6 lg:px-10">
           {/* Mensagem no rodapé */}
           {isRecording ? (
-            <div className="text-foreground font-bold text-base lg:text-2xl">
-              {musicName}
-              {artist}
-            </div>
+            <div className="text-primary font-bold text-base lg:text-2xl flex items-center">
+            <Mic  className="h-6 w-6 lg:h-10 mr-4" />
+            Listening
+          </div>
           ) : status === "correct" ? (
             <div className=" text-emerald-500 font-bold text-base lg:text-2xl flex items-center">
               <CheckCircle className="h-6 w-6 lg:h-10 mr-4" />

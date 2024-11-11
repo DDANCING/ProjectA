@@ -12,11 +12,10 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { ArrowBigRightIcon, Dot } from "lucide-react"
-import { PaymentButton } from "./payments-button"
 
 export function Plans() {
   return (
-    <Tabs defaultValue="Monthly" className="w-full">
+    <Tabs defaultValue="Monthly" className="w-96">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="Monthly">Monthly</TabsTrigger>
         <TabsTrigger value="Annually">Annually</TabsTrigger>
@@ -46,14 +45,14 @@ export function Plans() {
           
           </CardFooter>
         </Card>
-        <Card className="flex-1 shadow-none bg-muted-foreground/20">
+        <Card className="flex-1  shadow-none bg-muted-foreground/20">
 
           <CardContent className="space-y-2">
           <div className="text-xs">
             <h1 className="font-bold text-3xl">
           PRO
             </h1>
-            <p>R$14,99/mo</p>
+            <p>US$ 5,00/mo</p>
             <p className="flex">
             <Dot/> Unlimited Use
             </p>
@@ -63,9 +62,6 @@ export function Plans() {
             <p className="flex">
             <Dot/> full Accessibility
             </p>
-            <PaymentButton mode="modal" asChild>
-          <Button>Subscribe <ArrowBigRightIcon/></Button>
-          </PaymentButton>
           </div>
           
           </CardContent>
@@ -106,7 +102,7 @@ export function Plans() {
             <h1 className="font-bold text-3xl">
           PRO
             </h1>
-            <p>R$14,99/mo</p>
+            <p>US$ 4,00/mo</p>
             <p className="flex">
             <Dot/> Unlimited Use
             </p>
@@ -116,9 +112,8 @@ export function Plans() {
             <p className="flex">
             <Dot/> full Accessibility
             </p>
-            <PaymentButton mode="modal" asChild>
-          <Button>Subscribe <ArrowBigRightIcon/></Button>
-          </PaymentButton>
+           
+         
           </div>
           
           </CardContent>

@@ -17,6 +17,7 @@ interface CompareAudioProps {
   youtubeLink: string;
   musicTablature?: string;
   hearts: number;
+  musicProgress: number;
   userSubscription: {
     isActive: boolean;
   } | null;
@@ -31,6 +32,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   userSubscription,
   hearts,
   musicTablature,
+  musicProgress,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -60,9 +62,8 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
           <div className="h-full flex items-center justify-center">
             <div>
               <Tablature
-                musicDuration={recordingDuration}
                 startPlayback={isRecording}
-                jsonUrl={musicTablature || "no content"}
+                AbcUrl={musicTablature || "no content"}
               />
             </div>
           </div>
@@ -80,6 +81,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
           youtubeLink={youtubeLink}
           artist={musicArtist}
           musicName={musicTitle}
+          progress={musicProgress}
         />
       </div>
       <SimilarityResultDialog

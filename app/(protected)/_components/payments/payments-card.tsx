@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+
 import {
   Card,
   CardContent,
@@ -16,7 +16,6 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { ArrowBigRightIcon, CreditCard, Dot } from "lucide-react"
-import { PaymentButton } from "./payments-button"
 
  
 export function PaymentMetod() {
@@ -50,7 +49,7 @@ export function PaymentMetod() {
           </Label>
           </CardContent>
           <CardFooter>
-          <Button className="w-full">Pay R$14,99</Button>
+  
           </CardFooter>
         </Card>
       </TabsContent>
@@ -97,9 +96,7 @@ PRO
   <p className="flex">
   <Dot/> full Accessibility
   </p>
-  <PaymentButton mode="modal" asChild>
- <Button>Subscribe <ArrowBigRightIcon/></Button>
- </PaymentButton>
+ 
   
 </div>
 

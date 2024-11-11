@@ -45,6 +45,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     if (startRecording && recorder) {
       startRecordingProcess();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startRecording]);
 
   const startRecordingProcess = async () => {

@@ -26,6 +26,11 @@ const guestRoutes = [
     href: "/scoreboard"
   },
   {
+    icon: Store,
+    label: "Shop",
+    href: "/shop"
+  },
+  {
     icon: User,
     label: "Profile",
     href: "/profile"
@@ -121,11 +126,6 @@ const activityRoutes = [
     icon: Compass,
     label: "Quests",
     href: "/activities/quests"
-  },
-  {
-    icon: Store,
-    label: "Shop",
-    href: "/activities/shop"
   },
   {
     icon: Crown,

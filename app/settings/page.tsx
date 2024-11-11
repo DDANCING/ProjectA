@@ -88,7 +88,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     <div className="flex h-full w-full md:w-[50%] bg-background">
     <UrlTabs defaultValue="account">
       <TabsList className={cn(
-        "grid w-full grid-cols-4",
+        "grid w-full grid-cols-3",
         user?.isOAuth !== false && "grid w-full grid-cols-3"
       )}
       >  
@@ -97,7 +97,6 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
         <TabsTrigger value="password">Password</TabsTrigger>
         )}
         <TabsTrigger value="configs">Preferences</TabsTrigger>
-        <TabsTrigger value="payments">Payments</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card className="shadow-none">
@@ -261,25 +260,7 @@ const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
           </CardFooter>
         </Card>
       </TabsContent>
-      <TabsContent value="payments">
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>Plan</CardTitle>
-            <CardDescription>
-              
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-          <Plans/>
-              
-          </CardContent>
-          <CardFooter>
-          <Button variant={"outline"} disabled={isPending} type="submit" className="flex box-content"> 
-            {isPending? <SyncLoader size={9} color="#ffffff"/> : "Continue"}
-           </Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
+    
     
       </UrlTabs>
     </div>

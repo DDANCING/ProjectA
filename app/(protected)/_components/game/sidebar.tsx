@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { CircularProgress } from "@nextui-org/progress";
 import YouTube from "react-youtube";
 
 interface SideBarProps {
@@ -7,16 +8,17 @@ interface SideBarProps {
   onPlayerPlay?: (event: any) => void;  // Torna `onPlayerPlay` opcional
   musicName: string;
   artist: string;
+  progress: number;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeLink, musicName, artist }) => {
+const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeLink, musicName, artist, progress }) => {
   return (
-    <Card className="p-4 items-center hidden xl:block w-[368px] stick self-end bottom-6 max-h-[calc(98vh-40px)] overflow-y-auto h-[91vh] relative top-0 pb-10 scrollbar-none shadow-none border-2 border-muted-foreground">
+    <Card className="p-4 items-center hidden xl:block w-[400px] stick self-end bottom-6 max-h-[calc(98vh-40px)] overflow-y-auto h-[91vh] relative top-0 pb-10 scrollbar-none shadow-none border-2 border-muted-foreground">
       <div style={{ pointerEvents: "none" }}>
         <YouTube
           videoId={youtubeLink}
           opts={{
-            height: "150",
+            height: "168,75",
             width: "300",
             playerVars: {
               autoplay: 0,
@@ -30,6 +32,31 @@ const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeL
         />
         <h1 className="font-bold text-xl"> {musicName} </h1>
         <h1 className="text-muted-foreground"> {artist} </h1>
+      </div>
+      
+      <div className="relative flex justify-center items-center ml-auto">
+      <CircularProgress
+          classNames={{
+            svg: "w-[24vh] h-[24vh] drop-shadow-md",
+            indicator: "stroke-primary",
+            value: "text-2xl font-semibold text-white",
+          }}
+          value={progress}
+          strokeWidth={2}
+          showValueLabel={true}
+        />
+         <div className="absolute flex flex-col items-center justify-center">
+        <h1 className="text-xs text-muted-foreground">accuracy</h1>
+        <div className="mb-6"></div>
+        <div className="ml-auto mt-2"> 
+      
+      </div>
+        <h2 className="text-xs text-muted-foreground">Total Score</h2>
+         
+        </div>
+      </div>
+      <div>
+      
       </div>
     </Card>
   );
