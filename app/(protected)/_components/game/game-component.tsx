@@ -10,6 +10,8 @@ import AudioRecorder from "./audio/audio-recorder";
 import { toast } from "sonner";
 
 interface CompareAudioProps {
+  userId: string;
+  musicId: number;
   targetSongId: number;
   recordingDuration: number;
   musicTitle: string;
@@ -33,6 +35,8 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   hearts,
   musicTablature,
   musicProgress,
+  userId,
+  musicId,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -92,6 +96,8 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
         similarityDetails={similarityDetails}
       />
       <AudioRecorder
+        userId={userId}
+        musicId={musicId}
         recordingDuration={recordingDuration}
         targetSongId={targetSongId}
         startRecording={isRecording}

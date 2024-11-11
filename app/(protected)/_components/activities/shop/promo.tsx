@@ -23,7 +23,7 @@ export const Promo = () => {
           get unlimited hearts and more!
          </p>
        </div>
-       <Link href="/activities/shop">
+       <Link href="/shop">
        <Button
        className="w-full mt-3"
        size="lg"

@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import MicRecorder from "mic-recorder";
 import { toast } from "sonner";
+import { postProgressMusic } from "@/actions/game-progress";
 
 interface AudioRecorderProps {
+  userId: string;
+  musicId: number;
   recordingDuration: number;
   targetSongId: number;
   startRecording: boolean;
@@ -29,11 +32,13 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   setSimilarityDetails,
   setDialogOpen,
   player,
-  setIsRecording
+  setIsRecording,
+  userId,
+  musicId,
 }) => {
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
  
-
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
       const newRecorder = new MicRecorder({ bitRate: 128, encoder: "wav", sampleRate: 44100 });
@@ -49,6 +54,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   }, [startRecording]);
 
   const startRecordingProcess = async () => {
+   
     if (recorder) {
       await recorder.start();
       setIsRecording(true);
@@ -88,7 +94,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
       });
 
       if (!response.ok) throw new Error("Erro na comparação de áudio");
-
+      
       const result = await response.json();
       if (result) {
         const similarity = result.similarity_percentage;
@@ -96,6 +102,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
         setSimilarityPercentage(similarity);
         setLoading(false);
         setStatus(similarity < 50 ? "wrong" : "correct");
+        await postProgressMusic(userId, musicId, similarity);
         setSimilarityDetails(details);
       }
     } catch (error) {

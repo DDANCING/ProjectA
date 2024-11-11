@@ -162,6 +162,7 @@ export const reduceHearts = async (challengeId: number) => {
 
   const currentUserProgress = await getActivitiesUserProgress();
   const userSubscription = await getUserSubscription();
+ 
 
   const challenge = await db.challenge.findFirst({
     where: {
@@ -215,7 +216,7 @@ export const reduceHearts = async (challengeId: number) => {
 
  revalidatePath("/activities");
  revalidatePath("/activities/learn");
- revalidatePath("/activities/shop");
+ revalidatePath("/shop");
  revalidatePath("/activities/quests");
  revalidatePath("/activities/leaderboard");
  revalidatePath(`/activities/lesson/${lessonId}`);
@@ -254,7 +255,40 @@ export const refillHearts = async () => {
    });
  revalidatePath("/activities");
  revalidatePath("/activities/learn");
- revalidatePath("/activities/shop");
+ revalidatePath("/shop");
  revalidatePath("/activities/quests");
  revalidatePath("/activities/leaderboard");
+}
+
+export const refillMusicHearts = async () => {
+  const currentMusicUserProgress = await getGameUserProgress()
+
+  const user = await auth();
+
+  if (!user?.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  if (!currentMusicUserProgress) {
+    throw new Error("User progress not found");
+  }
+
+  if (currentMusicUserProgress.hearts === 5) {
+    throw new Error("Hearts are already full");
+  }
+
+  if (currentMusicUserProgress.points < POINTS_TO_REFILL) {
+    throw new Error("Not enough points to refill hearts");
+  }
+
+  await db.progressGame.update({
+      where: {
+       userId: user.user.id, 
+     },
+     data: {
+       hearts: 5,
+       points: currentMusicUserProgress.points - POINTS_TO_REFILL,
+     },
+   });
+ revalidatePath("/shop");
 }
