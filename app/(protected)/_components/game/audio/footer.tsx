@@ -4,6 +4,7 @@ import { useAudio, useMedia } from "react-use";
 import { cn } from "@/lib/utils";
 import { CheckCircle, Mic, Pause, Play, XCircle } from "lucide-react";
 import { reduceMusicHearts } from "@/actions/get-userProgress";
+import { useHeartsModal } from "@/data/store/use-hearts-modal"; // Importa o hook para o HeartsModal
 
 interface FooterProps {
   isRecording: boolean;
@@ -11,10 +12,12 @@ interface FooterProps {
   status: "correct" | "wrong" | "none" | "completed";
   musicId: number;
   points: number;
+  hearts: number;
 }
 
-const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, points }) => {
+const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, points, hearts }) => {
   const isMobile = useMedia("(max-width: 1024px)");
+  const { open: openHeartsModal } = useHeartsModal(); // Instancia o modal de corações
   const [correctAudio, , correctControls] = useAudio({ src: "/correct.wav" });
   const [incorrectAudio, , incorrectControls] = useAudio({ src: "/incorrect.wav" });
   const [startAudio, , startControls] = useAudio({ src: "/drumsticksoundeffect.wav" });
@@ -39,8 +42,13 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, 
     };
   }, []);
 
-  // Inicia a contagem regressiva e executa a função de início
+  // Inicia a contagem regressiva e executa a função de início, mas verifica se há corações
   const handleClick = () => {
+    if (hearts <= 0) {
+      openHeartsModal(); // Abre o modal se o jogador estiver sem corações
+      return;
+    }
+
     if (!isDisabled) {
       setCountdown(3);
       setIsDisabled(true);
@@ -85,7 +93,7 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, 
       {incorrectAudio}
       <footer
         className={cn(
-          "lg:h-[140px] h-[100px] border-t-2 rounded-lg",
+          "bg-background lg:h-[140px] h-[100px] border-t-2 rounded-lg",
           isRecording 
             ? "bg-muted border-t-2"
             : status === "correct"
@@ -97,7 +105,7 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, 
       >
         <div className="max-w-[1140px] h-full mx-auto flex items-center justify-between px-6 lg:px-10">
           {isRecording ? (
-            <div className="text-primary font-bold text-base lg:text-2xl flex items-center">
+            <div className=" text-primary font-bold text-base lg:text-2xl flex items-center">
               <Mic  className="h-6 w-6 lg:h-10 mr-4" />
               Listening
             </div>
@@ -112,7 +120,9 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, 
               Try again.
             </div>
           ) : (
-            <div></div>
+            <div>
+              
+            </div>
           )}
 
           <Button

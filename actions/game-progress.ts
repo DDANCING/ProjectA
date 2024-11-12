@@ -187,3 +187,52 @@ export const ensureProgressGameExists = async (userId: string): Promise<string> 
     throw new Error("Failed to ensure progress game exists");
   }
 };
+export const updateUserTotalGameProgressPercentage = async (userId: string): Promise<void> => {
+  try {
+    // Buscar todas as músicas disponíveis no aplicativo
+    const allMusics = await db.music.findMany({
+      select: { id: true },
+    });
+    const totalMusicsCount = allMusics.length;
+
+    if (totalMusicsCount === 0) {
+      console.warn("Nenhuma música encontrada no aplicativo.");
+      return;
+    }
+
+    // Buscar todos os registros de `ProgressGameMusic` do usuário especificado
+    const userProgressMusic = await db.progressGameMusic.findMany({
+      where: { userId },
+      select: { percentage: true },
+    });
+
+    // Somar as porcentagens de progresso do usuário
+    const totalUserPercentage = userProgressMusic.reduce(
+      (acc, { percentage }) => acc + percentage,
+      0
+    );
+
+    // Calcular a média dividindo pela quantidade total de músicas
+    const averagePercentage = totalUserPercentage / totalMusicsCount;
+
+    // Buscar o valor atual de `totalPercentage` para armazená-lo em `totalLastPercentageWin`
+    const userProgress = await db.progressGame.findUnique({
+      where: { userId },
+      select: { totalPercentage: true },
+    });
+
+    // Atualizar `totalPercentage` e `totalLastPercentageWin` no modelo `ProgressGame` para o usuário
+    await db.progressGame.update({
+      where: { userId },
+      data: {
+        totalLastPercentageWin: userProgress?.totalPercentage || 0, // Salvar o totalPercentage atual
+        totalPercentage: Math.round(averagePercentage), // Atualizar com a nova média
+      },
+    });
+
+    console.log(`TotalPercentage e TotalLastPercentageWin atualizados para o usuário ${userId}.`);
+  } catch (error) {
+    console.error("[UPDATE_USER_TOTAL_PROGRESS_PERCENTAGE]", error);
+    throw new Error("Erro ao atualizar totalPercentage para o usuário");
+  }
+};

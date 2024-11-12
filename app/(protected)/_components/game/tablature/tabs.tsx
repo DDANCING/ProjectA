@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import abcjs, { AbcVisualParams, TablatureInstrument } from "abcjs";
+import abcjs, { AbcVisualParams, renderAbc, TablatureInstrument } from "abcjs";
 import { Card } from '@/components/ui/card';
 
 interface TablatureProps {
@@ -18,13 +18,12 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
   const visualOptions: AbcVisualParams = {
     tablature: [
       {
-        instrument: "guitar" as TablatureInstrument,  // Definimos como "guitar" explicitamente
-        label,
-        tuning: ["E,", "A,", "D", "G", "B", "e"],
-        capo,
-        highestNote,
+        instrument: "guitar",
+        capo: capo,
+        highestNote: highestNote,
       },
     ],
+    staffwidth: 740, 
   };
 
   useEffect(() => {
@@ -67,11 +66,10 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
       cursorControlRef.current?.onFinished();
     }
   };
-
   return (
     
-    <Card className="hidden lg:block stick self-end bottom-6 max-h-[calc(94vh-40px)] overflow-y-auto overflow-x-auto h-[60vh] relative top-0 pb-10 shadow-none scrollbar-none">
-      <div id="paper" ref={paperRef}></div>
+    <Card className="flex max-h-[calc(75vh-40px)] overflow-y-auto overflow-x-auto h-[75vh] relative top-0  shadow-none scrollbar-none w-full">
+      <div className='wrapper'  id="paper" ref={paperRef}></div>
     </Card>
   );
 };
