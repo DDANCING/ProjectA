@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserSubscription } from "./get-user-subscription";
 import { POINTS_TO_REFILL } from "@/constants";
+import { getProgressMusic } from "./game-progress";
 
 
 export const getGameUserProgress = cache(async () => {
@@ -222,6 +223,63 @@ export const reduceHearts = async (challengeId: number) => {
  revalidatePath(`/activities/lesson/${lessonId}`);
 
 };
+
+export const reduceMusicHearts = async (musicId: number, points: number) => {
+  const user = await auth();
+
+  if (!user?.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const currentUserProgress = await getProgressMusic(user.user.id);
+  const userSubscription = await getUserSubscription();
+
+  // Garantir que musicId é um número
+  musicId = Number(musicId);
+
+  const existingMusicProgress = await db.progressGameMusic.findFirst({
+    where: {
+      musicId, 
+      userId: user.user.id,
+    },
+    select: {
+      percentage: true,
+    },
+  });
+
+  if (existingMusicProgress?.percentage === 100) {
+    return { error: "pratice" };
+  }
+
+  if (userSubscription?.isActive) {
+    return { error: "subscription" };
+  }
+
+  if (currentUserProgress?.hearts === 0) {
+    return { error: "hearts" };
+  }
+
+  // Reduzir corações apenas se points for menor que 500
+  const heartsToDeduct = points < 500 ? 1 : 0;
+
+  await db.progressGame.update({
+    where: {
+      userId: user.user.id,
+    },
+    data: {
+      hearts: Math.max(currentUserProgress.hearts - heartsToDeduct, 0),
+      points: currentUserProgress.points + points,
+    },
+  });
+
+  // Revalidar os caminhos necessários
+  revalidatePath("/game/leaderboard");
+  revalidatePath("/shop");
+  revalidatePath("/game/search");
+  revalidatePath("/game/dashboard");
+  revalidatePath(`/game/${musicId}`);
+};
+
 
 export const refillHearts = async () => {
   const currentUserProgress = await getActivitiesUserProgress();

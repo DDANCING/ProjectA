@@ -126,7 +126,7 @@ const updateGameProgress = async (userId: string, lastPercentageWin: number) => 
 };
 
 
-export const getProgressMusic = async (userId: string): Promise<{ totalPercentage: number; totalLastPercentageWin: number; points: number }> => {
+export const getProgressMusic = async (userId: string): Promise<{ totalPercentage: number; totalLastPercentageWin: number; points: number; hearts: number }> => {
   try {
     // Buscar todas as músicas disponíveis no site
     const getMusicPercentages = await db.progressGame.findFirst({
@@ -137,6 +137,7 @@ export const getProgressMusic = async (userId: string): Promise<{ totalPercentag
         totalPercentage: true,
         totalLastPercentageWin: true,
         points: true,
+        hearts: true,
       }
     });
     
@@ -145,10 +146,11 @@ export const getProgressMusic = async (userId: string): Promise<{ totalPercentag
       totalPercentage: getMusicPercentages?.totalPercentage ?? 0,
       totalLastPercentageWin: getMusicPercentages?.totalLastPercentageWin ?? 0,
       points: getMusicPercentages?.points ?? 0,
+      hearts: getMusicPercentages?.hearts ?? 5,
     };
   } catch (error) {
     console.log("[GET_PROGRESS_USER]", error);
-    return { totalPercentage: 0, totalLastPercentageWin: 0, points: 0 };
+    return { totalPercentage: 0, totalLastPercentageWin: 0, points: 0, hearts: 5 };
   }
 };
 

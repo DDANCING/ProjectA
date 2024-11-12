@@ -73,7 +73,7 @@ export const ProfileOptions = () => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/settings?tab=payments">
+          <Link href="/shop">
             <Button className="rounded-full">
               Upgrade plan
             </Button>

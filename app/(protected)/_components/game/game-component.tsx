@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import ProgressBar from "./audio/progressbar";
 import Footer from "./audio/footer";
@@ -7,7 +7,7 @@ import SimilarityResultDialog from "./audio/audio-compare-result";
 import SideBar from "./sidebar";
 import Tablature from "./tablature/tabs";
 import AudioRecorder from "./audio/audio-recorder";
-import { toast } from "sonner";
+
 
 interface CompareAudioProps {
   userId: string;
@@ -46,6 +46,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [similarityDetails, setSimilarityDetails] = useState<any>(null);
+  const [points, setPoints] = useState<number | null>(null);
 
   const onPlayerReady = (event: any) => {
     setPlayer(event.target);
@@ -54,6 +55,13 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   const onPlayerPlay = () => {
     setIsRecording(true);
   };
+
+  useEffect(() => {
+    
+    if (similarityPercentage !== null) {
+      setPoints(similarityPercentage * 10); 
+    }
+  }, [similarityPercentage]);
 
   return (
     <>
@@ -72,11 +80,11 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
             </div>
           </div>
           <Footer 
+            points={points || 0}
             onStart={() => setIsRecording(true)}
             isRecording={isRecording}
             status={status} 
-            artist={musicArtist}
-            musicName={musicTitle}
+            musicId={musicId}
           />
         </Card>
         <SideBar
