@@ -1,10 +1,13 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import MicRecorder from "mic-recorder";
 import { toast } from "sonner";
+import { postProgressMusic } from "@/actions/game-progress";
 
 interface AudioRecorderProps {
+  userId: string;
+  musicId: number;
   recordingDuration: number;
   targetSongId: number;
   startRecording: boolean;
@@ -29,14 +32,16 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   setSimilarityDetails,
   setDialogOpen,
   player,
-  setIsRecording
+  setIsRecording,
+  userId,
+  musicId,
 }) => {
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
- 
+  const [audioURL, setAudioURL] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const newRecorder = new MicRecorder({ bitRate: 128, encoder: "wav", sampleRate: 44100 });
+      const newRecorder = new MicRecorder({ bitRate: 128, encoder: "wav", sampleRate: 48000 });
       setRecorder(newRecorder);
     }
   }, []);
@@ -45,6 +50,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     if (startRecording && recorder) {
       startRecordingProcess();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startRecording]);
 
   const startRecordingProcess = async () => {
@@ -67,6 +73,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
           const file = new File(buffer, `audio.wav`, { type: blob.type });
           setIsRecording(false);
           if (player) player.stopVideo();
+          setAudioURL(URL.createObjectURL(blob)); // Atualiza o URL do áudio gravado
           await uploadAudioFile(file);
           setProgress(0); 
         }
@@ -87,7 +94,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
       });
 
       if (!response.ok) throw new Error("Erro na comparação de áudio");
-
+      
       const result = await response.json();
       if (result) {
         const similarity = result.similarity_percentage;
@@ -95,6 +102,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
         setSimilarityPercentage(similarity);
         setLoading(false);
         setStatus(similarity < 50 ? "wrong" : "correct");
+        await postProgressMusic(userId, musicId, similarity);
         setSimilarityDetails(details);
       }
     } catch (error) {
@@ -103,7 +111,15 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     }
   };
 
-  return null;
+  return (
+    <div>
+      {audioURL && (
+        <audio controls src={audioURL}>
+          Seu navegador não suporta o elemento de áudio.
+        </audio>
+      )}
+    </div>
+  );
 };
 
 export default AudioRecorder;

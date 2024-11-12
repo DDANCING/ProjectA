@@ -6,7 +6,7 @@ import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
 import { cache } from "react";
 
-const DAY_IN_MS = 86_400_000; 
+const DAY_IN_MS = 86_400_000;
 export const getUserSubscription = cache(async () => {
   const user = await auth();
 
@@ -23,7 +23,7 @@ export const getUserSubscription = cache(async () => {
     return null;
   }
 
-  const isActive = 
+  const isActive =
     data.stripePriceId &&
     data.stripeCurrentPeriodEnd?.getTime()! + DAY_IN_MS > Date.now();
 
@@ -33,9 +33,9 @@ export const getUserSubscription = cache(async () => {
   };
 });
 
-const returnUrl = absoluteUrl("/activities/shop");
+const returnUrl = absoluteUrl("/shop");
 
-export const createStripeUrl = async () => {
+export const createStripeUrl = async (isAnnual: boolean = false) => {
   const user = await auth();
 
   if (!user?.user.id) {
@@ -53,14 +53,15 @@ export const createStripeUrl = async () => {
     return { data: stripeSession.url };
   }
 
-  // Ensure user.user.email is defined
   if (!user.user.email) {
     throw new Error("User email is missing");
   }
 
+  const price = isAnnual ? 400 : 500;
+
   const stripeSession = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    customer_email: user.user.email,  
+    customer_email: user.user.email,
     line_items: [
       {
         quantity: 1,
@@ -68,16 +69,16 @@ export const createStripeUrl = async () => {
           currency: "USD",
           product_data: {
             name: "ProjectA",
-            description: "Pro user",
+            description: isAnnual ? "Pro user (Annual)" : "Pro user",
           },
-          unit_amount: 500,  // This is in cents, so $5.00
+          unit_amount: price,
           recurring: {
-            interval: "month",
+            interval: isAnnual ? "year" : "month",
           },
         },
       },
     ],
-    mode: "subscription",  // mode should be inside params
+    mode: "subscription",
     metadata: {
       userId: user.user.id,
     },

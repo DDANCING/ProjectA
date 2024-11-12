@@ -42,6 +42,9 @@ const GameIdPage = async ({ params }: Props) => {
   return (
  
     <GameComponent
+    userId={user.user.id}
+    musicId={params.gameId}
+    musicProgress={music.userProgress.percentage}
     hearts={userProgress?.hearts}
     userSubscription={userSubscription}
     musicTitle={music.title}

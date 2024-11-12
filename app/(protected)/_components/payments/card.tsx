@@ -1,132 +1,85 @@
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card"
+"use client";
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { ArrowBigRightIcon, Dot } from "lucide-react"
-import { PaymentButton } from "./payments-button"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowBigRightIcon, Dot } from "lucide-react";
 
-export function Plans() {
+type PropsPlans = {
+  onClick: (isAnnual: boolean) => void;
+  disabled: boolean;
+  hasActiveSubscription: boolean;
+};
+
+export function Plans({ disabled, hasActiveSubscription, onClick }: PropsPlans) {
   return (
-    <Tabs defaultValue="Monthly" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="Monthly">Monthly</TabsTrigger>
-        <TabsTrigger value="Annually">Annually</TabsTrigger>
+    <Tabs defaultValue="Monthly" className=" mx-auto">
+      <TabsList className="grid w-full grid-cols-2 mb-4">
+        <TabsTrigger value="Monthly" className="font-bold">Monthly</TabsTrigger>
+        <TabsTrigger value="Annually" className="font-bold">Annually</TabsTrigger>
       </TabsList>
-      <TabsContent value="Monthly" className="flex gap-2 w-full ">
-        <Card className="w-[50%] shadow-none bg-muted-foreground/20">
 
-          <CardContent className="space-y-2 m-2">
-          <div className="text-xs">
-            <h1 className="font-bold text-3xl">
-          FREE
-            </h1>
-            <p>R$0/mo</p>
-            <p className="flex">
-            <Dot/> Limited Use
-            </p>
-            <p className="flex">
-            5 lives a day
-            </p>
-            <p className="flex">
-            <Dot/> Limited Accessibility
-            </p>
-            
-          </div>
+      <TabsContent value="Monthly" className="flex gap-4 w-full">
+        <Card className="w-[50%] p-4 shadow-md bg-gray-100 rounded-lg">
+          <CardContent className="space-y-3 text-center">
+            <h1 className="font-extrabold text-3xl text-gray-800">FREE</h1>
+            <p className="text-xl text-gray-500">R$0/mo</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Use</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> 5 lives a day</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Accessibility</p>
           </CardContent>
-          <CardFooter>
-          
+          <CardFooter className="text-center">
+            <Button variant="outline" className="w-full">Get Started</Button>
           </CardFooter>
         </Card>
-        <Card className="flex-1 shadow-none bg-muted-foreground/20">
 
-          <CardContent className="space-y-2">
-          <div className="text-xs">
-            <h1 className="font-bold text-3xl">
-          PRO
-            </h1>
-            <p>R$14,99/mo</p>
-            <p className="flex">
-            <Dot/> Unlimited Use
-            </p>
-            <p className="flex">
-            Unlimited lives
-            </p>
-            <p className="flex">
-            <Dot/> full Accessibility
-            </p>
-            <PaymentButton mode="modal" asChild>
-          <Button>Subscribe <ArrowBigRightIcon/></Button>
-          </PaymentButton>
-          </div>
-          
+        <Card className="flex-1 p-4 shadow-lg bg-muted-foreground rounded-lg border border-blue-500">
+          <CardContent className="space-y-3 text-center">
+            <h1 className="font-extrabold text-3xl text-blue-800">PRO</h1>
+            <p className="text-xl text-blue-600">US$ 5,00/mo</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Unlimited Use</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Unlimited lives</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Full Accessibility</p>
           </CardContent>
-          <CardFooter>
-          
+          <CardFooter className="text-center">
+            <Button onClick={() => onClick(false)} disabled={disabled} className="w-full bg-blue-600 text-white hover:bg-blue-700">
+              {hasActiveSubscription ? "Settings" : "Get PRO"}
+              <ArrowBigRightIcon className="ml-2" />
+            </Button>
           </CardFooter>
         </Card>
       </TabsContent>
-      <TabsContent value="Annually" className="flex gap-2 w-full"  >
-      <Card className="w-[50%] shadow-none bg-muted-foreground/20">
 
-          <CardContent className="space-y-2 m-2">
-          <div className="text-xs">
-            <h1 className="font-bold text-3xl">
-          FREE
-            </h1>
-            <p>R$0/mo</p>
-            <p className="flex">
-            <Dot/> Limited Use
-            </p>
-            <p className="flex">
-            5 lives a day
-            </p>
-            <p className="flex">
-            <Dot/> Limited Accessibility
-            </p>
-            
-          </div>
+      <TabsContent value="Annually" className="flex gap-4 w-full">
+        <Card className="w-[50%] p-4 shadow-md bg-gray-100 rounded-lg">
+          <CardContent className="space-y-3 text-center">
+            <h1 className="font-extrabold text-3xl text-gray-800">FREE</h1>
+            <p className="text-xl text-gray-500">R$0/mo</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Use</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> 5 lives a day</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Accessibility</p>
           </CardContent>
-          <CardFooter>
-          
+          <CardFooter className="text-center">
+            <Button variant="outline" className="w-full">Get Started</Button>
           </CardFooter>
         </Card>
-        <Card className="flex-1 shadow-none bg-muted-foreground/20">
 
-          <CardContent className="space-y-2">
-          <div className="text-xs">
-            <h1 className="font-bold text-3xl">
-          PRO
-            </h1>
-            <p>R$14,99/mo</p>
-            <p className="flex">
-            <Dot/> Unlimited Use
-            </p>
-            <p className="flex">
-            Unlimited lives
-            </p>
-            <p className="flex">
-            <Dot/> full Accessibility
-            </p>
-            <PaymentButton mode="modal" asChild>
-          <Button>Subscribe <ArrowBigRightIcon/></Button>
-          </PaymentButton>
-          </div>
-          
+        <Card className="flex-1 p-4 shadow-lg bg-muted-foreground rounded-lg border text-primary/60">
+          <CardContent className="space-y-3 text-center">
+            <h1 className="font-extrabold text-3xl text-primary">PRO</h1>
+            <p className="text-xl text-primary/90">US$ 4,00/mo</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Unlimited Use</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Unlimited lives</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Full Accessibility</p>
           </CardContent>
-          <CardFooter>
-          
+          <CardFooter className="text-center">
+            <Button onClick={() => onClick(true)} disabled={disabled} className="w-full bg-primary text-white hover:animate-pulse">
+              {hasActiveSubscription ? "Settings" : "Get PRO"}
+              <ArrowBigRightIcon className="ml-2" />
+            </Button>
           </CardFooter>
         </Card>
       </TabsContent>
     </Tabs>
-  )
+  );
 }

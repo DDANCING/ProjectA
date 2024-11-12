@@ -25,7 +25,7 @@ export const HeartsModal = () => {
 
   const onClick = () => {
     close();
-    router.push("/activities/shop");
+    router.push("/shop");
   }
 
   if (!client) {

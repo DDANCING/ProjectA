@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Rank } from "@/app/(protected)/_components/activities/rank";
 import { getMusics, getNewMusics } from "@/actions/get-musics";
 
-import { getProgressMusic } from "@/actions/game-progress";
+import { ensureProgressGameExists, getProgressMusic, postProgressMusic } from "@/actions/game-progress";
 import { MusicList } from "../(protected)/_components/game/music/music-list";
 import { PercentageBanner } from "../(protected)/_components/scoreboard/dashboard-status";
 import { CoursesList } from "../(protected)/_components/course/courses/courses-list";
@@ -46,13 +46,16 @@ const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar
   const UserPercentageMusicData = getProgressMusic(userId);
   const UserPercentageActivitiesData = getProgressActivities(userId); 
   const UserPercentageAverageData = getUserPercentageAverage(userId);
+  const createMusicProgressData = ensureProgressGameExists(userId)
 
   const [
+    createMusicProgress,
     UserMusicPercentage,
     UserActivitiesPercentage,
     UserPercentageCourse,
     UserPercentageAverage,
   ] = await Promise.all([
+    createMusicProgressData,
     UserPercentageMusicData,
     UserPercentageActivitiesData,
     UserPercentageCourseData,
@@ -62,8 +65,10 @@ const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar
   const PercentageCourse = Number(UserPercentageCourse.percentage.toFixed(1)) || 0;
   const MusicPercentage = Number(UserMusicPercentage.totalPercentage.toFixed(1)) || 0;
   const ActivitiesPercentage = Number(UserActivitiesPercentage.totalPercentage.toFixed(1)) || 0;
+  if (!UserPercentageMusicData) {
+    createMusicProgress
+  }
   
-
   return ( 
     <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none ">
     

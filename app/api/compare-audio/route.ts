@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     // Extrai e registra o conteúdo da resposta
     const data = await response.json();
-    console.log("Resposta da API externa:", data);
+   
 
     if (typeof data.similarity_percentage === "undefined") {
       console.error("Formato de resposta inválido", data);
