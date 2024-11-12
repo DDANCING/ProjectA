@@ -112,13 +112,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   };
 
   return (
-    <div>
-      {audioURL && (
-        <audio controls src={audioURL}>
-          Seu navegador não suporta o elemento de áudio.
-        </audio>
-      )}
-    </div>
+    <></>
   );
 };
 
