@@ -46,7 +46,7 @@ const DocumentationPage = async () => {
   return (
     <SidebarProvider> 
       <div className="flex h-screen">
-        <Sidebar className="w-64 h-full">
+        <Sidebar className="w-64 h-full mt-16">
           <SidebarContent>
             <SidebarGroup>
               <SidebarGroupLabel>Documentation</SidebarGroupLabel>
@@ -68,7 +68,7 @@ const DocumentationPage = async () => {
           </SidebarContent>
         </Sidebar>
 
-        <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none">
+        <Card className="p-4 h-[88vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none shadow-none">
           <h1 id="microphone-setup" className="text-xl font-semibold mb-4">
             Microphone Setup in the Browser
           </h1>

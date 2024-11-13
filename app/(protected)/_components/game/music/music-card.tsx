@@ -46,11 +46,11 @@ export const MusicCard = ({
       </div>
 
       {/* Contêiner de texto sobre a imagem de fundo */}
-      <div className="absolute left-28 flex flex-col p-2 z-20">
-        <div className="text-white text-lg md:text-base font-medium transition line-clamp-2">
+      <div className="absolute left-28 flex flex-col p-2 z-10">
+        <div className="text-foreground text-lg md:text-base font-medium transition line-clamp-2">
           {title}
         </div>
-        <div className="text-gray-300 text-sm">
+        <div className="text-muted-foreground text-sm">
           {artist}
         </div>
         <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">

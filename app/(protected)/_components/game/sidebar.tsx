@@ -39,7 +39,7 @@ const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeL
           classNames={{
             svg: "w-[24vh] h-[24vh] drop-shadow-md",
             indicator: "stroke-primary",
-            value: "text-2xl font-semibold text-white",
+            value: "text-2xl font-semibold text-foreground",
           }}
           value={progress}
           strokeWidth={2}

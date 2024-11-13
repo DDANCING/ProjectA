@@ -109,18 +109,25 @@ const SceneGuitar = dynamic(() => import('@/components/3Dcomponents/scene-guitar
   
       {/* Restante do código permanece igual */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none overflow-x-auto ">
-          <h1 className="text-2xl font-bold p-2 px-6">New Courses</h1>
-          <h2 className="text-sm text-muted-foreground px-6">See the list of new courses </h2>
-          <CoursesList
-          classname="w-full gap-2 p-4 text-wrap text-center grid lg:grid-cols-2 xl:grid-cols-3"
-          items={[...courses]} />
-        </Card>
+      <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none overflow-x-auto">
+  <div className="sticky top-0 bg-background z-10">
+    <h1 className="text-2xl font-bold p-2 px-6">New Courses</h1>
+    <h2 className="text-sm text-muted-foreground px-6">See the list of new courses</h2>
+      </div>
+       <CoursesList
+        classname=" w-full gap-2 p-4 text-wrap text-center grid lg:grid-cols-2 xl:grid-cols-3"
+        items={[...courses]}
+        />
+      </Card>
   
-        <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
-          <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
-          <h2 className="text-sm text-muted-foreground px-6">See the list of new musics</h2>
-          <MusicList items={[...newMusics]} />
+      <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
+      <div className="sticky top-0 bg-background z-20"> {/* Adicionando z-20 para garantir que o título fique sobreposto */} 
+       <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
+        <h2 className="text-sm text-muted-foreground px-6">See the list of new musics</h2>
+         </div>
+          <div>
+           <MusicList items={[...newMusics]} />
+          </div>
         </Card>
       </div>
   

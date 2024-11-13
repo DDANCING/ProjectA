@@ -44,17 +44,17 @@ export default function Header() {
       <MenubarMenu>
         <MenubarTrigger> <Crown /> </MenubarTrigger>
         <MenubarContent>
-          <Link href={"/game/dashboard"}>
+          <Link href={"/game/leaderboard"}>
           <MenubarItem>
             Game Leaderboard 
           </MenubarItem>
           </Link>
-          <Link href={"/courses/dashboard"}>
+          <Link href={"/courses/leaderboard"}>
           <MenubarItem>
           Class Leaderboard 
           </MenubarItem>
           </Link>
-          <Link href={"/activities/dashboard"}>
+          <Link href={"/activities/leaderboard"}>
           <MenubarItem >Activities Leaderboard </MenubarItem>
           </Link>
           <MenubarSeparator />
@@ -63,7 +63,7 @@ export default function Header() {
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
-      <MenubarMenu>
+      { /*/<MenubarMenu>
         <MenubarTrigger>  <Heart /> </MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
@@ -78,21 +78,25 @@ export default function Header() {
           <MenubarSeparator />
           <MenubarItem>Wishlist</MenubarItem>
         </MenubarContent>
-      </MenubarMenu>
+      </MenubarMenu> /*/}
       <MenubarMenu>
         <MenubarTrigger> <Wallet /> </MenubarTrigger>
         <MenubarContent>
-          <Link href={"/settings?tab=payments"}>
+          <Link href={"/shop"}>
           <MenubarCheckboxItem>Plans</MenubarCheckboxItem>
           </Link>
          
           <MenubarSeparator />
+          <Link href={"/shop"}>
           <MenubarItem inset>
             Buy Hearts <MenubarShortcut><GiHeartPlus/></MenubarShortcut>
           </MenubarItem>
+          </Link>
+          <Link href={"/courses/purchased"}>
           <MenubarItem inset>
           Courses Purchased
           </MenubarItem>
+          </Link>
           <MenubarSeparator />
          
         </MenubarContent>
@@ -109,22 +113,28 @@ export default function Header() {
           <MenubarItem > Teacher dashboard <MenubarShortcut> <LiaChalkboardTeacherSolid /> </MenubarShortcut> </MenubarItem>
           </Link>
           </RoleGate>
-          <Link href={"/game"}>
+          <Link href={"/game/dashboard"}>
           <MenubarItem > Game <MenubarShortcut> <FaGamepad /> </MenubarShortcut>  </MenubarItem>
           </Link>
           <Link href={"/courses/dashboard"}>
           <MenubarItem > Courses <MenubarShortcut> <SiGoogleclassroom /> </MenubarShortcut> </MenubarItem>
           </Link>
-          <Link href={"/activities/dashboard"}>
+          <Link href={"/activities"}>
           <MenubarItem > Activities <MenubarShortcut> <VscCompassActive /> </MenubarShortcut> </MenubarItem>
           </Link>
           <MenubarSeparator/>
           <MenubarSub>
             <MenubarSubTrigger>Share</MenubarSubTrigger>
             <MenubarSubContent>
+            <Link href={"/request/view-bug"}>
               <MenubarItem>View bug</MenubarItem>
+              </Link>
+              <Link href={"/request/request-features"}>
               <MenubarItem>Request features</MenubarItem>
+              </Link>
+              <Link href={"/request/request-new-song"}>
               <MenubarItem>Request new songs</MenubarItem>
+              </Link>
             </MenubarSubContent>
           </MenubarSub>
         </MenubarContent>
