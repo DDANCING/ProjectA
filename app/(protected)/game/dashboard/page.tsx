@@ -38,15 +38,15 @@ const dashboardPage = async () => {
     <Card className="p-4 h-[90vh] flex-1 relative top-0 pb-10 overflow-y-auto shadow-none scrollbar-none">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
-          <Card className="shadow-none border-2 border-muted-foreground overflow-y-auto h-[40vh] flex-1 relative top-0 pb-10 scrollbar-none">
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold p-2 px-6">Keep going</h1>
-              <h2 className="text-sm text-muted-foreground px-6">Continue where you left off</h2>
-            </div>
-            <div>
-              <MusicList items={[...musics]} />
-            </div>
-          </Card>
+          <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
+  <div className="sticky top-0 bg-background z-20"> {/* Adicionando z-20 para garantir que o título fique sobreposto */}
+    <h1 className="text-2xl font-bold p-2 px-6">Keep going</h1>
+    <h2 className="text-sm text-muted-foreground px-6">Continue where you left off</h2>
+  </div>
+  <div>
+    <MusicList items={[...musics]} />
+  </div>
+</Card>
         </div>
         <div>
           <Card className="shadow-none border-2 border-muted-foreground flex h-full">
@@ -59,7 +59,7 @@ const dashboardPage = async () => {
                 classNames={{
                   svg: "w-[24vh] h-[24vh] drop-shadow-md",
                   indicator: "stroke-primary",
-                  value: "text-2xl font-semibold text-white",
+                  value: "text-2xl font-semibold text-fore",
                 }}
                 value={percentage}
                 strokeWidth={2}
@@ -84,11 +84,16 @@ const dashboardPage = async () => {
           </Card>
         </div>
         <div>
-          <Card className="shadow-none border-2 border-muted-foreground overflow-y-auto h-[44vh] flex-1 relative top-0 pb-10 scrollbar-none">
-            <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
-            <h2 className="text-sm text-muted-foreground px-6">See new songs</h2>
-            <MusicList items={[...newMusics]} />
-          </Card>
+        
+          <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
+  <div className="sticky top-0 bg-background z-20"> {/* Adicionando z-20 para garantir que o título fique sobreposto */}
+    <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
+    <h2 className="text-sm text-muted-foreground px-6">See new songs</h2>
+  </div>
+  <div>
+    <MusicList items={[...newMusics]} />
+  </div>
+</Card>
         </div>
         <div>
           <Card className="shadow-none border-2 border-muted-foreground h-[44vh]">
