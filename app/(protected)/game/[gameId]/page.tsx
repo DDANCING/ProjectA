@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation"
-import { getMusic } from "@/actions/get-musics";
+import { getMusic, getSimilarMusics } from "@/actions/get-musics";
 import { getUserSubscription } from "@/actions/get-user-subscription";
 import { getGameUserProgress } from "@/actions/get-userProgress";
 import { GameComponent } from "../../_components/game/game-component";
@@ -19,13 +19,17 @@ const GameIdPage = async ({ params }: Props) => {
   const musicData = await getMusic(params.gameId);
   const userSubscriptionData = getUserSubscription();
   const userProgressData =  getGameUserProgress();
+  const musicRecomendData = getSimilarMusics(params.gameId);
 
+  
   const [
     music,
+    MusicRecomend,
     userSubscription,
     userProgress,
   ] = await Promise.all([
     musicData,
+    musicRecomendData,
     userSubscriptionData,
     userProgressData
   ]);
@@ -42,6 +46,7 @@ const GameIdPage = async ({ params }: Props) => {
   return (
  
     <GameComponent
+    musicRecomend={[...MusicRecomend]}
     userId={user.user.id}
     musicId={params.gameId}
     musicProgress={music.userProgress.percentage}

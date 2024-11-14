@@ -21,6 +21,15 @@ interface CompareAudioProps {
   musicTablature?: string;
   hearts: number;
   musicProgress: number;
+  musicRecomend: {
+    title: string;
+    id: number;
+    artist: string;
+    ProgressGameMusic: {
+        percentage: number;
+    }[];
+    coverAlbum: string;
+  }[];
   userSubscription: {
     isActive: boolean;
   } | null;
@@ -38,6 +47,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   musicProgress,
   userId,
   musicId,
+  musicRecomend,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -97,6 +107,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
           </div>
         </Card>
         <SideBar
+          musicRecomend={[...musicRecomend]}
           onPlayerPlay={onPlayerPlay}
           onPlayerReady={onPlayerReady}
           youtubeLink={youtubeLink}

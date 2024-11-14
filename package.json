@@ -69,6 +69,7 @@
     "nextjs-toploader": "^1.6.12",
     "node-fetch": "^2.7.0",
     "nodemailer": "^6.9.16",
+    "opensheetmusicdisplay": "^1.8.9",
     "pitchfinder": "^2.3.2",
     "pitchy": "^4.1.0",
     "query-string": "^9.0.0",
