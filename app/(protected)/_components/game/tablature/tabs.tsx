@@ -1,5 +1,7 @@
+"use client"
+
 import React, { useEffect, useRef } from 'react';
-import abcjs, { AbcVisualParams, renderAbc, TablatureInstrument } from "abcjs";
+import abcjs, { AbcVisualParams } from "abcjs";
 import { Card } from '@/components/ui/card';
 
 interface TablatureProps {
@@ -10,7 +12,7 @@ interface TablatureProps {
   highestNote?: string;
 }
 
-const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "Guitar (EADGBE)", capo = 0, highestNote = "e'" }) => {
+const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "Guitar (DADGAD)", capo = 0, highestNote = "e'" }) => {
   const visualObjRef = useRef<any>(null);
   const paperRef = useRef<HTMLDivElement | null>(null);
   const cursorControlRef = useRef<CursorControl | null>(null);
@@ -33,18 +35,16 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
       .then((response) => response.text())
       .then((abcString) => {
         visualObjRef.current = abcjs.renderAbc("paper", abcString, visualOptions);
-        cursorControlRef.current = new CursorControl("#paper");
+        cursorControlRef.current = new CursorControl("#paper", paperRef);
       })
       .catch((error) => console.error("Error loading ABC file:", error));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [AbcUrl]);
 
   useEffect(() => {
     if (startPlayback && visualObjRef.current && cursorControlRef.current) {
       startCursor();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startPlayback]);
+  }, [startPlayback, visualObjRef, cursorControlRef]);
 
   const startCursor = () => {
     const cursorControl = cursorControlRef.current;
@@ -66,10 +66,10 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
       cursorControlRef.current?.onFinished();
     }
   };
+
   return (
-    
-    <Card className="flex max-h-[calc(75vh-40px)] overflow-y-auto overflow-x-auto h-[75vh] relative top-0  shadow-none scrollbar-none w-full">
-      <div className='wrapper'  id="paper" ref={paperRef}></div>
+    <Card className="flex max-h-[calc(75vh-40px)] overflow-y-auto overflow-x-auto h-[75vh] relative top-0 shadow-none scrollbar-none w-full">
+      <div className='wrapper' id="paper" ref={paperRef}></div>
     </Card>
   );
 };
@@ -77,10 +77,12 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
 class CursorControl {
   cursor: SVGLineElement | null;
   rootSelector: string;
+  containerRef: React.RefObject<HTMLDivElement>;
 
-  constructor(rootSelector: string) {
+  constructor(rootSelector: string, containerRef: React.RefObject<HTMLDivElement>) {
     this.cursor = null;
     this.rootSelector = rootSelector;
+    this.containerRef = containerRef;
   }
 
   onStart = () => {
@@ -114,6 +116,20 @@ class CursorControl {
       this.cursor.setAttribute("x2", (ev.left - 2).toString());
       this.cursor.setAttribute("y1", ev.top.toString());
       this.cursor.setAttribute("y2", (ev.top + ev.height).toString());
+    }
+
+    this.updateScroll(ev.top);
+  };
+
+  updateScroll = (cursorY: number) => {
+    if (this.containerRef.current) {
+      const containerHeight = this.containerRef.current.clientHeight;
+      const scrollPosition = cursorY - containerHeight / 2;
+      console.log("Scroll Position:", scrollPosition);
+      this.containerRef.current.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth',
+      });
     }
   };
 

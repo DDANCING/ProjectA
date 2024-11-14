@@ -125,3 +125,92 @@ export const getMusic = cache(async (gameId: number) => {
     },
   };
 });
+
+export const getSimilarMusics = async (musicId: number | string) => {
+  try {
+    // Converte para número, se musicId for uma string
+    const parsedMusicId = typeof musicId === "string" ? parseInt(musicId, 10) : musicId;
+
+    if (isNaN(parsedMusicId)) {
+      throw new Error("ID inválido. Certifique-se de que o ID é um número.");
+    }
+
+    // Obtem a música pelo ID
+    const music = await db.music.findUnique({
+      where: { id: parsedMusicId },
+      select: {
+        title: true,
+        artist: true,
+      },
+    });
+
+    if (!music) {
+      throw new Error("Música não encontrada.");
+    }
+
+    // Primeiro tenta buscar músicas similares
+    let similarMusics = await db.music.findMany({
+      where: {
+        id: { not: parsedMusicId },
+        OR: [
+          {
+            title: {
+              contains: music.title,
+              mode: "insensitive",
+            },
+          },
+          {
+            artist: {
+              equals: music.artist,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+      select: {
+        id: true,
+        title: true,
+        artist: true,
+        coverAlbum: true,
+        ProgressGameMusic: {
+          select: {
+            percentage: true,
+          },
+        },
+      },
+      take: 3,
+    });
+
+    // Se não houver músicas similares, buscar músicas recomendadas sem agregação
+    if (similarMusics.length === 0) {
+      similarMusics = await db.music.findMany({
+        where: {
+          id: { not: parsedMusicId },
+        },
+        orderBy: {
+          createdAt: "desc", // Ordena pela data de criação como alternativa
+        },
+        select: {
+          id: true,
+          title: true,
+          artist: true,
+          coverAlbum: true,
+          ProgressGameMusic: {
+            select: {
+              percentage: true,
+            },
+          },
+        },
+        take: 3,
+      });
+    }
+
+    return similarMusics;
+  } catch (error) {
+    console.error("Erro ao buscar músicas:", error);
+    throw error;
+  }
+};

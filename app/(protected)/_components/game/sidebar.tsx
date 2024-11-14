@@ -1,6 +1,10 @@
+
+
 import { Card } from "@/components/ui/card";
 import { CircularProgress } from "@nextui-org/progress";
 import YouTube from "react-youtube";
+import { MusicList } from "./music/music-list";
+import { getSimilarMusics } from "@/actions/get-musics";
 
 interface SideBarProps {
   youtubeLink: string;
@@ -9,11 +13,22 @@ interface SideBarProps {
   musicName: string;
   artist: string;
   progress: number;
+  musicRecomend: {
+    title: string;
+    id: number;
+    artist: string;
+    ProgressGameMusic: {
+        percentage: number;
+    }[];
+    coverAlbum: string;
+  }[];
 }
 
-const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeLink, musicName, artist, progress }) => {
+const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeLink, musicName, artist, progress, musicRecomend }) => {
+  
+
   return (
-    <Card className="p-4 items-center hidden xl:block max-h-[calc(91vh-40px)] overflow-y-auto w-[400px] h-[91vh] relative scrollbar-none shadow-none border-2 border-muted-foreground">
+    <Card className="p-4 items-center hidden xl:block max-h-[calc(93vh-40px)] overflow-y-auto w-[420px] h-[93vh] relative scrollbar-none shadow-none border-2 border-muted-foreground">
       <div style={{ pointerEvents: "none" }}>
         <YouTube
           videoId={youtubeLink}
@@ -58,6 +73,7 @@ const SideBar: React.FC<SideBarProps> = ({ onPlayerPlay, onPlayerReady, youtubeL
       <div>
       
       </div>
+      <MusicList items={[...musicRecomend]} />
     </Card>
   );
 };

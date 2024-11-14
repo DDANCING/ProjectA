@@ -22,7 +22,7 @@ const AuthLayout =  async ({ children }: { children: React.ReactNode}) => {
       <div className="bg-background/30 backdrop-blur-xl h-44 p-2 m-3"> 
       <DocumentationButton/>
   </div>
-      <div className="bg-background/30 backdrop-blur-xl h-44 p-2"> 
+      <div className="bg-background/30 backdrop-blur-xl h-40 p-2"> 
       <AfinadorComponente/>
   </div>
     </div>

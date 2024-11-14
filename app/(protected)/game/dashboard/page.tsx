@@ -85,7 +85,7 @@ const dashboardPage = async () => {
         </div>
         <div>
         
-          <Card className="shadow-none border-2 border-muted-foreground h-[40vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
+          <Card className="shadow-none border-2 border-muted-foreground h-[44vh] flex-1 relative top-0 pb-10 overflow-y-auto scrollbar-none">
   <div className="sticky top-0 bg-background z-20"> {/* Adicionando z-20 para garantir que o título fique sobreposto */}
     <h1 className="text-2xl font-bold p-2 px-6">New musics</h1>
     <h2 className="text-sm text-muted-foreground px-6">See new songs</h2>
