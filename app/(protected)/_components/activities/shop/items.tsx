@@ -80,7 +80,7 @@ export const Items = ({
         <div className="flex items-center w-full p-4 gap-x-4 border-t-2 border-muted">
           <Image src="/img/icons/heart.svg" alt="heart" width={60} height={60} />
           <div className="flex-1">
-            <p className="text-foreground text-base lg:text-xl font-bold">Refill music hearts</p>
+            <p className="text-foreground text-base lg:text-xl font-bold">Refill game hearts</p>
           </div>
           
           <Button onClick={onRefillMusicHearts} className="w-52" disabled={pending || musicHearts === 5 || musicPoints < POINTS_TO_REFILL}>
