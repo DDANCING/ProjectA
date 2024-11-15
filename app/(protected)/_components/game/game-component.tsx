@@ -77,7 +77,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   return (
     <>
       <div className="flex w-full h-full gap-4 justify-between">
-        <Card className="relative w-full h-full max-h-[calc(91vh-40px)] overflow-y-auto scrollbar-none shadow-none border-2 border-muted-foreground">
+        <Card className="relative w-full h-full max-h-[calc(93vh-40px)] overflow-y-auto scrollbar-none shadow-none border-2 border-muted-foreground">
           <div className="sticky top-0 z-10 w-full">
             <ProgressBar
               hasActiveSubscription={!!userSubscription?.isActive}

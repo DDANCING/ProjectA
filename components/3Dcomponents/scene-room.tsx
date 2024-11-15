@@ -12,23 +12,16 @@ interface SceneRoomProps {
 
 const RotatingObject: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const objectRef = useRef<THREE.Group>(null);
-  const [direction, setDirection] = useState(1);
   const [angle, setAngle] = useState(0);
+  const speed = 0.002; // Velocidade de rotação
 
   useFrame(() => {
     if (objectRef.current) {
-      let newAngle = angle + direction * 0.001;
+      // Utiliza Math.sin para suavizar a transição e criar o efeito bounce
+      const newAngle = Math.sin(angle) * (Math.PI / 3); // Oscila entre -45° e +45°
 
-      if (direction === 1 && newAngle >= Math.PI / 4) {
-        // Girou 45 graus para a direita
-        setDirection(-1);
-      } else if (direction === -1 && newAngle <= -Math.PI / 4) {
-        // Girou 90 graus para a esquerda (45+45)
-        setDirection(1);
-      }
-
-      setAngle(newAngle);
-      objectRef.current.rotation.y = newAngle;
+      setAngle((prevAngle) => prevAngle + speed); // Incrementa o ângulo para o próximo frame
+      objectRef.current.rotation.y = newAngle; // Aplica a rotação com suavização
     }
   });
 

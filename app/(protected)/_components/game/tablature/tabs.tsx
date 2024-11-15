@@ -1,31 +1,28 @@
 "use client"
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import abcjs, { AbcVisualParams } from "abcjs";
 import { Card } from '@/components/ui/card';
 
 interface TablatureProps {
   startPlayback: boolean;
   AbcUrl: string;
-  label?: string;
-  capo?: number;
-  highestNote?: string;
+
 }
 
-const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "Guitar (DADGAD)", capo = 0, highestNote = "e'" }) => {
+const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl }) => {
   const visualObjRef = useRef<any>(null);
   const paperRef = useRef<HTMLDivElement | null>(null);
   const cursorControlRef = useRef<CursorControl | null>(null);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const visualOptions: AbcVisualParams = {
     tablature: [
       {
         instrument: "guitar",
-        capo: capo,
-        highestNote: highestNote,
       },
     ],
-    staffwidth: 740, 
+    staffwidth: 1000,
   };
 
   useEffect(() => {
@@ -38,13 +35,35 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
         cursorControlRef.current = new CursorControl("#paper", paperRef);
       })
       .catch((error) => console.error("Error loading ABC file:", error));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [AbcUrl]);
 
   useEffect(() => {
     if (startPlayback && visualObjRef.current && cursorControlRef.current) {
       startCursor();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startPlayback, visualObjRef, cursorControlRef]);
+
+  useEffect(() => {
+    if (startPlayback) {
+      const interval = setInterval(() => {
+        setCurrentTime((prevTime) => {
+          const newTime = prevTime + 100;
+
+          return newTime;
+        });
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [startPlayback]);
+
+  useEffect(() => {
+    if (cursorControlRef.current) {
+      cursorControlRef.current.updateScrollPosition();
+    }
+  }, [currentTime]);
 
   const startCursor = () => {
     const cursorControl = cursorControlRef.current;
@@ -68,7 +87,7 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl, label = "G
   };
 
   return (
-    <Card className="flex max-h-[calc(75vh-40px)] overflow-y-auto overflow-x-auto h-[75vh] relative top-0 shadow-none scrollbar-none w-full">
+    <Card className="flex max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-auto h-[86vh] relative top-0 shadow-none scrollbar-none w-full">
       <div className='wrapper' id="paper" ref={paperRef}></div>
     </Card>
   );
@@ -78,11 +97,13 @@ class CursorControl {
   cursor: SVGLineElement | null;
   rootSelector: string;
   containerRef: React.RefObject<HTMLDivElement>;
+  lastScrollPosition: number;
 
   constructor(rootSelector: string, containerRef: React.RefObject<HTMLDivElement>) {
     this.cursor = null;
     this.rootSelector = rootSelector;
     this.containerRef = containerRef;
+    this.lastScrollPosition = 0;
   }
 
   onStart = () => {
@@ -117,20 +138,6 @@ class CursorControl {
       this.cursor.setAttribute("y1", ev.top.toString());
       this.cursor.setAttribute("y2", (ev.top + ev.height).toString());
     }
-
-    this.updateScroll(ev.top);
-  };
-
-  updateScroll = (cursorY: number) => {
-    if (this.containerRef.current) {
-      const containerHeight = this.containerRef.current.clientHeight;
-      const scrollPosition = cursorY - containerHeight / 2;
-      console.log("Scroll Position:", scrollPosition);
-      this.containerRef.current.scrollTo({
-        top: scrollPosition,
-        behavior: 'smooth',
-      });
-    }
   };
 
   onFinished = () => {
@@ -142,6 +149,28 @@ class CursorControl {
       this.cursor.setAttribute("y2", "0");
     }
   };
-}
 
+  updateScrollPosition = () => {
+    if (!this.cursor || !this.containerRef.current) return;
+  
+    const cursorRect = this.cursor.getBoundingClientRect();
+    const containerRect = this.containerRef.current.getBoundingClientRect();
+    
+    // Calculando a posição do scroll
+    let scrollPosition = cursorRect.top - containerRect.top + this.containerRef.current.scrollTop;
+  
+    // Limitando o scroll para não ultrapassar o conteúdo
+    const maxScroll = this.containerRef.current.scrollHeight - containerRect.height;
+    scrollPosition = Math.min(Math.max(scrollPosition, 0), maxScroll);
+  
+    // Suavizando a rolagem para evitar tremulação
+    if (Math.abs(scrollPosition - this.lastScrollPosition) > 30) {
+      this.containerRef.current.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth',
+      });
+      this.lastScrollPosition = scrollPosition;
+    }
+  };
+}
 export default Tablature;
