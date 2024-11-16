@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useState, useEffect } from "react";
 import MicRecorder from "mic-recorder";
@@ -37,11 +37,11 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   musicId,
 }) => {
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
-  const [audioURL, setAudioURL] = useState<string | null>(null);
-
+ 
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const newRecorder = new MicRecorder({ bitRate: 128, encoder: "wav", sampleRate: 48000 });
+      const newRecorder = new MicRecorder({ bitRate: 128, encoder: "wav", sampleRate: 44100 });
       setRecorder(newRecorder);
     }
   }, []);
@@ -50,10 +50,11 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     if (startRecording && recorder) {
       startRecordingProcess();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startRecording]);
 
   const startRecordingProcess = async () => {
+   
     if (recorder) {
       await recorder.start();
       setIsRecording(true);
@@ -73,7 +74,6 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
           const file = new File(buffer, `audio.wav`, { type: blob.type });
           setIsRecording(false);
           if (player) player.stopVideo();
-          setAudioURL(URL.createObjectURL(blob)); // Atualiza o URL do áudio gravado
           await uploadAudioFile(file);
           setProgress(0); 
         }
@@ -111,9 +111,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     }
   };
 
-  return (
-    <></>
-  );
+  return null;
 };
 
 export default AudioRecorder;
