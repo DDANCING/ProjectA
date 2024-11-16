@@ -212,6 +212,8 @@ export const reduceHearts = async (challengeId: number) => {
    data: {
      hearts: Math.max(currentUserProgress.hearts - 1, 0),
      points: currentUserProgress.points + 10,
+     userName: user.user.name || "name",
+     userImageSrc: user.user.image || "TODO.svg"
    },
  });
 
@@ -269,6 +271,8 @@ export const reduceMusicHearts = async (musicId: number, points: number) => {
     data: {
       hearts: Math.max(currentUserProgress.hearts - heartsToDeduct, 0),
       points: currentUserProgress.points + points,
+      userName: user.user.name || "name",
+     userImageSrc: user.user.image || "TODO.svg"
     },
   });
 
@@ -309,6 +313,8 @@ export const refillHearts = async () => {
      data: {
        hearts: 5,
        points: currentUserProgress.points - POINTS_TO_REFILL,
+       userName: user.user.name || "name",
+       userImageSrc: user.user.image || "TODO.svg"
      },
    });
  revalidatePath("/activities");
@@ -346,6 +352,8 @@ export const refillMusicHearts = async () => {
      data: {
        hearts: 5,
        points: currentMusicUserProgress.points - POINTS_TO_REFILL,
+       userName: user.user.name || "name",
+       userImageSrc: user.user.image || "TODO.svg"
      },
    });
  revalidatePath("/shop");

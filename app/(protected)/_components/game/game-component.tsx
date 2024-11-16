@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import ProgressBar from "./audio/progressbar";
-import Footer from "./audio/footer";
 import { Card } from "@/components/ui/card";
 import SimilarityResultDialog from "./audio/audio-compare-result";
 import SideBar from "./sidebar";
 import Tablature from "./tablature/tabs";
 import AudioRecorder from "./audio/audio-recorder";
 import { Exit } from "./exit";
+import AudioFooter from "./audio/footer";
 
 interface CompareAudioProps {
   userId: string;
@@ -96,7 +96,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
             </div>
           </div>
           <div className="sticky bottom-0 z-10 w-full">
-            <Footer
+            <AudioFooter
               points={points || 0}
               onStart={() => setIsRecording(true)}
               isRecording={isRecording}

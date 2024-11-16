@@ -102,7 +102,7 @@ const ActivitiesLeaderboardList = async () => {
             }}
           />
           <div className="absolute top-4">
-            <Avatar className="border bg-primary w-[140px] h-[140px]">
+            <Avatar className="border w-[140px] h-[140px]">
               {topThreeUsers[0]?.userImageSrc? (
                 <AvatarImage src={topThreeUsers[0]?.userImageSrc || ""} />
               ): (
