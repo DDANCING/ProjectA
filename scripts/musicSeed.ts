@@ -8,12 +8,12 @@ async function main() {
     data: {
       title: 'The Day That Never Comes',
       artist: 'Metallica',
-      youtubeLink: 'K6AJuRK2NE4',
-      tabs: 'Tab content for Metallica',
+      youtubeLink: 'YinYm4mbpvQ',
+      tabs: 'https://utfs.io/f/k0NLSQp2ETZAefhtQ8HWgJ9jd7XZ5syDvlnzH426hfut1QIk',
       coverAlbum: 'https://i.imgur.com/UntSSrc.jpeg',
       tuning: 'E A D G B E',
-      timeMinutes: 8,
-      timeSeconds: 25,
+      timeMinutes: 7,
+      timeSeconds: 57,
     },
   });
 
@@ -29,43 +29,40 @@ async function main() {
       timeSeconds: 24,
     },
   });
-
-  // Verifica se o ProgressGame já existe para o userId
-  let progressGame = await prisma.progressGame.findUnique({
-    where: { userId: 'cm2f0he440002tysrieaibrd7' },
-  });
-
-  // Se não existir, cria um novo
-  if (!progressGame) {
-    progressGame = await prisma.progressGame.create({
-      data: {
-        userId: 'cm2f0he440002tysrieaibrd7',
-        hearts: 5,
-        points: 200,
-        totalPercentage: 50,
-        totalLastPercentageWin: 30,
-      },
-    });
-  }
-
-  // Criando dados para a tabela ProgressGameMusic vinculados ao ProgressGame
-  await prisma.progressGameMusic.create({
+  const music3 = await prisma.music.create({
     data: {
-      userId: progressGame.userId,
-      musicId: music1.id,
-      percentage: 75,
-      lastPercentageWin: 50,
-      progressGameId: progressGame.id,
+      title: 'Voice of the Soul',
+      artist: 'Death',
+      youtubeLink: 's2EJ1AqPIPg',
+      tabs: 'https://utfs.io/f/k0NLSQp2ETZA9HuKHCTFcPuklzNaIR5qTZCBdx23nh7OsKgJ',
+      coverAlbum: 'https://i.imgur.com/4v3MM9h.jpeg',
+      tuning: 'D G C F A D',
+      timeMinutes: 3,
+      timeSeconds: 43,
     },
   });
-
-  await prisma.progressGameMusic.create({
+  const music4 = await prisma.music.create({
     data: {
-      userId: progressGame.userId,
-      musicId: music2.id,
-      percentage: 60,
-      lastPercentageWin: 40,
-      progressGameId: progressGame.id,
+      title: 'Letting You Go',
+      artist: 'Bullet For My Valentine',
+      youtubeLink: 'Len0qLhmhL0',
+      tabs: 'https://utfs.io/f/k0NLSQp2ETZA9HuKHCTFcPuklzNaIR5qTZCBdx23nh7OsKgJ',
+      coverAlbum: 'https://i.imgur.com/1HbicDb.jpeg',
+      tuning: 'E A D G B E',
+      timeMinutes: 4,
+      timeSeconds: 28,
+    },
+  });
+  const music5 = await prisma.music.create({
+    data: {
+      title: 'Prayer Of The Refugee',
+      artist: 'Rise Against',
+      youtubeLink: '9-SQGOYOjxs',
+      tabs: 'https://utfs.io/f/k0NLSQp2ETZA9HuKHCTFcPuklzNaIR5qTZCBdx23nh7OsKgJ',
+      coverAlbum: 'https://i.imgur.com/yUYc1Br.jpeg',
+      tuning: 'E A D G B E',
+      timeMinutes: 3,
+      timeSeconds: 25,
     },
   });
 

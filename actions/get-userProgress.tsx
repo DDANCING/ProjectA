@@ -10,6 +10,7 @@ import { auth } from "@/auth";
 import { getUserSubscription } from "./get-user-subscription";
 import { POINTS_TO_REFILL } from "@/constants";
 import { getProgressMusic } from "./game-progress";
+import { randomUUID } from "crypto";
 
 
 export const getGameUserProgress = cache(async () => {
@@ -131,8 +132,8 @@ export const upsertUserProgress = async (activitieId: number) => {
       data: {
         activeExerciseId: activitieId,
         activeExercise: { connect: { id: activitieId } },
-        userName: user?.name ?? '',
-        userImageSrc: user.image || "TODO:svg",
+        userName: user?.name ?? `user${randomUUID}`,
+        userImageSrc: user.image || "TODO.svg",
         
       },
     });
@@ -145,8 +146,8 @@ export const upsertUserProgress = async (activitieId: number) => {
       userId: user.id,
       activeExerciseId: activitieId,
       activeExercise: { connect: { id: activitieId } },
-      userName: user?.name ?? '',
-      userImageSrc: user.image || "TODO:svg",
+      userName: user?.name ?? `user${randomUUID}`,
+      userImageSrc: user.image || "TODO.svg",
     },
   });
   revalidatePath("/activities");
@@ -212,7 +213,7 @@ export const reduceHearts = async (challengeId: number) => {
    data: {
      hearts: Math.max(currentUserProgress.hearts - 1, 0),
      points: currentUserProgress.points + 10,
-     userName: user.user.name || "name",
+     userName: user.user.name || `user${randomUUID}`,
      userImageSrc: user.user.image || "TODO.svg"
    },
  });
@@ -271,7 +272,7 @@ export const reduceMusicHearts = async (musicId: number, points: number) => {
     data: {
       hearts: Math.max(currentUserProgress.hearts - heartsToDeduct, 0),
       points: currentUserProgress.points + points,
-      userName: user.user.name || "name",
+      userName: user.user.name || `user${randomUUID}`,
      userImageSrc: user.user.image || "TODO.svg"
     },
   });
@@ -313,7 +314,7 @@ export const refillHearts = async () => {
      data: {
        hearts: 5,
        points: currentUserProgress.points - POINTS_TO_REFILL,
-       userName: user.user.name || "name",
+       userName: user.user.name || `user${randomUUID}`,
        userImageSrc: user.user.image || "TODO.svg"
      },
    });
@@ -352,7 +353,7 @@ export const refillMusicHearts = async () => {
      data: {
        hearts: 5,
        points: currentMusicUserProgress.points - POINTS_TO_REFILL,
-       userName: user.user.name || "name",
+       userName: user.user.name || `user${randomUUID}`,
        userImageSrc: user.user.image || "TODO.svg"
      },
    });

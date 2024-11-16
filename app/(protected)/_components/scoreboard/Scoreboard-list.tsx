@@ -1,5 +1,4 @@
 
-
 import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -70,7 +69,7 @@ const ScoreboardList = async () => {
         }}
       />
       <div className="absolute top-3">
-        <Avatar className="border w-[100px] h-[100px]">
+        <Avatar className="border-2 border-primary bg-primary w-[100px] h-[100px]">
           <AvatarImage src={topThreeUsers[1]?.userImageSrc || ""} />
         </Avatar>
       </div>
@@ -112,7 +111,7 @@ const ScoreboardList = async () => {
             }}
           />
           <div className="absolute top-4">
-            <Avatar className="border  w-[140px] h-[140px]">
+            <Avatar className="border-2 border-primary bg-primary  w-[140px] h-[140px]">
               {topThreeUsers[0]?.userImageSrc? (
                 <AvatarImage src={topThreeUsers[0]?.userImageSrc || ""} />
               ): (
@@ -148,7 +147,7 @@ const ScoreboardList = async () => {
             }}
           />
           <div className="absolute top-3">
-            <Avatar className="border  w-[90px] h-[90px]">
+            <Avatar className="border-2 border-primary bg-primary  w-[90px] h-[90px]">
               <AvatarImage src={topThreeUsers[2]?.userImageSrc || ""} />
             </Avatar>
           </div>

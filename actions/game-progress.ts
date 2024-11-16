@@ -3,8 +3,11 @@
 import { db } from "@/lib/db";
 import { checkAndUpdateFrequency } from "./set-frequency";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
+import { randomUUID } from "crypto";
 
 export const postProgressMusic = async (userId: string, musicId: number, percentage: number): Promise<number> => {
+ 
   try {
     // Garantir que musicId é um número
     musicId = Number(musicId);
@@ -44,10 +47,9 @@ export const postProgressMusic = async (userId: string, musicId: number, percent
       where: { userId_musicId: { userId, musicId } },
       select: { percentage: true },
     });
-
     if (!existingMusicProgress || existingMusicProgress.percentage < percentage) {
       const lastPercentageWin = existingMusicProgress?.percentage || 0;
-
+      
       // Atualizar o progresso total do jogo
       await updateGameProgress(userId, lastPercentageWin);
 
@@ -80,9 +82,12 @@ export const postProgressMusic = async (userId: string, musicId: number, percent
 
 // Função para criar o ProgressGame se não existir
 const createProgressGame = async (userId: string, progressPercentage: number) => {
+   const user = await auth();
   const newProgressGame = await db.progressGame.create({
     data: {
       userId,
+      userName: user?.user.name || `user${randomUUID}`,
+      userImageSrc: user?.user.image || "TODO.svg",
       hearts: 5,
       points: 10,
       totalPercentage: progressPercentage,
@@ -96,6 +101,7 @@ const createProgressGame = async (userId: string, progressPercentage: number) =>
 
 // Função para atualizar o progresso total do jogo
 const updateGameProgress = async (userId: string, lastPercentageWin: number) => {
+  const user = await auth();
   const totalMusicProgress = await db.progressGameMusic.findMany({
     where: { userId, percentage: { gt: 0 } },
     select: { percentage: true },
@@ -108,12 +114,16 @@ const updateGameProgress = async (userId: string, lastPercentageWin: number) => 
   await db.progressGame.upsert({
     where: { userId },
     update: {
+      userName: user?.user.name || `user${randomUUID}`,
+      userImageSrc: user?.user.image || "TODO.svg",
       points: { increment: 50 },
       totalPercentage: totalProgressPercentage,
       totalLastPercentageWin: lastPercentageWin,
       updatedAt: new Date(),
     },
     create: {
+      userName: user?.user.name || `user${randomUUID}`,
+      userImageSrc: user?.user.image || "TODO.svg",
       userId,
       hearts: 5,
       points: 50,

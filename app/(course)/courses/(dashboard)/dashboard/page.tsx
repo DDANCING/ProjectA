@@ -21,8 +21,6 @@ const dashboardPage = async () => {
 
   const UserPercentageData = getUserPercentageCourse( userId );
 
-
-
   const [
     UserPercentage,
   ] = await Promise.all([
@@ -120,7 +118,7 @@ const dashboardPage = async () => {
     
      </div>
      <div>
-     <Card className="shadow-none border-2 border-muted-foreground ">
+     <Card className="h-[40vh] shadow-none border-2 border-muted-foreground ">
      <Rank
      link="/courses/leaderboard"
      points={points} />

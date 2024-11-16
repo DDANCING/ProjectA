@@ -1,18 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/format";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 
 interface CourseEnrollButtonProps {
-  price: number;
   courseId: string;
 }
 
 export const CourseEnrollButton = ({
-  price,
   courseId
 }: CourseEnrollButtonProps ) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,9 +32,9 @@ export const CourseEnrollButton = ({
     <Button 
     onClick={onClick}
     disabled={isLoading}
-    className="w-full md:w-auto"
+    className="w-36 font-bold text-xl text-white hover:animate-bounce"
     >
-      Enroll for {formatPrice(price)}
+      Enroll
     </Button>
   )
 }
