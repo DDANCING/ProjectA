@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { Banner } from "@/components/banner";
 import { Preview } from "@/components/preview";
 import { Separator } from "@/components/ui/separator";
+import { formatPrice } from "@/lib/format";
 import { File } from "lucide-react";
 import { redirect } from "next/navigation";
 
@@ -84,10 +85,12 @@ const ChapterIdPage = async ({ params }: { params: { courseId: string; chapterId
             />
 
           ) : ( 
+          <div className="flex flex-col text-center gap-4">
+          <h1 className="font-bold text-xl"> {formatPrice(course.price!)} </h1>
           <CourseEnrollButton 
           courseId={courseId}
-          price={course.price!}
           />
+          </div>
           )}
         </div>
         <Separator className="w-full"/>

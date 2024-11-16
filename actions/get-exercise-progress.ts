@@ -32,7 +32,6 @@ export const getExerciseProgress = cache(async () => {
         include: {
           unit: true,
           challenges: {
-            // Remover o filtro para garantir que todos os desafios sejam incluídos
             include: {  
               challengeProgress: true,
             },

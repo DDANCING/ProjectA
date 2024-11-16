@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { checkAndUpdateFrequency } from "./set-frequency";
+import { randomUUID } from "crypto";
 
 export const postProgressCourse = async (
   userId: string,
@@ -61,6 +62,7 @@ export const postProgressCourse = async (
       update: {
         lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem
         points: +10,
+        userImageSrc: user?.user.image || "TODO.svg",
         percentage: progressPercentage,
         progressStatus: validCompletedChapters === publishedChaptersIds.length
           ? "completed"
@@ -71,8 +73,8 @@ export const postProgressCourse = async (
         lastPercentageWin: lastPercentageWin, // Salvando a última porcentagem ao criar
         userId: userId!,
         courseId: courseId,
-        userName: user?.user.name || "Name", // Você pode substituir por um nome real
-        userImageSrc: user?.user.image || "TODO: svg", // Você pode substituir por um URL real
+        userName: user?.user.name || `user${randomUUID}`, // Você pode substituir por um nome real
+        userImageSrc: user?.user.image || "TODO.sgv", // Você pode substituir por um URL real
         percentage: progressPercentage,
         points: + 10,
         progressStatus: validCompletedChapters === publishedChaptersIds.length
