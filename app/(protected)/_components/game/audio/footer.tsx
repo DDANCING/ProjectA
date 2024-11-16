@@ -15,7 +15,7 @@ interface FooterProps {
   hearts: number;
 }
 
-const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, points, hearts }) => {
+const AudioFooter: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, points, hearts }) => {
   const isMobile = useMedia("(max-width: 1024px)");
   const { open: openHeartsModal } = useHeartsModal(); // Instancia o modal de corações
   const [correctAudio, , correctControls] = useAudio({ src: "/correct.wav" });
@@ -148,4 +148,4 @@ const Footer: React.FC<FooterProps> = ({ isRecording, onStart, status, musicId, 
   );
 };
 
-export default Footer;
+export default AudioFooter;

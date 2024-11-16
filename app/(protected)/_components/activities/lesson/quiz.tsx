@@ -10,12 +10,12 @@ import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/get-userProgress";
 import { useAudio, useMount } from "react-use";
-import AudioChallenge from "./audio-challenge"; // Adicione a importação do AudioChallenge
 import {  Flag } from "lucide-react";
 import { ResultCard } from "./result-card";
 import { useRouter } from "next/navigation";
 import { useHeartsModal } from "@/data/store/use-hearts-modal";
 import { usePracticeModal } from "@/data/store/use-practice-modal";
+import CardQuiz from "./audio-quiz";
 
 type Props = {
   initialPercentage: number;
@@ -95,13 +95,10 @@ export const Quiz = ({
   };
 
   const onContinue = () => {
-    if (challenge.type === "AUDIO") {
-     
-    } else {
+    
       handleChallengeCompletion();
-    }
-  };
 
+  };
   const handleChallengeCompletion = () => {
     if (!selectedOption) return;
 
@@ -157,18 +154,6 @@ export const Quiz = ({
     }
   };
 
-  const onAnswer = (isCorrect: boolean) => {
-    if (isCorrect) {
-      correctControls.play();
-      setStatus("correct");
-      onNext();
-    } else {
-      incorrectControls.play();
-      setStatus("wrong");
-      setHearts((prev) => Math.max(prev - 1, 0));
-    }
-  };
-
   const title = challenge && challenge.type === "ASSIST"
   ? "Select the correct meaning"
   : challenge && challenge.question;
@@ -209,58 +194,100 @@ export const Quiz = ({
   );
 }
 
-  return (
-    <>
-      {incorrectAudio}
-      {correctAudio}
-      <Card className="h-full flex flex-col">
-        <Header
-          hearts={hearts}
-          percentage={percentage}
-          hasActiveSubscription={!!userSubscription?.isActive}
-        />
-
-        <div className="h-full flex items-center justify-center">
-          <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
-            <h1 className="text-lg lg:text-2xl text-center lg:text-start font-bold text-muted-foreground">
-              {title}
-            </h1>
-
-            {challenge.type === "AUDIO" && (
-             <div>
-              <p> {challenge.correctFrequency} </p>
-              <AudioChallenge
-                question={challenge.question}
-                challenge={{
-                  correctFrequency: challenge.correctFrequency!,
-                  correctNote: challenge.correctFrequency ? `${challenge.correctFrequency}` : "",
-                }}
-                onAnswer={onAnswer}
-              />
-              </div>
-            )}
-
-            {challenge.type === "ASSIST" && (
-              <QuestionBubble question={challenge.question} />
-            )}
-
-            <Challenge
+return (
+  <>
+    {incorrectAudio}
+    {correctAudio}
+    <Card className="h-full flex flex-col">
+      <Header
+        hearts={hearts}
+        percentage={percentage}
+        hasActiveSubscription={!!userSubscription?.isActive}
+      />
+        {challenge.type === "AUDIO" && (
+            <CardQuiz
+              nextLessonId={3}
               options={options}
-              onSelect={onSelect}
-              status="none"
-              selectedOption={selectedOption}
-              disabled={pending}
-              type={challenge.type}
+              onContinue={onContinue}
+              targetSongId={challenge.correctFrequency || 1}
+              recordingDuration={10} // duração em segundos
+              status={status}
+              onSelect={() => setSelectedOption(challenge.id)}
+              onCorrect={() => {
+                startTransition(() => {
+                  upsertChallengeProgress(challenge.id)
+                    .then((response) => {
+                      if (response?.error === "hearts" || hearts <= 0) {
+                        openHeartsModal();
+                        return;
+                      }
+                      correctControls.play();
+                      setStatus("correct");
+                      setPercentage((prev) => prev + 100 / challenges.length);
+                      if (initialPercentage === 100) {
+                        setHearts((prev) => Math.min(prev + 1, 5));
+                      }
+                    })
+                    .catch(() =>
+                      toast.error("something went wrong! Please try again.")
+                    );
+                });
+              }}
+              onWrong={() => {
+                startTransition(() => {
+                  reduceHearts(challenge.id)
+                    .then((response) => {
+                      if (response?.error === "hearts") {
+                        openHeartsModal();
+                        return;
+                      }
+                      incorrectControls.play();
+                      setStatus("wrong");
+                      if (!response?.error) {
+                        setHearts((prev) => Math.max(prev - 1, 0));
+                      }
+                    })
+                    .catch(() =>
+                      toast.error("Something went wrong. Please try again.")
+                    );
+                });
+              }}
             />
-          </div>
-        </div>
+          )}
+    {challenge.type !== "AUDIO" && (      
+      <>
+      <div className="h-full flex items-center justify-center">
+        <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
+          <h1 className="text-lg lg:text-2xl text-center lg:text-start font-bold text-muted-foreground">
+            {title}
+          </h1>
 
+         
+
+          {challenge.type === "ASSIST" && (
+            <QuestionBubble question={challenge.question} />
+          )}
+
+          <Challenge
+            options={options}
+            onSelect={onSelect}
+            status="none"
+            selectedOption={selectedOption}
+            disabled={pending}
+            type={challenge.type}
+          />
+        </div>
+      </div>
+
+      
         <Footer
           disabled={pending || !selectedOption}
           status={status}
           onCheck={onContinue}
         />
-      </Card>
-    </>
-  );
+        </>
+      )}
+    </Card>
+  </>
+);
 };
