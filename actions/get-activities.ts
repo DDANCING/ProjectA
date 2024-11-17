@@ -35,3 +35,18 @@ export const getActivitiesById = cache(async (exerciseModuleId: number) => {
   return data;
 });
      
+export const getMusicActivitiesById = cache(async (gameId: number | string) => {
+  const id = typeof gameId === "string" ? parseInt(gameId, 10) : gameId;
+
+  if (isNaN(id)) {
+    throw new Error(`Invalid gameId: ${gameId}`);
+  }
+
+  const data = await db.exerciseModule.findMany({
+    where: {
+      musicId: id,
+    },
+  });
+
+  return data;
+});

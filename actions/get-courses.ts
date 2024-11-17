@@ -76,3 +76,66 @@ export const getCourses = async ({
     return [];
    }
 }
+
+export const getMusicCourses = async ({
+  userId,
+  musicId,
+}: {
+  userId: string;
+  musicId: number;
+}): Promise<CourseWithProgressWithCategory[]> => {
+  try {
+    // Buscar cursos vinculados ao musicId
+    const courses = await db.course.findMany({
+      where: {
+        isPublished: true,
+        musicId, // Filtrar pelo musicId
+      },
+      include: {
+        category: true,
+        chapters: {
+          where: {
+            isPublished: true,
+          },
+          select: {
+            id: true,
+          },
+        },
+        purchases: {
+          where: {
+            userId, // Verificar compras do usuário
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    // Calcular progresso para cada curso
+    const courseWithProgress: CourseWithProgressWithCategory[] = await Promise.all(
+      courses.map(async (course) => {
+        if (course.purchases.length === 0) {
+          // Caso o usuário não tenha comprado o curso
+          return {
+            ...course,
+            progress: null,
+          };
+        }
+
+        // Obter progresso do curso
+        const progressPercentage = await getProgess(userId, course.id);
+
+        return {
+          ...course,
+          progress: progressPercentage,
+        };
+      })
+    );
+
+    return courseWithProgress;
+  } catch (error) {
+    console.error("[GET_MUSIC_COURSES]", error);
+    return [];
+  }
+};
