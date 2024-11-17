@@ -43,7 +43,7 @@ const dashboardPage = async () => {
    
      
     <Card className="shadow-none p-4 overflow-y-auto h-[89vh] flex-1 relative top-0 pb-10 scrollbar-none">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <div>
         <Card className="shadow-none border-2 border-muted-foreground ">
        <h1 className="text-2xl font-bold p-2 px-6"> Keep going </h1>
@@ -61,7 +61,7 @@ const dashboardPage = async () => {
       <h1 className="text-2xl font-bold p-2 px-6"> Raise your score </h1>
       <h2 className="text-sm text-muted-foreground px-6"> take more courses and raise your score </h2>
       
-        <div>
+        <div className="hidden lg:block">
           <div className="bg-primary/80 rounded-xl w-[230px] h-[93px] m-6 p-3 font-bold">
           <h1>Courses completed</h1>
           <h2 className="text-3xl px-4">{completedCourses.length}</h2>
@@ -117,7 +117,7 @@ const dashboardPage = async () => {
     
      </div>
      <div>
-     <Card className="h-[40vh] shadow-none border-2 border-muted-foreground ">
+     <Card className="h-[41vh] shadow-none border-2 border-muted-foreground ">
      <Rank
      link="/courses/leaderboard"
      points={points} />
