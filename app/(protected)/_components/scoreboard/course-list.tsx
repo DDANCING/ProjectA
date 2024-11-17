@@ -62,7 +62,7 @@ const CourseLeaderboardList = async () => {
         }}
       />
       <div className="absolute top-3">
-        <Avatar className="border bg-primary w-[100px] h-[100px]">
+        <Avatar className="border-2 border-primary bg-primary w-[100px] h-[100px]">
           <AvatarImage src={topThreeUsers[1]?.userImageSrc || ""} />
         </Avatar>
       </div>
@@ -81,7 +81,7 @@ const CourseLeaderboardList = async () => {
     <div className="relative flex flex-col items-center space-y-2">
     <div className="w-[130px] h-[130px] bg-gray-200 rounded-full"></div> {/* Placeholder CircularProgress */}
     <div className="absolute top-2">
-    <Avatar className="border bg-gray-200 w-[90px] h-[90px] flex items-center justify-center">
+    <Avatar className="border-2 border-primary bg-primary w-[90px] h-[90px] flex items-center justify-center">
       <User className="w-10 h-10 text-gray-400" /> {/* Ícone de avatar Lucide */}
     </Avatar>
     </div>
@@ -104,7 +104,7 @@ const CourseLeaderboardList = async () => {
             }}
           />
           <div className="absolute top-4">
-            <Avatar className="border bg-primary w-[140px] h-[140px]">
+            <Avatar className="border-2 border-primary bg-primary w-[140px] h-[140px]">
               {topThreeUsers[0]?.userImageSrc? (
                 <AvatarImage src={topThreeUsers[0]?.userImageSrc || ""} />
               ): (
@@ -140,7 +140,7 @@ const CourseLeaderboardList = async () => {
             }}
           />
           <div className="absolute top-3">
-            <Avatar className="border bg-primary w-[90px] h-[90px]">
+            <Avatar className="border-2 border-primary bg-primary w-[90px] h-[90px]">
               <AvatarImage src={topThreeUsers[2]?.userImageSrc || ""} />
             </Avatar>
           </div>

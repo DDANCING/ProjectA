@@ -5,7 +5,7 @@ import abcjs, { AbcVisualParams } from "abcjs";
 import { Card } from '@/components/ui/card';
 
 interface TablatureProps {
-  startPlayback: boolean;
+  startPlayback?: boolean;
   AbcUrl: string;
 
 }
@@ -87,7 +87,7 @@ const Tablature: React.FC<TablatureProps> = ({ startPlayback, AbcUrl }) => {
   };
 
   return (
-    <Card className="flex max-h-[calc(100vh-40px)] overflow-y-auto overflow-x-auto h-[86vh] relative top-0 shadow-none scrollbar-none w-full">
+    <Card className="flex max-h-[calc(90vh-40px)] overflow-y-auto overflow-x-auto h-[81vh] relative top-0 shadow-none scrollbar-none w-full">
       <div className='wrapper' id="paper" ref={paperRef}></div>
     </Card>
   );

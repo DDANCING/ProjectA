@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const Promo = () => {
   return (
-    <div className="m-2 border-2 border-muted rounded-xl p-4 space-y-4">
+    <div className="m-2 border-2 border-muted rounded-xl p-4 space-y-4 flex-1">
        <div className="space-y-2">
          <div className="flex items-center gap-x-2">
            <Image
