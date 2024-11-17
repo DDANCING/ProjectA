@@ -12,7 +12,7 @@ import AudioFooter from "./audio/footer";
 
 interface CompareAudioProps {
   userId: string;
-  musicId: number;
+  gameId: number;
   targetSongId: number;
   recordingDuration: number;
   musicTitle: string;
@@ -46,7 +46,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
   musicTablature,
   musicProgress,
   userId,
-  musicId,
+  gameId,
   musicRecomend,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -80,6 +80,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
         <Card className="relative w-full h-full max-h-[calc(93vh-40px)] overflow-y-auto scrollbar-none shadow-none border-2 border-muted-foreground">
           <div className="sticky top-0 z-10 w-full">
             <ProgressBar
+              musicId={gameId}
               hasActiveSubscription={!!userSubscription?.isActive}
               hearts={hearts}
               progress={progress}
@@ -102,7 +103,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
               isRecording={isRecording}
               hearts={hearts}
               status={status}
-              musicId={musicId}
+              musicId={gameId}
             />
           </div>
         </Card>
@@ -125,7 +126,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
       />
       <AudioRecorder
         userId={userId}
-        musicId={musicId}
+        musicId={gameId}
         recordingDuration={recordingDuration}
         targetSongId={targetSongId}
         startRecording={isRecording}

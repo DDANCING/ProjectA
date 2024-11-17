@@ -8,7 +8,6 @@ import { getUserPercentageCourse } from "@/actions/course-progress";
 import { cn } from "@/lib/utils";
 import { getCourses } from "@/actions/get-courses";
 import { Rank } from "@/app/(protected)/_components/activities/rank";
-import { UserProgress } from "@/app/(protected)/_components/activities/user-progress";
 
 const dashboardPage = async () => {
   const user = await auth();

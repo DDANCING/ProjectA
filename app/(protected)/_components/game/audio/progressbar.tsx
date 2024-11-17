@@ -1,16 +1,25 @@
 import { Progress } from "@/components/ui/progress";
-import { InfinityIcon, X } from "lucide-react";
+import { BookOpenText, InfinityIcon, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+
 
 interface ProgressBarProps {
   progress: number;
   hearts: number;
   hasActiveSubscription: boolean;
   setIsOpen: (open: boolean) => void;
+  musicId: number; // Tornado opcional caso não seja garantido
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ progress, hearts, hasActiveSubscription, setIsOpen }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({
+  progress,
+  hearts,
+  hasActiveSubscription,
+  setIsOpen,
+  musicId,
+}) => {
   const handleClick = () => {
     setIsOpen(true);
   };
@@ -36,7 +45,15 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress, hearts, hasActiveSu
           ) : (
             hearts
           )}
+         
         </div>
+        {musicId ? (
+            <Link href={`/game/${musicId}/learn`}>
+              <BookOpenText />
+            </Link>
+          ) : (
+            <BookOpenText className="opacity-10" />
+          )}
       </header>
     </div>
   );

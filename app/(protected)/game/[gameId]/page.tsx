@@ -15,11 +15,15 @@ type Props = {
 const GameIdPage = async ({ params }: Props) => {
   const user = await auth();
   
-  
-  const musicData = await getMusic(params.gameId);
+  if (!params?.gameId) {
+    console.error("gameId is undefined");
+    return redirect("/game/dashboard");
+  }
+  const gameId = params.gameId;
+  const musicData = await getMusic(gameId);
   const userSubscriptionData = getUserSubscription();
   const userProgressData =  getGameUserProgress();
-  const musicRecomendData = getSimilarMusics(params.gameId);
+  const musicRecomendData = getSimilarMusics(gameId);
 
   
   const [
@@ -39,16 +43,14 @@ const GameIdPage = async ({ params }: Props) => {
   }
   if(!music || !userProgress) {
     redirect('/game/dashboard');
-    
    }
-  
   const musicDuration = (music?.timeMinutes * 60) + music.timeSeconds
   return (
  
     <GameComponent
     musicRecomend={[...MusicRecomend]}
     userId={user.user.id}
-    musicId={params.gameId}
+    gameId={gameId}
     musicProgress={music.userProgress.percentage}
     hearts={userProgress?.hearts}
     userSubscription={userSubscription}
