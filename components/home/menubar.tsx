@@ -45,7 +45,7 @@ export function NavigationMenuHome() {
               <ListItem className="flex flex-col-reverse" href="/activities" title="Activities">
                 Activities and exercises for your learning.
               </ListItem>
-              <ListItem className="flex flex-col-reverse" href="/courses" title="Courses">
+              <ListItem className="flex flex-col-reverse" href="/courses/dashboard" title="Courses">
                 Explore our music courses.
               </ListItem>
             </ul>

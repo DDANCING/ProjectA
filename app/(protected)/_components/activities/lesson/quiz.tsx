@@ -206,6 +206,9 @@ return (
       />
         {challenge.type === "AUDIO" && (
             <CardQuiz
+              title={title}
+              hearts={hearts}
+              openHeartsModal={openHeartsModal}
               nextLessonId={3}
               options={options}
               onContinue={onContinue}

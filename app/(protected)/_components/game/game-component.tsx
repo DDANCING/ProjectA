@@ -73,11 +73,11 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
       setPoints(similarityPercentage * 10);
     }
   }, [similarityPercentage]);
-
+  
   return (
     <>
       <div className="flex w-full h-full gap-4 justify-between">
-        <Card className="relative w-full h-full max-h-[calc(93vh-40px)] overflow-y-auto scrollbar-none shadow-none border-2 border-muted-foreground">
+        <Card className="relative w-full h-[88vh] max-h-[calc(96vh-40px)] overflow-y-auto scrollbar-none shadow-none border-2 border-muted-foreground">
           <div className="sticky top-0 z-10 w-full">
             <ProgressBar
               musicId={gameId}
@@ -108,6 +108,7 @@ export const GameComponent: React.FC<CompareAudioProps> = ({
           </div>
         </Card>
         <SideBar
+          userSubscription={userSubscription}
           musicRecomend={[...musicRecomend]}
           onPlayerPlay={onPlayerPlay}
           onPlayerReady={onPlayerReady}

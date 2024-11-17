@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import MicRecorder from "mic-recorder";
-import { toast } from "sonner";
-import { Footer } from "./footer";
 import Image from "next/image";
-import { Mic2Icon } from "lucide-react";
+import { Mic } from "lucide-react";
+import { toast } from "sonner";
 
 interface CardQuizProps {
+  title: string;
   options: {
     id: number;
     text: string;
@@ -21,6 +21,8 @@ interface CardQuizProps {
   onCorrect: () => void;
   onWrong: () => void;
   onContinue: (lessonId: number) => void;
+  hearts: number; // Número de corações
+  openHeartsModal: () => void; // Função para abrir o modal existente
 }
 
 const CardQuiz: React.FC<CardQuizProps> = ({
@@ -32,7 +34,10 @@ const CardQuiz: React.FC<CardQuizProps> = ({
   onCorrect,
   onWrong,
   onContinue,
-  options
+  hearts,
+  openHeartsModal,
+  options,
+  title
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [status, setStatus] = useState(initialStatus);
@@ -55,7 +60,7 @@ const CardQuiz: React.FC<CardQuizProps> = ({
       setIsRecording(false);
     }
   };
-  
+
   const uploadAudio = async (file: File) => {
     const formData = new FormData();
     formData.append("target_song_id", targetSongId.toString());
@@ -77,78 +82,76 @@ const CardQuiz: React.FC<CardQuizProps> = ({
       if (similarity >= 60) {
         setStatus("correct");
         onCorrect();
+        toast.success("Percentage: " + similarity);
       } else {
         setStatus("wrong");
         onWrong();
+        toast.success("Percentage: " + similarity);
       }
     } catch (error) {
-      console.error("Erro na comparação de áudio:", error);
       toast.error("Erro ao processar o áudio.");
     }
   };
 
   const handleAction = () => {
-    console.log("Botão clicado, status atual:", status);
-
-    if (isRecording) {
-      console.log("Gravação em andamento...");
-      return;
+    if (hearts === 0) {
+      openHeartsModal(); // Abre o modal de corações se não houver corações
+      return; // Não continua a execução
     }
-
+  
+    if (isRecording) {
+      return; // Se já estiver gravando, não faz mais nada
+    }
     if (status === "none") {
-      console.log("Iniciando processo de gravação...");
       onSelect();
       startRecordingProcess();
     } else if (status === "wrong") {
-      console.log("Reiniciando quiz...");
+  
       setStatus("none");
       onSelect();
     } else if (status === "correct") {
-      console.log("Avançando para a próxima lição...");
+     
       onContinue(nextLessonId);
     }
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center">
+    <div className="w-full h-full flex flex-col items-center justify-between">
+      <div></div>
       {options.map((option, i) => (
-      <>
-      <div>
-        {option.text}
-      </div>
-        <Image
-        src={option.imageSrc || ""}
-        alt="acorde"
-        width={80}
-        height={80}
-        />
-      <Card
-      
-        className={`cursor-pointer text-center w-20 h-20 flex items-center justify-center shadow-none ${
-          status === "correct" ? "bg-green-500" : status === "wrong" ? "bg-red-500" : "border"
-        }`}
-        onClick={handleAction} // Card compartilha a mesma lógica
-      >
-
-        {isRecording ? (
-          <p>Gravando...</p>
-        ) : status === "correct" ? (
-          <p>Correto!</p>
-        ) : status === "wrong" ? (
-          <p>Errado!</p>
-        ) : (
-          <Mic2Icon/>
-        )}
-      </Card>
-     
-      <Footer
-        onCheck={handleAction} 
-        status={status}
-        disabled={isRecording}
-        lessonsId={nextLessonId}
-      />
-      </>
-    ))}
+        <div key={option.id} className="text-center w-full h-full flex flex-col items-center justify-between m-10">
+          <div>
+            <h1 className="text-xl text-foreground font-bold">{title}</h1>
+          </div>
+          <div>
+            <h1 className="text-lg text-muted-foreground">{option.text}</h1>
+          <Image src={option.imageSrc || ""} alt="acorde" width={80} height={80} />
+          </div>
+          <div>
+          <Card
+            className={`cursor-pointer text-center w-20 h-20 flex items-center justify-center shadow-none ${
+              status === "correct"
+                ? "bg-green-500"
+                : status === "wrong"
+                ? "bg-red-500"
+                : "border"
+            }`}
+            onClick={handleAction} 
+          >
+            {isRecording ? (
+              <Mic className="animate-pulse" />
+            ) : status === "correct" ? (
+              <p>Next!</p>
+            ) : status === "wrong" ? (
+              <p>Retry</p>
+            ) : (
+              <Mic />
+            )}
+          </Card>
+          </div>
+        </div>
+      ))}
+      <div></div>
     </div>
   );
 };
