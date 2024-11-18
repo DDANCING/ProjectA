@@ -20,10 +20,10 @@ export function Plans({ disabled, hasActiveSubscription, onClick }: PropsPlans) 
       </TabsList>
 
       <TabsContent value="Monthly" className="flex gap-4 w-full">
-        <Card className="w-[50%] p-4 shadow-md bg-gray-100 rounded-lg">
+        <Card className="w-[50%] p-4 shadow-md bg-muted rounded-lg">
           <CardContent className="space-y-3 text-center">
-            <h1 className="font-extrabold text-3xl text-gray-800">FREE</h1>
-            <p className="text-xl text-gray-500">R$0/mo</p>
+            <h1 className="font-extrabold text-3xl text-muted-foreground">FREE</h1>
+            <p className="text-xl text-gray-500">US$0/mo</p>
             <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Use</p>
             <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> 5 lives a day</p>
             <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Accessibility</p>
@@ -33,7 +33,7 @@ export function Plans({ disabled, hasActiveSubscription, onClick }: PropsPlans) 
           </CardFooter>
         </Card>
 
-        <Card className="flex-1 p-4 shadow-lg bg-muted-foreground rounded-lg border border-blue-500">
+        <Card className="flex-1 p-4 shadow-lg bg-muted rounded-lg border border-blue-500">
           <CardContent className="space-y-3 text-center">
             <h1 className="font-extrabold text-3xl text-blue-800">PRO</h1>
             <p className="text-xl text-blue-600">US$ 5,00/mo</p>
@@ -51,20 +51,20 @@ export function Plans({ disabled, hasActiveSubscription, onClick }: PropsPlans) 
       </TabsContent>
 
       <TabsContent value="Annually" className="flex gap-4 w-full">
-        <Card className="w-[50%] p-4 shadow-md bg-gray-100 rounded-lg">
+        <Card className="w-[50%] p-4 shadow-md bg-muted rounded-lg">
           <CardContent className="space-y-3 text-center">
-            <h1 className="font-extrabold text-3xl text-gray-800">FREE</h1>
-            <p className="text-xl text-gray-500">R$0/mo</p>
-            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Use</p>
-            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> 5 lives a day</p>
-            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" /> Limited Accessibility</p>
+            <h1 className="font-extrabold text-3xl text-muted-foreground">FREE</h1>
+            <p className="text-xl text-gray-500">US$0/mo</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" />Limited Use</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-2" />5 lives a day</p>
+            <p className="flex justify-center items-center text-sm"><Dot className="mr-1" />Limited Accessibility</p>
           </CardContent>
           <CardFooter className="text-center">
             <Button variant="outline" className="w-full">Get Started</Button>
           </CardFooter>
         </Card>
 
-        <Card className="flex-1 p-4 shadow-lg bg-muted-foreground rounded-lg border text-primary/60">
+        <Card className="flex-1 p-4 shadow-lg bg-muted rounded-lg border text-primary/60">
           <CardContent className="space-y-3 text-center">
             <h1 className="font-extrabold text-3xl text-primary">PRO</h1>
             <p className="text-xl text-primary/90">US$ 4,00/mo</p>
