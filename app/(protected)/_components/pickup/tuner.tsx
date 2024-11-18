@@ -86,7 +86,7 @@ class Afinador extends React.Component<AfinadorProps, State> {
           
           <div className="flex flex-col items-center">
             <p className={`text-primary text-4xl`}>{note}</p>
-            <p className="text-muted">{frequency.toFixed(2)} Hz</p>
+            <p className="text-muted-foreground">{frequency.toFixed(2)} Hz</p>
             <DrawerTrigger asChild>
               <Button variant="outline" className="text-muted-foreground border border-muted-foreground">
                 open tuner

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet"
 import { Sidebar } from "../sidebar/sidebar";
 import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/ui/menubar";
-import { RoleGate } from "@/components/auth/role-gate";
+import { RoleGate, RoleGateNoMessage } from "@/components/auth/role-gate";
 import { UserRole } from "@prisma/client";
 import Link from "next/link";
 
@@ -108,11 +108,18 @@ export default function Header() {
           <Link href={"/dashboard"}>
           <MenubarItem > User dashboard <MenubarShortcut> <FaUserCircle /> </MenubarShortcut>  </MenubarItem> 
           </Link>
-          <RoleGate allowedRole={UserRole.TEACHER} >
-          <Link href={"/teacher/courses"}>
-          <MenubarItem > Teacher dashboard <MenubarShortcut> <LiaChalkboardTeacherSolid /> </MenubarShortcut> </MenubarItem>
-          </Link>
-          </RoleGate>
+          {UserRole.TEACHER && (
+  <RoleGateNoMessage allowedRole={UserRole.TEACHER}>
+    <Link href="/teacher/courses">
+      <MenubarItem>
+        Teacher dashboard
+        <MenubarShortcut>
+          <LiaChalkboardTeacherSolid />
+        </MenubarShortcut>
+      </MenubarItem>
+    </Link>
+  </RoleGateNoMessage>
+)}
           <Link href={"/game/dashboard"}>
           <MenubarItem > Game <MenubarShortcut> <FaGamepad /> </MenubarShortcut>  </MenubarItem>
           </Link>
