@@ -1,9 +1,12 @@
+"use client";
+
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import MicRecorder from "mic-recorder";
 import Image from "next/image";
 import { Mic } from "lucide-react";
 import { toast } from "sonner";
+import { compareAudio } from "@/app/api/compare-audio/route";
 
 interface CardQuizProps {
   title: string;
@@ -37,7 +40,7 @@ const CardQuiz: React.FC<CardQuizProps> = ({
   hearts,
   openHeartsModal,
   options,
-  title
+  title,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [status, setStatus] = useState(initialStatus);
@@ -53,7 +56,7 @@ const CardQuiz: React.FC<CardQuizProps> = ({
         const [buffer, blob] = await recorder.stop().getAudio();
         const file = new File(buffer, `audio.wav`, { type: blob.type });
         setIsRecording(false);
-        await uploadAudio(file);
+        await handleAudioUpload(file);
       }, recordingDuration * 1000);
     } catch (error) {
       toast.error("Erro ao gravar áudio.");
@@ -61,35 +64,22 @@ const CardQuiz: React.FC<CardQuizProps> = ({
     }
   };
 
-  const uploadAudio = async (file: File) => {
-    const formData = new FormData();
-    formData.append("target_song_id", targetSongId.toString());
-    formData.append("audio", file);
-
+  const handleAudioUpload = async (file: File) => {
     try {
-      const response = await fetch("/api/compare-audio", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao enviar áudio para a API.");
-      }
-
-      const result = await response.json();
+      const result = await compareAudio(targetSongId.toString(), file);
       const similarity = result.similarity_percentage;
 
       if (similarity >= 60) {
         setStatus("correct");
         onCorrect();
-        toast.success("Percentage: " + similarity);
+        toast.success(`Similitude: ${similarity.toFixed(2)}%`);
       } else {
         setStatus("wrong");
         onWrong();
-        toast.success("Percentage: " + similarity);
+        toast.error(`Similitude: ${similarity.toFixed(2)}%. Tente novamente!`);
       }
     } catch (error) {
-      toast.error("Erro ao processar o áudio.");
+      toast.error(error + "Erro ao processar o áudio.");
     }
   };
 
@@ -98,36 +88,44 @@ const CardQuiz: React.FC<CardQuizProps> = ({
       openHeartsModal(); // Abre o modal de corações se não houver corações
       return; // Não continua a execução
     }
-  
+
     if (isRecording) {
       return; // Se já estiver gravando, não faz mais nada
     }
+
     if (status === "none") {
       onSelect();
       startRecordingProcess();
     } else if (status === "wrong") {
-  
       setStatus("none");
       onSelect();
     } else if (status === "correct") {
-     
       onContinue(nextLessonId);
     }
   };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-between">
-      <div></div>
-      {options.map((option, i) => (
-        <div key={option.id} className="text-center w-full h-full flex flex-col items-center justify-between m-10">
+      <div>
+        <h1 className="text-xl text-foreground font-bold">{title}</h1>
+      </div>
+      {options.map((option) => (
+        <div
+          key={option.id}
+          className="text-center w-full flex flex-col items-center justify-between m-6"
+        >
           <div>
-            <h1 className="text-xl text-foreground font-bold">{title}</h1>
+            <h2 className="text-lg text-muted-foreground">{option.text}</h2>
           </div>
-          <div>
-            <h1 className="text-lg text-muted-foreground">{option.text}</h1>
-          <Image src={option.imageSrc || ""} alt="acorde" width={80} height={80} />
-          </div>
-          <div>
+          {option.imageSrc && (
+            <Image
+              src={option.imageSrc}
+              alt="Representação do acorde"
+              width={80}
+              height={80}
+              className="mb-4"
+            />
+          )}
           <Card
             className={`cursor-pointer text-center w-20 h-20 flex items-center justify-center shadow-none ${
               status === "correct"
@@ -136,7 +134,7 @@ const CardQuiz: React.FC<CardQuizProps> = ({
                 ? "bg-red-500"
                 : "border"
             }`}
-            onClick={handleAction} 
+            onClick={handleAction}
           >
             {isRecording ? (
               <Mic className="animate-pulse" />
@@ -148,10 +146,8 @@ const CardQuiz: React.FC<CardQuizProps> = ({
               <Mic />
             )}
           </Card>
-          </div>
         </div>
       ))}
-      <div></div>
     </div>
   );
 };
