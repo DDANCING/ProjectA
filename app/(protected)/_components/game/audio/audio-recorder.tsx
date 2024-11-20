@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import MicRecorder from "mic-recorder";
 import { toast } from "sonner";
 import { postProgressMusic } from "@/actions/game-progress";
-import { compareAudio } from "@/app/api/compare-audio/route"; 
+import { compareAudio } from "@/actions/compare-audio";
 
 interface AudioRecorderProps {
   userId: string;

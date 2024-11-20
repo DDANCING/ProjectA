@@ -6,7 +6,7 @@ import MicRecorder from "mic-recorder";
 import Image from "next/image";
 import { Mic } from "lucide-react";
 import { toast } from "sonner";
-import { compareAudio } from "@/app/api/compare-audio/route";
+import { compareAudio } from "@/actions/compare-audio";
 
 interface CardQuizProps {
   title: string;
