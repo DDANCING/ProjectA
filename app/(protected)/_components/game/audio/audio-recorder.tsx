@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import MicRecorder from "mic-recorder";
 import { toast } from "sonner";
 import { postProgressMusic } from "@/actions/game-progress";
+import { compareAudio } from "@/actions/compare-audio";
 
 interface AudioRecorderProps {
   userId: string;
@@ -37,8 +38,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
   musicId,
 }) => {
   const [recorder, setRecorder] = useState<MicRecorder | null>(null);
- 
-  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const newRecorder = new MicRecorder({ bitRate: 128, encoder: "wav", sampleRate: 44100 });
@@ -50,11 +50,10 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     if (startRecording && recorder) {
       startRecordingProcess();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startRecording]);
 
   const startRecordingProcess = async () => {
-   
     if (recorder) {
       await recorder.start();
       setIsRecording(true);
@@ -75,7 +74,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
           setIsRecording(false);
           if (player) player.stopVideo();
           await uploadAudioFile(file);
-          setProgress(0); 
+          setProgress(0);
         }
       }, recordingDuration * 1000);
     }
@@ -83,22 +82,15 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
 
   const uploadAudioFile = async (file: File) => {
     try {
-      const formData = new FormData();
-      formData.append("target_song_id", targetSongId.toString());
-      formData.append("audio", file);
       setDialogOpen(true);
-      
-      const response = await fetch("/api/compare-audio", {
-        method: "POST",
-        body: formData,
-      });
 
-      if (!response.ok) throw new Error("Erro na comparação de áudio");
-      
-      const result = await response.json();
+      // Chama a função compareAudio
+      const result = await compareAudio(targetSongId.toString(), file);
+
       if (result) {
         const similarity = result.similarity_percentage;
         const details = result.details;
+
         setSimilarityPercentage(similarity);
         setLoading(false);
         setStatus(similarity < 50 ? "wrong" : "correct");
