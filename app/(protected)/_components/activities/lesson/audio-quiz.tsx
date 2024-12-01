@@ -121,9 +121,11 @@ const CardQuiz: React.FC<CardQuizProps> = ({
           {option.imageSrc && (
             <Image
               src={option.imageSrc}
+              
               alt="Representação do acorde"
               width={180}
               height={180}
+
               className="mb-4"
             />
           )}
