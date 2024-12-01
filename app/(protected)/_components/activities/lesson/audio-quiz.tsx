@@ -117,12 +117,13 @@ const CardQuiz: React.FC<CardQuizProps> = ({
           <div>
             <h2 className="text-lg text-muted-foreground">{option.text}</h2>
           </div>
+          
           {option.imageSrc && (
             <Image
               src={option.imageSrc}
               alt="Representação do acorde"
-              width={80}
-              height={80}
+              width={180}
+              height={180}
               className="mb-4"
             />
           )}
@@ -148,7 +149,9 @@ const CardQuiz: React.FC<CardQuizProps> = ({
           </Card>
         </div>
       ))}
+      <div/>
     </div>
+    
   );
 };
 

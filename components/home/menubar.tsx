@@ -70,10 +70,10 @@ export function NavigationMenuHome() {
               <ListItem href="https://www.tiktok.com/@projecta.top" title="TikTok">
                 <FaTiktok className="mb-2" /> Follow us on TikTok.
               </ListItem>
-              <ListItem href="https://www.instagram.com" title="Instagram">
+              <ListItem href="" title="Instagram">
                 <FaInstagram className="mb-2" /> Follow us on Instagram.
               </ListItem>
-              <ListItem href="https://www.twitter.com" title="Twitter">
+              <ListItem href="https://x.com/ProjectA_top" title="X">
                 <FaTwitter className="mb-2" /> Follow us on Twitter.
               </ListItem>
             </ul>

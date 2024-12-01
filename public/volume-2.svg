@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2 text-primary">
+  <path d="M 11 4.702 C 10.999 4.159 10.411 3.821 9.942 4.093 C 9.889 4.124 9.84 4.161 9.797 4.204 L 6.413 7.587 C 6.149 7.852 5.79 8.001 5.416 8 L 3 8 C 2.448 8 2 8.448 2 9 L 2 15 C 2 15.552 2.448 16 3 16 L 5.416 16 C 5.79 15.999 6.149 16.148 6.413 16.413 L 9.796 19.797 C 10.179 20.181 10.835 20.006 10.976 19.482 C 10.992 19.422 9.776 12.013 9.776 11.951 L 11 4.702 Z" style="stroke: rgb(109, 40, 217);"/>
+  <path d="M16 9a5 5 0 0 1 0 6" style="stroke: rgb(109, 40, 217);"/>
+  <path d="M19.364 18.364a9 9 0 0 0 0-12.728" style="stroke: rgb(109, 40, 217);"/>
+</svg>
