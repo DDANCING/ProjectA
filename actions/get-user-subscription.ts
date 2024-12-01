@@ -57,7 +57,7 @@ export const createStripeUrl = async (isAnnual: boolean = false) => {
     throw new Error("User email is missing");
   }
 
-  const price = isAnnual ? 400 : 500;
+  const price = isAnnual ? 4800 : 500;
 
   const stripeSession = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
