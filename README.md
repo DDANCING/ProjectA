@@ -147,11 +147,11 @@ Create your account and navigate through the various sections of the code. If yo
 - [x] Next configuration
 - [x] Add auth5 authentication and 2FA
 - [x] Add user settings
-- [IN PROGRESS] Add the teacher mode where it's possible to create and manage courses and students
-- [ ] Add activities module with level feedback for students
-- [ ] Add games module with level feedback for students
-- [ ] Add score board with ranks to develop competitive mode
-- [ ] Multi-language Support
+- [x] Add the teacher mode where it's possible to create and manage courses and students
+- [x] Add activities module with level feedback for students
+- [x] Add games module with level feedback for students
+- [x] Add score board with ranks to develop competitive mode
+- [IN PROGRESS] Multi-language Support
     - [ ] Portugese
     - [ ] Spanish
 
