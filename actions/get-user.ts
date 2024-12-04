@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { cache } from "react";
 
 export const getTopHundredUsers = cache(async () => {
-  const data = await db.progressGame.findMany({
+  const data = await db.userProgressExerciseModule.findMany({
     orderBy: {
       points: "desc",
     },
@@ -19,7 +19,7 @@ export const getTopHundredUsers = cache(async () => {
 });
 
 export const getTopHundredCourseUsers = cache(async () => {
-  const data = await db.progressGame.findMany({
+  const data = await db.progressCourseModule.findMany({
     orderBy: {
       points: "desc",
     },
